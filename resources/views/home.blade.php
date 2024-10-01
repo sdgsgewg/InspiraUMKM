@@ -4,7 +4,7 @@
     <main>
         <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
             <div class="col-md-6 p-lg-5 mx-auto my-5">
-                <h1 class="display-3 fw-bold">Designed for engineers</h1>
+                <h1 class="display-3 fw-bold">Designed for our fellow UMKM</h1>
                 <h3 class="fw-normal text-muted mb-3">
                     Build anything you want with InspiraUMKM
                 </h3>
@@ -28,79 +28,69 @@
         </div>
 
         <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-            <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 py-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
+            @foreach ($designs->take(2) as $design)
+                <div
+                    class="{{ $loop->odd ? 'text-bg-dark' : 'bg-body-tertiary' }} me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden d-flex flex-column justify-content-between">
+                    <div class="my-3 py-3">
+                        <h2 class="display-5">{{ $design->title }}</h2>
+                        <p class="lead">{{ Str::limit($design->excerpt, 20, '...') }}</p>
+                    </div>
+                    <div class="{{ $loop->odd ? 'bg-body-tertiary' : 'bg-dark' }} shadow-sm mx-auto"
+                        style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                        <img src="{{ asset('img/' . $design->category->name . '.jpg') }}" alt=""
+                            style="height:100%; width:100%; object-fit: cover; border-radius: 21px 21px 0 0;">
+                    </div>
                 </div>
-                <div class="bg-body-tertiary shadow-sm mx-auto"
-                    style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"></div>
-            </div>
-            <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 p-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
-                </div>
-                <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0">
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-            <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 p-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
+            @foreach ($designs->skip(2)->take(2) as $design)
+                <div
+                    class="{{ $loop->odd ? 'bg-body-tertiary' : 'text-bg-primary' }} me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden d-flex flex-column justify-content-between">
+                    <div class="my-3 py-3">
+                        <h2 class="display-5">{{ $design->title }}</h2>
+                        <p class="lead">{{ Str::limit($design->excerpt, 20, '...') }}</p>
+                    </div>
+                    <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                        <img src="{{ asset('img/' . $design->category->name . '.jpg') }}" alt=""
+                            style="height:100%; width:100%; object-fit: cover; border-radius: 21px 21px 0 0;">
+                    </div>
                 </div>
-                <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0">
-                </div>
-            </div>
-            <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 py-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
-                </div>
-                <div class="bg-body-tertiary shadow-sm mx-auto"
-                    style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"></div>
-            </div>
+            @endforeach
         </div>
 
         <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-            <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 p-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
+            @foreach ($designs->skip(4)->take(2) as $design)
+                <div
+                    class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden d-flex flex-column justify-content-between">
+                    <div class="my-3 p-3">
+                        <h2 class="display-5">{{ $design->title }}</h2>
+                        <p class="lead">{{ Str::limit($design->excerpt, 20, '...') }}</p>
+                    </div>
+                    <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                        <img src="{{ asset('img/' . $design->category->name . '.jpg') }}" alt=""
+                            style="height:100%; width:100%; object-fit: cover; border-radius: 21px 21px 0 0;">
+                    </div>
                 </div>
-                <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0">
-                </div>
-            </div>
-            <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 py-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
-                </div>
-                <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0">
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-            <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 p-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
+            @foreach ($designs->skip(6)->take(2) as $design)
+                <div
+                    class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden d-flex flex-column justify-content-between">
+                    <div class="my-3 p-3">
+                        <h2 class="display-5">{{ $design->title }}</h2>
+                        <p class="lead">{{ Str::limit($design->excerpt, 20, '...') }}</p>
+                    </div>
+                    <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                        <img src="{{ asset('img/' . $design->category->name . '.jpg') }}" alt=""
+                            style="height:100%; width:100%; object-fit: cover; border-radius: 21px 21px 0 0;">
+                    </div>
                 </div>
-                <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0">
-                </div>
-            </div>
-            <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div class="my-3 py-3">
-                    <h2 class="display-5">Another headline</h2>
-                    <p class="lead">And an even wittier subheading.</p>
-                </div>
-                <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0">
-                </div>
-            </div>
+            @endforeach
         </div>
+
     </main>
 @endsection

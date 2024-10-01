@@ -10,7 +10,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('categories', [
-            'title' => 'Post Categories',
+            'title' => 'Design Categories',
             'categories' => Category::all()
         ]);
     }

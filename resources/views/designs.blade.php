@@ -2,12 +2,9 @@
 
 @section('container')
 
-<main>
-    
-</main>
-    <h1 class="mb-3 text-center">{{ $title }}</h1>
+    <h1 class="mb-4 text-center">{{ $title }}</h1>
 
-    <div class="row justify-content-center mb-3">
+    <div class="row justify-content-center mb-5">
         <div class="col-md-6">
             <form action="/designs">
                 @if (request('category'))
@@ -30,80 +27,89 @@
 
     @if ($designs->count())
         <div class="card mb-3">
-            <?php
-            $url = '../../img/';
-            // $url = 'https://api.unsplash.com/search/photos';
-            ?>
 
-            @if ($posts[0]->image)
-                <div style="max-height: 400px; overflow: hidden">
-                    <img src="{{ asset('storage/' . $posts[0]->image) }}" alt="{{ $posts[0]->category->name }}"
-                        width="1200" height="600" class="img-fluid">
-                </div>
-            @else
-                <img src="{{ $url . $posts[0]->category->name . '.jpg' }}" alt="{{ $posts[0]->category->name }}"
-                    width="1200" height="600" class="img-fluid">
-            @endif
+            <div style="width: 100%; height: 400px;">
+                <?php
+                $url = '../../img/';
+                // $url = 'https://api.unsplash.com/search/photos';
+                ?>
+
+                @if ($designs[0]->image)
+                    <div style="max-height: 400px; overflow: hidden">
+                        <img src="{{ asset('storage/' . $designs[0]->image) }}" alt="{{ $designs[0]->category->name }}"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px 5px 0 0;">
+                    </div>
+                @else
+                    <img src="{{ $url . $designs[0]->category->name . '.jpg' }}" alt="{{ $designs[0]->category->name }}"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px 5px 0 0;">
+                @endif
+            </div>
 
             <div class="card-body text-center">
                 <h3 class="card-title">
-                    <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none text-dark text-white">
-                        {{ $posts[0]->title }}
+                    <a href="/designs/{{ $designs[0]->slug }}" class="text-decoration-none text-dark text-white">
+                        {{ $designs[0]->title }}
                     </a>
                 </h3>
                 <p>
                     <small class="text-body-secondary">
                         By.
-                        <a href="/posts?author={{ $posts[0]->author->username }}"
-                            class="text-decoration-none">{{ $posts[0]->author->name }}</a>
+                        <a href="/designs?author={{ $designs[0]->author->username }}"
+                            class="text-decoration-none">{{ $designs[0]->author->name }}</a>
                         in
-                        <a href="/posts?category={{ $posts[0]->category->slug }}" class="text-decoration-none">
-                            {{ $posts[0]->category->name }}</a>
-                        {{ $posts[0]->created_at->diffForHumans() }}
+                        <a href="/designs?category={{ $designs[0]->category->slug }}" class="text-decoration-none">
+                            {{ $designs[0]->category->name }}</a>
+                        {{ $designs[0]->created_at->diffForHumans() }}
                     </small>
                 </p>
-                <p class="card-text">{{ $posts[0]->excerpt }}</p>
-                <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none btn btn-primary">Read more</a>
+                <p class="card-text">{{ $designs[0]->excerpt }}</p>
+                <a href="/designs/{{ $designs[0]->slug }}" class="text-decoration-none btn btn-primary">View details</a>
             </div>
         </div>
 
         <div class="container">
             <div class="row">
-                @foreach ($posts->skip(1) as $post)
+                @foreach ($designs->skip(1) as $design)
                     <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="position-absolute px-3 py-2" style="background-color: rgba(0, 0, 0, 0.7)">
-                                <a href="/posts?category={{ $post->category->slug }}"
+                        <div class="card h-100">
+                            <div class="position-absolute px-3 py-2"
+                                style="background-color: rgba(0, 0, 0, 0.6); border-radius: 5px 0 0 0">
+                                <a href="/designs?category={{ $design->category->slug }}"
                                     class="text-white text-decoration-none">
-                                    {{ $post->category->name }}
+                                    {{ $design->category->name }}
                                 </a>
                             </div>
 
-                            <?php
-                            $url = '../../img/';
-                            // $url = 'https://api.unsplash.com/search/photos';
-                            ?>
+                            <div style="width: 100%; height: 200px;">
+                                <?php
+                                $url = '../../img/';
+                                ?>
 
-                            @if ($post->image)
-                                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}"
-                                    width="1200" height="600" class="img-fluid">
-                            @else
-                                <img src="{{ $url . $post->category->name . '.jpg' }}" alt="{{ $post->category->name }}"
-                                    width="1200" height="600" class="img-fluid">
-                            @endif
+                                @if ($design->image)
+                                    <img src="{{ asset('storage/' . $design->image) }}"
+                                        alt="{{ $design->category->name }}"
+                                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px 5px 0 0;">
+                                @else
+                                    <img src="{{ $url . $design->category->name . '.jpg' }}"
+                                        alt="{{ $design->category->name }}"
+                                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px 5px 0 0;">
+                                @endif
+                            </div>
 
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $post->title }}</h5>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ $design->title }}</h5>
                                 <p>
                                     <small class="text-body-secondary">
                                         By.
-                                        <a href="/posts?author={{ $post->author->username }}"
-                                            class="text-decoration-none">{{ $post->author->name }}</a>
-                                        {{ $post->created_at->diffForHumans() }}
+                                        <a href="/designs?author={{ $design->author->username }}"
+                                            class="text-decoration-none">{{ $design->author->name }}</a>
+                                        {{ $design->created_at->diffForHumans() }}
                                     </small>
                                 </p>
-                                <p class="card-text">{{ $post->excerpt }}</p>
-                                <a href="/posts/{{ $post->slug }}" class="btn btn-primary">Read more</a>
+                                <p class="card-text">{{ $design->excerpt }}</p>
+                                <div class="mt-auto">
+                                    <a href="/designs/{{ $design->slug }}" class="btn btn-primary">View details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,8 +120,8 @@
         <p class="text-center fs-4">No design found.</p>
     @endif
 
-    {{-- <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mt-5">
         {{ $designs->links() }}
-    </div> --}}
+    </div>
 
 @endsection

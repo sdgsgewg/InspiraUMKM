@@ -22,6 +22,12 @@ class Design extends Model
              });
          });
 
+        $query->when( $filters['product'] ?? false, function($query, $product) {
+            return $query->whereHas('product', function($query) use ($product) {
+                $query->where('slug', $product);
+            });
+        });
+
         $query->when( $filters['category'] ?? false, function($query, $category) {
             return $query->whereHas('category', function($query) use ($category) {
                 $query->where('slug', $category);

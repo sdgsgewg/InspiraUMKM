@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Design;
+use App\Models\Category;
+use App\Models\Product;
 
 class DesignController extends Controller
 {
@@ -10,21 +13,27 @@ class DesignController extends Controller
     {
         $title = 'All Designs';
 
-        // if(request('category'))
-        // {
-        //     $category = Category::firstWhere('slug', request('category'));
-        //     $title .= ' in ' . $category->name;
-        // }
+        if(request('product'))
+        {
+            $product = Product::firstWhere('slug', request('product'));
+            $title .= ' in ' . $product->name;
+        }
 
-        // if(request('author'))
-        // {
-        //     $author = User::firstWhere('username', request('author'));
-        //     $title .= ' by ' . $author->name;
-        // }
+        if(request('category'))
+        {
+            $category = Category::firstWhere('slug', request('category'));
+            $title .= ' in ' . $category->name;
+        }
+
+        if(request('author'))
+        {
+            $author = User::firstWhere('username', request('author'));
+            $title .= ' by ' . $author->name;
+        }
 
         return view('designs', [
-            'title' => $title
-            // 'posts' => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString()
+            'title' => $title,
+            'designs' => Design::latest()->filter(request(['search', 'product', 'category', 'author']))->paginate(7)->withQueryString()
         ]);
     }
 
@@ -32,7 +41,7 @@ class DesignController extends Controller
     {
         return view('design', [
             'title' => 'Single Design',
-            'post' => $design
+            'design' => $design
         ]);
     }
 }

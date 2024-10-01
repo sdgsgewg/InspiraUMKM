@@ -42,12 +42,17 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('categories') ? 'active' : '' }}"
+                        <a class="nav-link {{ Request::is('products*') ? 'active' : '' }}"
+                            href="/products">Products</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('categories*') ? 'active' : '' }}"
                             href="/categories">Categories</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/cart">
                             <svg class="bi" width="24" height="24">
                                 <use xlink:href="#cart" />
                             </svg>
