@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Design;
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class DashboardDesignController extends Controller
 {
@@ -23,7 +28,10 @@ class DashboardDesignController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.designs.create', [
+            'products' => Product::all(),
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -31,7 +39,27 @@ class DashboardDesignController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'slug' => 'required|unique:designs',
+            'product_id' => 'required',
+            'category_id' => 'required',
+            'image' => 'image|file|max:1024',
+            'body' => 'required'
+        ]);
+
+        if($request->file('image')) {
+            $validatedData['image'] = $request->file('image')->store('design-images');
+        }
+
+        /** @var \App\Models\User $user */
+        $validatedData['user_id'] = Auth::user()->id;
+
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+        Design::create($validatedData);
+
+        return redirect('/dashboard/designs')->with('success', 'New design has been added!');
     }
 
     /**
@@ -39,7 +67,9 @@ class DashboardDesignController extends Controller
      */
     public function show(Design $design)
     {
-        //
+        return view('dashboard.designs.show', [
+            'design' => $design
+        ]);
     }
 
     /**
@@ -47,7 +77,11 @@ class DashboardDesignController extends Controller
      */
     public function edit(Design $design)
     {
-        //
+        return view('dashboard.designs.edit', [
+            'design' => $design,
+            'products' => Product::all(),
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -55,14 +89,49 @@ class DashboardDesignController extends Controller
      */
     public function update(Request $request, Design $design)
     {
-        //
+        $rules = [
+            'title' => 'required|max:255',
+            'product_id' => 'required',
+            'category_id' => 'required',
+            'image' => 'image|file|max:1024',
+            'body' => 'required'
+        ];
+
+        if( $request->slug != $design->slug )
+        {
+            $rules['slug'] = 'required|unique:designs';
+        }
+
+        $validatedData = $request->validate($rules);
+
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('design-images');
+        }
+
+        $validatedData['user_id'] = Auth::user()->id;
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+        Design::where('id', $design->id)->update($validatedData);
+
+        return redirect('/dashboard/designs')->with('success', 'Design has been updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Design $design)
     {
-        //
+        if($design->image) {
+            Storage::delete($design->image);
+        }
+        Design::destroy($design->id);
+
+        return redirect('/dashboard/designs')->with('success', 'Design has been deleted!');
+    }
+
+    public function checkSlug(Request $request)
+    {
+        $slug = SlugService::createSlug(Design::class, 'slug', $request->title);
+        return response()->json(['slug' => $slug]);
     }
 }

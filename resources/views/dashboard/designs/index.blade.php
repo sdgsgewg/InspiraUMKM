@@ -13,7 +13,7 @@
     @endif
 
     <div class="table-responsive small col-lg-8">
-        <a href="/dashboard/posts/create" class="btn btn-primary mb-3">Create new design</a>
+        <a href="/dashboard/designs/create" class="btn btn-primary mb-3">Create new design</a>
 
         @if ($designs->count())
             <table class="table table-striped table-sm">
@@ -61,7 +61,7 @@
             <tbody>
                 <tr>
                     <td class="col-lg-8">
-                        <p class="text-center">No designs found.</p>
+                        <p class="text-center">No design found.</p>
                     </td>
                 </tr>
             </tbody>

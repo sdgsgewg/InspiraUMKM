@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
-class AdminCategoryController extends Controller
+class AdminProductController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        return view('dashboard.categories.index', [
-            'categories' => Category::all()
+        return view('dashboard.products.index', [
+            'products' => Product::all()
         ]);
     }
 
@@ -21,7 +24,7 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        return view('dashboard.categories.create');
+        return view('dashboard.products.create');
     }
 
     /**
@@ -36,18 +39,18 @@ class AdminCategoryController extends Controller
         ]);
 
         if($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('category-images');
+            $validatedData['image'] = $request->file('image')->store('product-images');
         }
 
-        Category::create($validatedData);
+        Product::create($validatedData);
 
-        return redirect('/dashboard/categories')->with('success', 'New category has been added!');
+        return redirect('/dashboard/products')->with('success', 'New product has been added!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Product $product)
     {
         //
     }
@@ -55,26 +58,26 @@ class AdminCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Product $product)
     {
-        return view('dashboard.categories.edit', [
-            'category' => $category
+        return view('dashboard.products.edit', [
+            'product' => $product
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Product $product)
     {
         $rules = [
             'name' => 'required|max:255',
             'image' => 'image|file|max:1024'
         ];
 
-        if( $request->slug != $category->slug )
+        if( $request->slug != $product->slug )
         {
-            $rules['slug'] = 'required|unique:categories';
+            $rules['slug'] = 'required|unique:products';
         }
 
         $validatedData = $request->validate($rules);
@@ -83,30 +86,30 @@ class AdminCategoryController extends Controller
             if($request->oldImage) {
                 Storage::delete($request->oldImage);
             }
-            $validatedData['image'] = $request->file('image')->store('category-images');
+            $validatedData['image'] = $request->file('image')->store('product-images');
         }
 
-        Category::where('id', $category->id)->update($validatedData);
+        Product::where('id', $product->id)->update($validatedData);
 
-        return redirect('/dashboard/categories')->with('success', 'Category has been updated!');
+        return redirect('/dashboard/products')->with('success', 'Product has been updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Product $product)
     {
-        if($category->image) {
-            Storage::delete($category->image);
+        if($product->image) {
+            Storage::delete($product->image);
         }
-        Category::destroy($category->id);
+        Product::destroy($product->id);
 
-        return redirect('/dashboard/categories')->with('success', 'Category has been deleted!');
+        return redirect('/dashboard/products')->with('success', 'Product has been deleted!');
     }
 
-    public function checkSlug(request $request)
+    public function checkSlug(Request $request)
     {
-        $slug = SlugService::createSlug(Category::class, 'slug', $request->name);
+        $slug = SlugService::createSlug(Product::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);
     }
 }

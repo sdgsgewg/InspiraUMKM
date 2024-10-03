@@ -1,18 +1,17 @@
 <?php
 
+use App\Models\Design;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DesignController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminCategoryController;
-use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\DashboardDesignController;
-use App\Http\Controllers\ProductController;
-use App\Models\Design;
 
 Route::get('/', function () {
     return view('home', [
@@ -29,14 +28,10 @@ Route::get('/about', function () {
 
 Route::get('/profile', [UserController::class, 'index']);
 
-Route::get('/products', [ProductController::class, 'index']);
-
 Route::get('/designs', [DesignController::class, 'index']);
 Route::get('/designs/{design:slug}', [DesignController::class, 'show']);
 
-Route::get('/posts', [PostController::class, 'index']);
-// halaman single post
-Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 
@@ -55,13 +50,15 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::get('/dashboard', function(){
     return view('dashboard.index');
-})->middleware('auth');
+})->middleware(IsAdmin::class);
 
-Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
-Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
-
-Route::get('/dashboard/designs/checkSlug', [DashboardDesignController::class, 'checkSlug'])->middleware('auth');
-Route::resource('/dashboard/designs', DashboardDesignController::class)->middleware('auth');
+Route::middleware([IsAdmin::class])->group(function () {
+    Route::resource('/dashboard/designs', DashboardDesignController::class);
+    Route::get('/dashboard/design/checkSlug', [DashboardDesignController::class, 'checkSlug']);
+});
 
 Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show')->middleware(IsAdmin::class);
 Route::get('/dashboard/categories/checkSlug', [AdminCategoryController::class, 'checkSlug'])->middleware('auth');
+
+Route::resource('/dashboard/products', AdminProductController::class)->except('show')->middleware(IsAdmin::class);
+Route::get('/dashboard/products/checkSlug', [AdminProductController::class, 'checkSlug'])->middleware('auth');

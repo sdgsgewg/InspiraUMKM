@@ -11,9 +11,10 @@
             <div class="mb-3">
                 <label for="name" class="form-label">Category Name</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                    required autofocus>
+                    required value="{{ old('name') }}" autofocus>
                 @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}
+                    </div>
                 @enderror
             </div>
 
@@ -40,6 +41,5 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/categories/script.js') }}">
-    </script>
+    <script src="{{ asset('js/categories/script.js') }}"></script>
 @endsection
