@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -15,7 +16,7 @@ class UserController extends Controller
     {
         $title = 'Profile Page';
 
-        return view('profile', [
+        return view('users.profile', [
             'title' => $title,
             'user' => Auth::user()
         ]);
@@ -50,7 +51,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', [
+            'title' => 'Edit Profile',
+            'user' => $user
+        ]);
     }
 
     /**
@@ -58,7 +62,31 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $rules = [
+            'image' => 'image|file|max:1024',
+            'name' => 'required|max:255',
+            'email' => 'required',
+            'address' => 'required',
+            'phoneNumber' => 'required'
+        ];
+
+        // if( $request->slug != $design->slug )
+        // {
+        //     $rules['slug'] = 'required|unique:designs';
+        // }
+
+        $validatedData = $request->validate($rules);
+
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('user-images');
+        }
+
+        User::where('id', $user->id)->update($validatedData);
+
+        return redirect('/users')->with('success', 'User profile has been updated!');
     }
 
     /**

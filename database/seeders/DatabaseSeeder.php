@@ -4,10 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Product;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Category;
 use App\Models\Design;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,8 +27,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Jessen',
             'username' => 'jessen',
             'email' => 'jessen123ptk@gmail.com',
+            'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'is_admin' => 1
+            'address' => 'Orange Street',
+            'phoneNumber' => '08123456789',
+            'is_admin' => 1,
+            'remember_token' => Str::random(10)
         ]);
 
         // User::create([
@@ -64,7 +69,7 @@ class DatabaseSeeder extends Seeder
             'slug' => 'Accessories'
         ]);
 
-        Design::factory(10)->create();
+        Design::factory(15)->create();
         
     }
 }

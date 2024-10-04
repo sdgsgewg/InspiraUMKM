@@ -13,13 +13,12 @@ Route::view('/', 'home', ['title' => 'Home Page', 'designs' => Design::all()]);
 Route::view('/about', 'about', ['title' => 'About Us']);
 Route::view('/cart', 'cart', ['title' => 'My Cart']);
 
-Route::get('/profile', [UserController::class, 'index']);
-
 Route::resources([
     'designs' => DesignController::class,
     'categories' => CategoryController::class,
     'products' => ProductController::class,
-], ['only' => ['index', 'show']]);
+    'users' => UserController::class
+]);
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'index']);

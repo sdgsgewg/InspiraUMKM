@@ -6,10 +6,12 @@
     </div>
 
     @if (session()->has('success'))
-        <div class="alert alert-success col-lg-6" role="alert">
+        <div class="alert alert-success alert-dismissible fade show col-lg-6" role="alert">
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
 
     <div class="table-responsive small col-lg-6">
         <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-3">Create new product</a>
@@ -29,15 +31,16 @@
                         <td>{{ $product->name }}</td>
                         <td>
 
-                            <a href="{{ route('admin.products.edit', ['product' => $product->slug]) }}" class="badge bg-warning">
+                            <a href="{{ route('admin.products.edit', ['product' => $product->slug]) }}"
+                                class="badge bg-warning">
                                 <i class="bi bi-pencil-square icon"></i>
                             </a>
 
-                            <form action="{{ route('admin.products.destroy', ['product' => $product->slug]) }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.products.destroy', ['product' => $product->slug]) }}"
+                                method="POST" class="d-inline">
                                 @method('DELETE')
                                 @csrf
-                                <button class="badge bg-danger border-0"
-                                    onclick="return confirm('Are you sure?')">
+                                <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')">
                                     <i class="bi bi-x-circle icon"></i>
                                 </button>
                             </form>

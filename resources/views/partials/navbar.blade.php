@@ -74,7 +74,7 @@
                                     </li>
                                 @endcan
                                 <li>
-                                    <a class="dropdown-item d-flex" href="/profile">
+                                    <a class="dropdown-item d-flex {{ Request::is('profile*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                                         <i class="bi bi-person-circle me-2"></i> Profile
                                     </a>
                                 </li>
