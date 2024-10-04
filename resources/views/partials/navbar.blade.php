@@ -38,17 +38,17 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('designs*') ? 'active' : '' }}" href="/designs">Design</a>
+                        <a class="nav-link {{ Request::is('designs*') ? 'active' : '' }}" href="{{ route('designs.index') }}">Design</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('products*') ? 'active' : '' }}"
-                            href="/products">Products</a>
+                            href="{{ route('products.index') }}">Products</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('categories*') ? 'active' : '' }}"
-                            href="/categories">Categories</a>
+                            href="{{ route('categories.index') }}">Categories</a>
                     </li>
 
                     <li class="nav-item">
@@ -68,7 +68,7 @@
                             <ul class="dropdown-menu">
                                 @can('admin')
                                     <li>
-                                        <a class="dropdown-item d-flex" href="/dashboard">
+                                        <a class="dropdown-item d-flex" href="{{ route('admin.dashboard') }}">
                                             <i class="bi bi-layout-text-sidebar-reverse me-2"></i> My Dashboard
                                         </a>
                                     </li>

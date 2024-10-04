@@ -1,12 +1,15 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex flex-column justify-content-between align-items-start gap-2 pt-3 pb-3 mb-3 border-bottom">
         <h1 class="h2">Create New Product</h1>
+
+        <a href="{{ route('admin.products.index') }}" class="btn btn-success d-inline-flex"><i
+                class="bi bi-arrow-left me-2"></i> Cancel</a>
     </div>
 
     <div class="col-lg-8">
-        <form method="post" action="/dashboard/products" class="mb-5" enctype="multipart/form-data">
+        <form method="post" action="{{ route('admin.products.index') }}" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Product Name</label>
@@ -40,6 +43,5 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/products/script.js') }}">
-    </script>
+    <script src="{{ asset('js/products/script.js') }}"></script>
 @endsection

@@ -6,12 +6,12 @@
             <div class="col-lg-8">
                 <h1 class="mb-3">{{ $design['title'] }}</h1>
 
-                <a href="/dashboard/designs" class="btn btn-success d-inline-flex"><i class="bi bi-arrow-left me-2"></i> Back to my design</a>
+                <a href="{{ route('admin.designs.index') }}" class="btn btn-success d-inline-flex"><i class="bi bi-arrow-left me-2"></i> Back to my design</a>
 
-                <a href="/dashboard/designs/{{ $design->slug }}/edit" class="btn btn-warning d-inline-flex"><i class="bi bi-pencil-square me-2"></i>
+                <a href="{{ route('admin.designs.edit', ['design' => $design->slug]) }}" class="btn btn-warning d-inline-flex"><i class="bi bi-pencil-square me-2"></i>
                     Edit</a>
 
-                <form action="/dashboard/designs/{{ $design->slug }}" method="POST" class="d-inline">
+                <form action="{{ route('admin.designs.destroy', ['design' => $design->slug]) }}" method="POST" class="d-inline">
                     @method('DELETE')
                     @csrf
                     <button type="submit" class="btn btn-danger d-inline-flex" onclick="return confirm('Are you sure?')">

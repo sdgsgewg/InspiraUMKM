@@ -47,22 +47,22 @@
 
             <div class="card-body text-center">
                 <h3 class="card-title">
-                    <a href="/designs/{{ $designs[0]->slug }}" class="text-decoration-none text-dark text-white">
+                    <a href="{{ route('designs.show', ['design' => $designs[0]->slug]) }}" class="text-decoration-none text-dark text-white">
                         {{ $designs[0]->title }}
                     </a>
                 </h3>
                 <p>
                     <small class="text-body-secondary">
                         By.
-                        <a href="/designs?author={{ $designs[0]->author->username }}"
+                        <a href="{{ route('designs.index', ['author' => $designs[0]->author->username]) }}"
                             class="text-decoration-none">{{ $designs[0]->author->name }}</a>
                         in
-                        <a href="/designs?category={{ $designs[0]->category->slug }}" class="text-decoration-none">
+                        <a href="{{ route('designs.index', ['category' => $designs[0]->category->slug]) }}" class="text-decoration-none">
                             {{ $designs[0]->category->name }}</a>
                     </small>
                 </p>
                 <p class="card-text">{{ $designs[0]->excerpt }}</p>
-                <a href="/designs/{{ $designs[0]->slug }}" class="text-decoration-none btn btn-primary">View details</a>
+                <a href="{{ route('designs.index', ['design' => $designs[0]->slug]) }}" class="text-decoration-none btn btn-primary">View details</a>
             </div>
         </div>
 
@@ -73,7 +73,7 @@
                         <div class="card h-100">
                             <div class="position-absolute px-3 py-2"
                                 style="background-color: rgba(0, 0, 0, 0.6); border-radius: 5px 0 0 0">
-                                <a href="/designs?category={{ $design->category->slug }}"
+                                <a href="{{ route('designs.index', ['design' => $design->category->slug]) }}"
                                     class="text-white text-decoration-none">
                                     {{ $design->category->name }}
                                 </a>
@@ -100,12 +100,12 @@
                                 <p>
                                     <small class="text-body-secondary">
                                         By.
-                                        <a href="/designs?author={{ $design->author->username }}"
+                                        <a href="{{ route('designs.index', ['author' => $design->author->username]) }}"
                                             class="text-decoration-none">{{ $design->author->name }}</a>
                                     </small>
                                 </p>
                                 <div class="mt-auto">
-                                    <a href="/designs/{{ $design->slug }}" class="btn btn-primary">View details</a>
+                                    <a href="{{ route('designs.show', ['design' => $design->slug]) }}" class="btn btn-primary">View details</a>
                                 </div>
                             </div>
                         </div>

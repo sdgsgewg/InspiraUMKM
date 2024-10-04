@@ -15,7 +15,7 @@
                             <use xlink:href="#chevron-right" />
                         </svg>
                     </a>
-                    <a class="icon-link" href="/designs">
+                    <a class="icon-link" href="{{ route('designs.index') }}">
                         Buy
                         <svg class="bi">
                             <use xlink:href="#chevron-right" />

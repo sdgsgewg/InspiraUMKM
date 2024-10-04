@@ -1,12 +1,16 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex flex-column justify-content-between align-items-start gap-2 pt-3 pb-3 mb-3 border-bottom">
         <h1 class="h2">Edit Product</h1>
+
+        <a href="{{ route('admin.products.index') }}" class="btn btn-success d-inline-flex"><i
+                class="bi bi-arrow-left me-2"></i> Cancel</a>
     </div>
 
     <div class="col-lg-8">
-        <form method="post" action="/dashboard/products/{{ $product->slug }}" class="mb-5" enctype="multipart/form-data">
+        <form method="post" action="{{ route('admin.products.update', ['product' => $product->slug]) }}" class="mb-5"
+            enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="mb-3">

@@ -7,10 +7,10 @@
                 <h1 class="mb-3">{{ $design['title'] }}</h1>
                 <p>
                     By.
-                    <a href="/designs?author={{ $design->author->username }}"
+                    <a href="{{ route('designs.index', ['author' => $design->author->username]) }}"
                         class="text-decoration-none">{{ $design->author->name }}</a>
                     in
-                    <a href="/designs?category={{ $design->category->slug }}" class="text-decoration-none">
+                    <a href="{{ route('designs.index', ['category' => $design->category->slug ]) }}" class="text-decoration-none">
                         {{ $design->category->name }}</a>
                 </p>
 
@@ -33,7 +33,7 @@
                     {!! $design->body !!}
                 </article>
 
-                <a href="/designs" class="d-block mt-3">&laquo; Back to all designs</a>
+                <a href="{{ route('designs.index') }}" class="d-block mt-3">&laquo; Back to all designs</a>
             </div>
         </div>
     </div>

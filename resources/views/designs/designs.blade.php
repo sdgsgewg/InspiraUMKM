@@ -64,7 +64,7 @@
                                         <div class="card d-flex flex-column h-100">
                                             <div class="position-absolute px-3 py-2"
                                                 style="background-color: rgba(0, 0, 0, 0.6); border-radius: 5px 0 0 0">
-                                                <a href="/designs?category={{ $design->category->slug }}"
+                                                <a href="{{ route('designs.index', ['author' => $design->category->slug]) }}"
                                                     class="text-white text-decoration-none">
                                                     {{ $design->category->name }}
                                                 </a>
@@ -86,13 +86,13 @@
                                                 <h5 class="card-title">{{ $design->title }}</h5>
                                                 <p>
                                                     <small class="text-body-secondary">
-                                                        By. <a href="/designs?author={{ $design->author->username }}"
+                                                        By. <a href="{{ route('designs.index', ['author' => $design->author->username]) }}"
                                                             class="text-decoration-none">
                                                             {{ $design->author->name }}</a>
                                                     </small>
                                                 </p>
                                                 <div class="mt-auto">
-                                                    <a href="/designs/{{ $design->slug }}" class="btn btn-primary">View
+                                                    <a href="{{ route('designs.show', ['design' => $design->slug]) }}" class="btn btn-primary">View
                                                         details</a>
                                                 </div>
                                             </div>

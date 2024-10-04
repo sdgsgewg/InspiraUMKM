@@ -12,7 +12,7 @@
     @endif
 
     <div class="table-responsive small col-lg-6">
-        <a href="/dashboard/products/create" class="btn btn-primary mb-3">Create new product</a>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-3">Create new product</a>
 
         <table class="table table-striped table-sm">
             <thead>
@@ -29,11 +29,11 @@
                         <td>{{ $product->name }}</td>
                         <td>
 
-                            <a href="/dashboard/products/{{ $product->slug }}/edit" class="badge bg-warning">
+                            <a href="{{ route('admin.products.edit', ['product' => $product->slug]) }}" class="badge bg-warning">
                                 <i class="bi bi-pencil-square icon"></i>
                             </a>
 
-                            <form action="/dashboard/products/{{ $product->slug }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.products.destroy', ['product' => $product->slug]) }}" method="POST" class="d-inline">
                                 @method('DELETE')
                                 @csrf
                                 <button class="badge bg-danger border-0"

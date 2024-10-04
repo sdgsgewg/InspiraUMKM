@@ -13,7 +13,7 @@
     @endif
 
     <div class="table-responsive small col-lg-8">
-        <a href="/dashboard/designs/create" class="btn btn-primary mb-3">Create new design</a>
+        <a href="{{ route('admin.designs.create') }}" class="btn btn-primary mb-3">Create new design</a>
 
         @if ($designs->count())
             <table class="table table-striped table-sm">
@@ -35,15 +35,15 @@
                             <td>{{ $design->category->name }}</td>
                             <td>
 
-                                <a href="/dashboard/designs/{{ $design->slug }}" class="badge bg-info">
+                                <a href="{{ route('admin.designs.show', ['design' => $design->slug]) }}" class="badge bg-info">
                                     <i class="bi bi-eye icon"></i>
                                 </a>
 
-                                <a href="/dashboard/designs/{{ $design->slug }}/edit" class="badge bg-warning">
+                                <a href="{{ route('admin.designs.edit', ['design' => $design->slug]) }}" class="badge bg-warning">
                                     <i class="bi bi-pencil-square icon"></i>
                                 </a>
 
-                                <form action="/dashboard/designs/{{ $design->slug }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.designs.destroy', ['design' => $design->slug]) }}" method="POST" class="d-inline">
                                     @method('DELETE')
                                     @csrf
                                     <button type="submit" class="badge bg-danger border-0"

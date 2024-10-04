@@ -1,12 +1,16 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex flex-column justify-content-between align-items-start gap-2 pt-3 pb-3 mb-3 border-bottom">
         <h1 class="h2">Edit Design</h1>
+
+        <a href="{{ route('admin.designs.index') }}" class="btn btn-success d-inline-flex"><i
+                class="bi bi-arrow-left me-2"></i> Cancel</a>
     </div>
 
     <div class="col-lg-8">
-        <form method="POST" action="/dashboard/designs/{{ $design->slug }}" class="mb-5" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.designs.update', ['design' => $design->slug]) }}" class="mb-5"
+            enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="mb-3">
@@ -57,7 +61,8 @@
                 <label for="image" class="form-label">Design Image</label>
                 <input type="hidden" name="oldImage" value="{{ $design->image }}">
                 @if ($design->image)
-                    <img src="{{ asset('storage/' . $design->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                    <img src="{{ asset('storage/' . $design->image) }}"
+                        class="img-preview img-fluid mb-3 col-sm-5 d-block">
                 @else
                     <img class="img-preview img-fluid mb-3 col-sm-5">
                 @endif

@@ -16,7 +16,7 @@ class DesignController extends Controller
         // Handle search query
         if (request('search')) {
             $title .= ' for "' . request('search') . '"';
-            return view('designsFiltered', [
+            return view('designs.designsFiltered', [
                 'title' => $title,
                 'designs' => Design::latest()->filter(request(['search', 'product', 'category', 'author']))->paginate(7)->withQueryString()
             ]);
@@ -26,7 +26,7 @@ class DesignController extends Controller
         if (request('product')) {
             $product = Product::firstWhere('slug', request('product'));
             $title .= ' in ' . $product->name;
-            return view('designsFiltered', [
+            return view('designs.designsFiltered', [
                 'title' => $title,
                 'designs' => Design::latest()->filter(request(['search', 'product', 'category', 'author']))->paginate(7)->withQueryString()
             ]);
@@ -36,7 +36,7 @@ class DesignController extends Controller
         if (request('category')) {
             $category = Category::firstWhere('slug', request('category'));
             $title .= ' in ' . $category->name;
-            return view('designsFiltered', [
+            return view('designs.designsFiltered', [
                 'title' => $title,
                 'designs' => Design::latest()->filter(request(['search', 'product', 'category', 'author']))->paginate(7)->withQueryString()
             ]);
@@ -46,14 +46,14 @@ class DesignController extends Controller
         if (request('author')) {
             $author = User::firstWhere('username', request('author'));
             $title .= ' by ' . $author->name;
-            return view('designsFiltered', [
+            return view('designs.designsFiltered', [
                 'title' => $title,
                 'designs' => Design::latest()->filter(request(['search', 'product', 'category', 'author']))->paginate(7)->withQueryString()
             ]);
         }
 
         // Default behavior if no filters or search query are present
-        return view('designs', [
+        return view('designs.designs', [
             'title' => $title,
             'designs' => Design::latest()->get(),
             'products' => Product::all()
@@ -62,7 +62,7 @@ class DesignController extends Controller
 
     public function show(Design $design)
     {
-        return view('design', [
+        return view('designs.design', [
             'title' => 'Single Design',
             'design' => $design
         ]);

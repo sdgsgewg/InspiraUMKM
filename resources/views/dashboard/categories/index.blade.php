@@ -12,7 +12,7 @@
     @endif
 
     <div class="table-responsive small col-lg-6">
-        <a href="/dashboard/categories/create" class="btn btn-primary mb-3">Create new category</a>
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Create new category</a>
 
         <table class="table table-striped table-sm">
             <thead>
@@ -29,11 +29,11 @@
                         <td>{{ $category->name }}</td>
                         <td>
 
-                            <a href="/dashboard/categories/{{ $category->slug }}/edit" class="badge bg-warning">
+                            <a href="{{ route('admin.categories.edit', ['category' => $category->slug]) }}" class="badge bg-warning">
                                 <i class="bi bi-pencil-square icon"></i>
                             </a>
 
-                            <form action="/dashboard/categories/{{ $category->slug }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.categories.destroy', ['category' => $category->slug]) }}" method="POST" class="d-inline">
                                 @method('DELETE')
                                 @csrf
                                 <button class="badge bg-danger border-0"

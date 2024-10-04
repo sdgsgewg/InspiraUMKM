@@ -10,14 +10,14 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link d-flex gap-2 {{ Request::is('dashboard') ? 'active' : 'text-muted' }}"
-                        aria-current="page" href="/dashboard">
+                        aria-current="page" href="{{ route('admin.dashboard') }}">
                         <i class="bi bi-house"></i>
                         Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex gap-2 {{ Request::is('dashboard/designs*') ? 'active' : 'text-muted' }}"
-                        href="/dashboard/designs"><i class="bi bi-palette"></i> My Designs
+                        href="{{ route('admin.designs.index') }}"><i class="bi bi-palette"></i> My Designs
                     </a>
                 </li>
             </ul>
@@ -30,7 +30,7 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link d-flex gap-2 {{ Request::is('dashboard/products*') ? 'active' : 'text-muted' }}"
-                            aria-current="page" href="/dashboard/products">
+                            aria-current="page" href="{{ route('admin.products.index') }}">
                             <i class="bi bi-box"></i>
                             Design Products
                         </a>
@@ -38,7 +38,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link d-flex gap-2 {{ Request::is('dashboard/categories*') ? 'active' : 'text-muted' }}"
-                            aria-current="page" href="/dashboard/categories">
+                            aria-current="page" href="{{ route('admin.categories.index') }}">
                             <i class="bi bi-grid"></i>
                             Design Categories
                         </a>
@@ -52,9 +52,9 @@
                 <li class="nav-item">
                     <form action="/logout" method="POST">
                         @csrf
-                        <button type="submit" class="nav-link d-flex align-items-center gap-2 text-muted"><svg class="bi">
-                                <use xlink:href="#door-closed" />
-                            </svg>Logout</button>
+                        <button type="submit" class="nav-link d-flex gap-2 text-muted">
+                            <i class="bi bi-box-arrow-right"></i>Logout
+                        </button>
                     </form>
                 </li>
             </ul>
