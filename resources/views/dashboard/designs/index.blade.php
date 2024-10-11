@@ -7,12 +7,11 @@
     </div>
 
     @if (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show col-lg-8" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
+        <div class="alert alert-success alert-dismissible fade show col-lg-8" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     <div class="table-responsive small col-lg-8">
         <a href="{{ route('admin.designs.create') }}" class="btn btn-primary mb-3">Create new design</a>
@@ -37,15 +36,18 @@
                             <td>{{ $design->category->name }}</td>
                             <td>
 
-                                <a href="{{ route('admin.designs.show', ['design' => $design->slug]) }}" class="badge bg-info">
+                                <a href="{{ route('admin.designs.show', ['design' => $design->slug]) }}"
+                                    class="badge bg-info">
                                     <i class="bi bi-eye icon"></i>
                                 </a>
 
-                                <a href="{{ route('admin.designs.edit', ['design' => $design->slug]) }}" class="badge bg-warning">
+                                <a href="{{ route('admin.designs.edit', ['design' => $design->slug]) }}"
+                                    class="badge bg-warning">
                                     <i class="bi bi-pencil-square icon"></i>
                                 </a>
 
-                                <form action="{{ route('admin.designs.destroy', ['design' => $design->slug]) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.designs.destroy', ['design' => $design->slug]) }}"
+                                    method="POST" class="d-inline">
                                     @method('DELETE')
                                     @csrf
                                     <button type="submit" class="badge bg-danger border-0"

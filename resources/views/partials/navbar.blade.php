@@ -52,7 +52,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/cart">
+                        <a class="nav-link {{ Request::is('carts*') ? 'active' : '' }}" href="{{ route('carts.index') }}">
                             <svg class="bi" width="24" height="24">
                                 <use xlink:href="#cart" />
                             </svg>

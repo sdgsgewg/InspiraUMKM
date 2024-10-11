@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-4 mb-3 d-flex align-items-stretch">
+                <div class="col-sm-6 col-md-4 mb-3 d-flex align-items-stretch">
                     <a href="{{ route('designs.index', ['category' => $category->slug]) }}" class="w-100">
                         <div class="card text-bg-dark h-100" style="width: 100%; height: 300px;">
 

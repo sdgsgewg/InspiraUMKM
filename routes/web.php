@@ -6,12 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     UserController, LoginController, DesignController, ProductController,
     CategoryController, RegisterController, AdminProductController,
-    AdminCategoryController, DashboardDesignController
+    AdminCategoryController, CartController, DashboardDesignController
 };
 
 Route::view('/', 'home', ['title' => 'Home Page', 'designs' => Design::all()]);
 Route::view('/about', 'about', ['title' => 'About Us']);
-Route::view('/cart', 'cart', ['title' => 'My Cart']);
 
 Route::resources([
     'designs' => DesignController::class,
@@ -21,12 +20,17 @@ Route::resources([
 ]);
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [LoginController::class, 'index']);
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'authenticate']);
     Route::get('/register', [RegisterController::class, 'index']);
     Route::post('/register', [RegisterController::class, 'store']);
 });
 Route::middleware('auth')->post('/logout', [LoginController::class, 'logout']);
+
+Route::middleware('auth')->group(function () {
+    Route::resource('carts', CartController::class);
+    Route::post('carts/store/{design:slug}', [CartController::class, 'store'])->name('carts.store');
+});
 
 Route::middleware([IsAdmin::class])->prefix('dashboard')->as('admin.')->group(function () {
     Route::get('/', fn() => view('dashboard.index'))->name('dashboard');

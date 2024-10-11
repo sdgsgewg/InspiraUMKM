@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Design;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class DesignController extends Controller
 {
@@ -56,7 +57,8 @@ class DesignController extends Controller
         return view('designs.designs', [
             'title' => $title,
             'designs' => Design::latest()->get(),
-            'products' => Product::all()
+            'products' => Product::all(),
+            'user' => Auth::user()
         ]);
     }
 

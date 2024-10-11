@@ -56,6 +56,13 @@ class Design extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class, 'cart_designs')
+        ->withPivot('quantity')
+        ->withTimestamps();
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

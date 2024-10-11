@@ -55,6 +55,11 @@ class User extends Authenticatable
         return null;
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'username';
