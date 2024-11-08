@@ -48,11 +48,13 @@ class User extends Authenticatable
 
     public function designs()
     {
-        if ($this->is_admin) {
-            return $this->hasMany(Design::class);
-        }
-
-        return null;
+        // if ($this->is_admin) {
+        //     return $this->hasMany(Design::class);
+        // }
+        
+        // return null;
+        
+        return $this->hasMany(Design::class);
     }
 
     public function carts()

@@ -7,8 +7,8 @@
 
     <title>InspiraUMKM | {{ $title }}</title>
 
-    @include('vendors.mains')
-
+    @include('vendors.main.css')
+    @include('vendors.main.js')
 </head>
 
 <body>
@@ -18,17 +18,11 @@
 
     @include('partials.navbar')
 
-    <div class="{{ Request::is('/') ? 'container-fluid' : 'container' }} {{ Request::is('/') ? '' : 'mt-4' }}"
-        style="min-height: 100vh;">
+    <div class="content container-fluid px-0" style="min-height: 100vh;">
         @yield('container')
     </div>
 
     @include('partials.footer')
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-    <script src="{{ asset('js/color-modes.js') }}"></script>
 </body>
 
 </html>

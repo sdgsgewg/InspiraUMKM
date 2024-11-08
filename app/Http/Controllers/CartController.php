@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Design;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
 
 class CartController extends Controller
 {
@@ -17,9 +16,16 @@ class CartController extends Controller
     {
         $carts = Cart::with('designs')->where('user_id', Auth::id())->get();
 
-        return view('cart', [
+        return view('carts.cart', [
             'title' => 'My Cart',
             'carts' => $carts
+        ]);
+    }
+
+    public function checkout()
+    {
+        return view('carts.checkout', [
+            'title' => 'Checkout'
         ]);
     }
 
@@ -58,7 +64,7 @@ class CartController extends Controller
     //     return redirect('/carts')->with('success', 'Design added to cart!');
     // }
 
-    public function store(StoreCartRequest $request, Design $design)
+    public function store(Request $request, Design $design)
     {
         // Check if the design is retrieved correctly
         if (!$design) {
@@ -104,16 +110,34 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCartRequest $request, Cart $cart)
+    public function update(Request $request, Cart $cart)
     {
-        //
+        $designId = $request->input('design_id');
+        $design = Design::find($designId);
+
+        $validatedData = $request->validate([
+            'quantity' => 'required|integer|min:0|max:' . $design["stock"]
+        ]);
+
+        if ($validatedData['quantity'] == 0) {
+            return $this->destroy($cart, $designId);
+        }
+
+        $cart = Cart::find($cart->id);
+    
+        if ($cart) {
+            $cart->designs()->updateExistingPivot($designId, ['quantity' => $validatedData['quantity']]);
+    
+            return redirect()->back();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy(Cart $cart, $designId)
     {
-        //
+        $cart->designs()->detach($designId);
+        return redirect()->back()->with('success', 'Item removed from cart.');
     }
 }

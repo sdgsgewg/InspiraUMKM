@@ -1,6 +1,18 @@
-<nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark">
-    <div class="container">
-        <a class="navbar-brand d-md-none" href="/">
+<style>
+    .nav-link {
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 992px) {
+        .offcanvas .col-12 {
+            width: 100%;
+        }
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg bg-dark sticky-top border-bottom" data-bs-theme="dark">
+    <div class="col-12 d-flex justify-content-between px-5 py-2">
+        <a class="navbar-brand d-lg-none" href="{{ route('home') }}">
             <svg class="bi" width="24" height="24">
                 <use xlink:href="#aperture" />
             </svg>
@@ -22,41 +34,44 @@
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <svg class="bi" width="24" height="24">
-                                <use xlink:href="#aperture" />
-                            </svg>
-                        </a>
+                        <div class="d-flex align-items-center" style="width: 40px; height: 40px;">
+                            <a class="nav-link {{ Request::is('/') ? 'active' : '' }} p-0" href="{{ route('home') }}">
+                                <img src="{{ asset('img/inspira.png') }}" alt=""
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            </a>
+                        </div>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">Home</a>
+                        <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">About</a>
-                    </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link {{ Request::is('designs*') ? 'active' : '' }}"
+                            href="{{ route('designs.index') }}">Design</a>
+                    </li> --}}
 
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('designs*') ? 'active' : '' }}" href="{{ route('designs.index') }}">Design</a>
+                        <a class="nav-link {{ Request::is('designs*') ? 'active' : '' }}"
+                            href="{{ route('designs.index') }}">Designs</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('products*') ? 'active' : '' }}"
-                            href="{{ route('products.index') }}">Products</a>
-                    </li>
+                    {{-- <div class="col-12 col-lg-5 d-flex gap-1 gap-lg-3">
+                        <div class="col-10 col-lg-10"> <!-- Full width on small screens, margin-bottom for spacing -->
+                            @include('components.search')
+                        </div>
+                        <div class="col-2 col-lg-2"> <!-- Full width on small screens -->
+                            @include('components.filter')
+                        </div>
+                    </div> --}}
+
+                    <div class="col-lg-5">
+                        @include('components.search')
+                    </div>
+
 
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('categories*') ? 'active' : '' }}"
-                            href="{{ route('categories.index') }}">Categories</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('carts*') ? 'active' : '' }}" href="{{ route('carts.index') }}">
-                            <svg class="bi" width="24" height="24">
-                                <use xlink:href="#cart" />
-                            </svg>
-                        </a>
+                        <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">About Us</a>
                     </li>
 
                     @auth
@@ -73,8 +88,15 @@
                                         </a>
                                     </li>
                                 @endcan
+                                <li class="nav-item">
+                                    <a class="dropdown-item d-flex {{ Request::is('carts*') ? 'active' : '' }}"
+                                        href="{{ route('carts.index') }}">
+                                        <i class="bi bi-cart3 me-2"></i> Cart
+                                    </a>
+                                </li>
                                 <li>
-                                    <a class="dropdown-item d-flex {{ Request::is('profile*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                                    <a class="dropdown-item d-flex {{ Request::is('profile*') ? 'active' : '' }}"
+                                        href="{{ route('users.index') }}">
                                         <i class="bi bi-person-circle me-2"></i> Profile
                                     </a>
                                 </li>

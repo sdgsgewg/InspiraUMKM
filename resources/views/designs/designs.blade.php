@@ -2,139 +2,83 @@
 
 @section('container')
 
-    <style>
-        .carousel-control-prev,
-        .carousel-control-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background-color: rgb(75, 75, 84);
-            border-radius: 50%;
-        }
+    <link rel="stylesheet" href="{{ asset('css/designs/style.css') }}?v={{ time() }}">
 
-        .carousel-control-prev {
-            left: -15px;
-        }
-
-        .carousel-control-next {
-            right: -15px;
-        }
-    </style>
-
-    <h1 class="mb-4 text-center">{{ $title }}</h1>
-
-    <div class="row justify-content-center mb-3">
-        <div class="col-md-6">
-            <form action="/designs">
-                @if (request('category'))
-                    <input type="hidden" name="category" value="{{ request('category') }}">
-                @endif
-                @if (request('author'))
-                    <input type="hidden" name="author" value="{{ request('author') }}">
-                @endif
-                @if (request('product'))
-                    <input type="hidden" name="product" value="{{ request('product') }}">
-                @endif
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search.." name="search"
-                        value="{{ request('search') }}" autocomplete="off">
-                    <button class="btn btn-primary" type="submit">Search</button>
+    <div class="row justify-content-center my-5">
+        <div class="col-11 col-md-6 d-flex flex-column ">
+            <h1 class="text-center mb-5">{{ $title }}</h1>
+            <div class="d-flex flex-row gap-3">
+                <div class="col-11">
+                    @include('components.search')
                 </div>
-            </form>
+                <div class="col-1">
+                    @include('components.filter')
+                </div>
+            </div>
         </div>
     </div>
 
-    @if ($designs->count())
-        <div class="container">
-            <div class="row">
+    <div class="row justify-content-center">
+        <div class="col-11">
+            @if ($designsByProduct->count())
                 @foreach ($products as $product)
+                    @php
+                        $designAmount = 0;
+                    @endphp
                     @if ($product->designs->count())
-                        <div class="col-md-12 mb-3">
-                            <h2>{{ $product->name }}</h2>
+                        <div class="mb-3 d-flex justify-content-between align-items-center product-header">
+                            <h2 class="product-title">{{ $product->name }}</h2>
+                            <a href="{{ route('designs.index', ['product' => $product->slug]) }}"
+                                class="d-flex align-items-center view-all-link btn btn-primary">
+                                View All <i class="bi bi-arrow-right-circle ms-2"></i>
+                            </a>
                         </div>
 
-                        <div id="carouselExample{{ $product->id }}" class="carousel slide mb-5">
+                        @php
+                            $designAmount += $product->designs->count();
+                        @endphp
+
+                        <div id="carouselExample{{ $product->id }}" class="carousel mb-5"
+                            data-design-amount="{{ $designAmount }}">
 
                             <div class="carousel-inner">
-                                @foreach ($product->designs as $index => $design)
+                                @foreach ($product->designs->take(6) as $index => $design)
                                     <div class="carousel-item @if ($index === 0) active @endif">
 
-                                        <div class="card d-flex flex-column h-100">
-                                            <div class="position-absolute px-3 py-2"
-                                                style="background-color: rgba(0, 0, 0, 0.6); border-radius: 5px 0 0 0">
-                                                <a href="{{ route('designs.index', ['category' => $design->category->slug]) }}"
-                                                    class="text-white text-decoration-none">
-                                                    {{ $design->category->name }}
-                                                </a>
-                                            </div>
-
-                                            <div style="width: 100%; height: 250px;">
-                                                @if ($design->image)
-                                                    <img src="{{ asset('storage/' . $design->image) }}"
-                                                        alt="{{ $design->category->name }}"
-                                                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px 5px 0 0;">
-                                                @else
-                                                    <img src="{{ '../../img/' . $design->category->name . '.jpg' }}"
-                                                        alt="{{ $design->category->name }}"
-                                                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px 5px 0 0;">
-                                                @endif
-                                            </div>
-
-                                            <div class="card-body d-flex flex-column">
-                                                <h5 class="card-title">{{ $design->title }}</h5>
-                                                <p>
-                                                    <small class="text-body-secondary">
-                                                        By. <a
-                                                            href="{{ route('designs.index', ['author' => $design->author->username]) }}"
-                                                            class="text-decoration-none">
-                                                            {{ $design->author->name }}</a>
-                                                    </small>
-                                                </p>
-                                                <div class="mt-auto d-flex justify-content-between">
-
-                                                    <a href="{{ route('designs.show', ['design' => $design->slug]) }}"
-                                                        class="btn btn-primary">View
-                                                        details</a>
-
-                                                    <form action="{{ route('carts.store', ['design' => $design->slug]) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-primary d-flex">
-                                                            <i class="bi bi-cart-plus me-2"></i> Add to Cart
-                                                        </button>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @include('components.card')
 
                                     </div>
                                 @endforeach
                             </div>
 
-                            @if ($product->designs->count() > 1)
-                                <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExample{{ $product->id }}" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExample{{ $product->id }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
 
-                                <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExample{{ $product->id }}" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            @endif
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExample{{ $product->id }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
 
                         </div>
                     @endif
                 @endforeach
-            </div>
+            @else
+                <p class="text-center fs-4">No design found.</p>
+            @endif
         </div>
-    @else
-        <p class="text-center fs-4">No design found.</p>
-    @endif
+    </div>
+
+    <script src="{{ asset('js/designs/card-slider.js') }}?v={{ time() }}"></script>
+
+    <script>
+        var routeGetCategoriesByProduct = '{{ route('designFilter.getCategoriesByProduct', ':slug') }}';
+        var oldCategorySlugs = @json(old('category', $designCategories ?? []));
+        var oldProductSlug = "{{ old('product') }}";
+    </script>
+    <script src="{{ asset('js/designs/filter.js') }}"></script>
 
 @endsection

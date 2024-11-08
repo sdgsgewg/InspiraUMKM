@@ -32,6 +32,19 @@
             </div>
 
             <div class="mb-3">
+                <label for="product" class="form-label">Product</label>
+                <select class="form-select @error('product_id') is-invalid @enderror" name="product_id" required>
+                    @foreach ($products as $product)
+                        @if (old('product_id', $category->product_id) == $product->id)
+                            <option value="{{ $product->id }}" selected>{{ $product->name }}</option>
+                        @else
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- <div class="mb-3">
                 <label for="image" class="form-label">Category Image</label>
                 <input type="hidden" name="oldImage" value="{{ $category->image }}">
                 @if ($category->image)
@@ -45,7 +58,7 @@
                 @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
+            </div> --}}
 
             <button type="submit" class="btn btn-primary">Update Category</button>
         </form>

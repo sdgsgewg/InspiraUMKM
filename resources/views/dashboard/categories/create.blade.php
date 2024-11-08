@@ -31,6 +31,17 @@
             </div>
 
             <div class="mb-3">
+                <label for="product" class="form-label">Product</label>
+                <select class="form-select" name="product_id">
+                    @foreach ($products as $product)
+                        <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                            {{ $product->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- <div class="mb-3">
                 <label for="image" class="form-label">Category Image</label>
                 <img class="img-preview img-fluid mb-3 col-sm-5">
                 <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
@@ -38,7 +49,7 @@
                 @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
+            </div> --}}
 
             <button type="submit" class="btn btn-primary">Create Category</button>
         </form>

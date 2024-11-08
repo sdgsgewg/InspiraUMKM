@@ -12,9 +12,14 @@ class Product extends Model
 
     protected $guarded = ['id'];
 
-    public function designs()
+    public function designs() 
     {
         return $this->hasMany(Design::class);
+    }
+
+    public function categories() 
+    {
+        return $this->hasMany(Category::class);
     }
 
     public function getRouteKeyName(): string

@@ -44,8 +44,10 @@ class DashboardDesignController extends Controller
             'slug' => 'required|unique:designs',
             'product_id' => 'required',
             'category_id' => 'required',
+            'price' => 'required',
+            'stock' => 'required',
             'image' => 'image|file|max:1024',
-            'body' => 'required'
+            'description' => 'required'
         ]);
 
         if($request->file('image')) {
@@ -54,8 +56,6 @@ class DashboardDesignController extends Controller
 
         /** @var \App\Models\User $user */
         $validatedData['user_id'] = Auth::user()->id;
-
-        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
         Design::create($validatedData);
 
@@ -77,10 +77,12 @@ class DashboardDesignController extends Controller
      */
     public function edit(Design $design)
     {
+        $designCategory = $design->category->pluck('id')->toArray();
+
         return view('dashboard.designs.edit', [
             'design' => $design,
             'products' => Product::all(),
-            'categories' => Category::all()
+            'designCategory' => $designCategory
         ]);
     }
 
@@ -93,8 +95,10 @@ class DashboardDesignController extends Controller
             'title' => 'required|max:255',
             'product_id' => 'required',
             'category_id' => 'required',
+            'price' => 'required',
+            'stock' => 'required',
             'image' => 'image|file|max:1024',
-            'body' => 'required'
+            'description' => 'required'
         ];
 
         if( $request->slug != $design->slug )
@@ -112,11 +116,16 @@ class DashboardDesignController extends Controller
         }
 
         $validatedData['user_id'] = Auth::user()->id;
-        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
         Design::where('id', $design->id)->update($validatedData);
 
         return redirect('/dashboard/designs')->with('success', 'Design has been updated!');
+    }
+
+    public function getCategoriesByProduct($productId)
+    {
+        $categories = Category::where('product_id', $productId)->get();
+        return response()->json($categories);
     }
 
     public function destroy(Design $design)

@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('designs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
-            $table->foreignId('category_id');
-            $table->foreignId('user_id');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('image')->nullable();
-            $table->text('excerpt');
-            $table->text('body');
+            $table->integer('price');
+            $table->integer('stock');
+            $table->text('description')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

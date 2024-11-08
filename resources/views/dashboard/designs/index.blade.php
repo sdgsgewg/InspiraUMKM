@@ -7,13 +7,13 @@
     </div>
 
     @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show col-lg-8" role="alert">
+        <div class="alert alert-success alert-dismissible fade show col-lg-10" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
-    <div class="table-responsive small col-lg-8">
+    <div class="table-responsive small col-lg-10">
         <a href="{{ route('admin.designs.create') }}" class="btn btn-primary mb-3">Create new design</a>
 
         @if ($designs->count())

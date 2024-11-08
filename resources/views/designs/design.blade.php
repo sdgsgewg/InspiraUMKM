@@ -10,7 +10,8 @@
                     <a href="{{ route('designs.index', ['author' => $design->author->username]) }}"
                         class="text-decoration-none">{{ $design->author->name }}</a>
                     in
-                    <a href="{{ route('designs.index', ['category' => $design->category->slug ]) }}" class="text-decoration-none">
+                    <a href="{{ route('designs.index', ['category' => $design->category->slug]) }}"
+                        class="text-decoration-none">
                         {{ $design->category->name }}</a>
                 </p>
 
@@ -25,12 +26,16 @@
                             class="img-fluid">
                     </div>
                 @else
-                    <img src="{{ $url . $design->category->name . '.jpg' }}" alt="{{ $design->category->name }}" width="1200"
-                        height="400" class="img-fluid">
+                    <img src="{{ $url . $design->category->name . '.jpg' }}" alt="{{ $design->category->name }}"
+                        width="1200" height="400" class="img-fluid">
                 @endif
 
+                <p>
+                    Stock: {{ $design->stock }}
+                </p>
+
                 <article class="my-3 fs-5">
-                    {!! $design->body !!}
+                    {!! $design->description !!}
                 </article>
 
                 <a href="{{ route('designs.index') }}" class="d-block mt-3">&laquo; Back to all designs</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -21,7 +22,9 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        return view('dashboard.categories.create');
+        return view('dashboard.categories.create', [
+            'products' => Product::all()
+        ]);
     }
 
     /**
@@ -32,14 +35,17 @@ class AdminCategoryController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|unique:categories|max:255',
             'slug' => 'required|unique:categories',
-            'image' => 'image|file|max:1024'
+            'product_id' => 'required'
+            // 'image' => 'image|file|max:1024'
         ]);
 
-        if($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('category-images');
-        }
+        // if($request->file('image')) {
+        //     $validatedData['image'] = $request->file('image')->store('category-images');
+        // }
 
         Category::create($validatedData);
+
+        session(['product_id' => $request->product_id]);
 
         return redirect('/dashboard/categories')->with('success', 'New category has been added!');
     }
@@ -58,7 +64,8 @@ class AdminCategoryController extends Controller
     public function edit(Category $category)
     {
         return view('dashboard.categories.edit', [
-            'category' => $category
+            'category' => $category,
+            'products' => Product::all()
         ]);
     }
 
@@ -69,7 +76,8 @@ class AdminCategoryController extends Controller
     {
         $rules = [
             'name' => 'required|max:255',
-            'image' => 'image|file|max:1024'
+            'product_id' => 'required'
+            // 'image' => 'image|file|max:1024'
         ];
 
         if( $request->slug != $category->slug )
@@ -79,14 +87,16 @@ class AdminCategoryController extends Controller
 
         $validatedData = $request->validate($rules);
 
-        if($request->file('image')) {
-            if($request->oldImage) {
-                Storage::delete($request->oldImage);
-            }
-            $validatedData['image'] = $request->file('image')->store('category-images');
-        }
+        // if($request->file('image')) {
+        //     if($request->oldImage) {
+        //         Storage::delete($request->oldImage);
+        //     }
+        //     $validatedData['image'] = $request->file('image')->store('category-images');
+        // }
 
         Category::where('id', $category->id)->update($validatedData);
+
+        session(['product_id' => $request->product_id]);
 
         return redirect('/dashboard/categories')->with('success', 'Category has been updated!');
     }
@@ -96,9 +106,9 @@ class AdminCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if($category->image) {
-            Storage::delete($category->image);
-        }
+        // if($category->image) {
+        //     Storage::delete($category->image);
+        // }
         Category::destroy($category->id);
 
         return redirect('/dashboard/categories')->with('success', 'Category has been deleted!');

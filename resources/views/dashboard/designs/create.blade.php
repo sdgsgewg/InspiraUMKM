@@ -31,7 +31,9 @@
 
             <div class="mb-3">
                 <label for="product" class="form-label">Product</label>
-                <select class="form-select" name="product_id">
+                <select id="product" class="form-select @error('product_id') is-invalid @enderror" name="product_id"
+                    required>
+                    <option value="">Select a product</option>
                     @foreach ($products as $product)
                         @if (old('product_id') == $product->id)
                             <option value="{{ $product->id }}" selected>{{ $product->name }}</option>
@@ -40,19 +42,37 @@
                         @endif
                     @endforeach
                 </select>
+                @error('product_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
-                <select class="form-select" name="category_id">
-                    @foreach ($categories as $category)
-                        @if (old('category_id') == $category->id)
-                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                        @else
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endif
-                    @endforeach
+                <select id="category" class="form-select @error('genre_id') is-invalid @enderror" name="category_id">
+                    <!-- Categories will be dynamically loaded here -->
                 </select>
+                @error('category_id')
+                    <div class="invalid-feedback">The category field is required</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" class="form-control @error('price') is-invalid @enderror" id="price"
+                    name="price" required autofocus value="{{ old('price') }}">
+                @error('price')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="stock" class="form-label">Stock</label>
+                <input type="text" class="form-control @error('stock') is-invalid @enderror" id="stock"
+                    name="stock" required autofocus value="{{ old('stock') }}">
+                @error('stock')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -66,12 +86,12 @@
             </div>
 
             <div class="mb-3">
-                <label for="body" class="form-label">Body</label>
-                @error('body')
+                <label for="description" class="form-label">Description</label>
+                @error('description')
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
-                <input id="body" type="hidden" name="body" value="{{ old('body') }}">
-                <trix-editor input="body"></trix-editor>
+                <input id="description" type="hidden" name="description" value="{{ old('description') }}">
+                <trix-editor input="description"></trix-editor>
             </div>
 
             <button type="submit" class="btn btn-primary">Create Design</button>
@@ -79,4 +99,11 @@
     </div>
 
     <script src="{{ asset('js/designs/script.js') }}"></script>
+
+    <script>
+        const routeGetCategoriesByProduct = '{{ route('admin.designs.getCategoriesByProduct', ':id') }}';
+        let oldCategoryId = @json(array_map('intval', old('category_id', $designCategories ?? [])));
+        const oldProductId = "{{ old('product_id') }}";
+    </script>
+    <script src="{{ asset('js/designs/loadCategory.js') }}"></script>
 @endsection

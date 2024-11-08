@@ -11,14 +11,14 @@ class Design extends Model
     use HasFactory, Sluggable;
 
     protected $guarded = ['id'];
-    protected $with = ['product', 'category', 'author'];
+    protected $with = ['product', 'category', 'seller'];
 
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, function($query, $search) {
             return $query->where(function($query) use ($search) {
                  $query->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('body', 'like', '%' . $search . '%');
+                    ->orWhere('description', 'like', '%' . $search . '%');
              });
          });
 
@@ -34,14 +34,14 @@ class Design extends Model
             });
         });
 
-        $query->when( $filters['author'] ?? false, fn($query, $author) => 
-            $query->whereHas('author', fn($query) => 
-                $query->where('username', $author)
+        $query->when( $filters['seller'] ?? false, fn($query, $seller) => 
+            $query->whereHas('seller', fn($query) => 
+                $query->where('username', $seller)
             )
         );
     }
 
-    public function product() 
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }
@@ -51,7 +51,7 @@ class Design extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function author() 
+    public function seller() 
     {
         return $this->belongsTo(User::class, 'user_id');
     }
