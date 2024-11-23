@@ -14,18 +14,91 @@ class CartController extends Controller
      */
     public function index()
     {
+        $cart = Cart::with('designs')->where('user_id', Auth::id())->first();
+        
         $carts = Cart::with('designs')->where('user_id', Auth::id())->get();
+        
+        $cartItems = [];
+        foreach ($carts as $cart) {
+            foreach ($cart->designs as $design) {
+                $sellerId = $design->seller->id;
+                $sellerName = $design->seller->name;
+                $sellerUsername = $design->seller->username;
+    
+                if (!isset($cartItems[$sellerId])) {
+                    $cartItems[$sellerId] = [
+                        'seller_name' => $sellerName,
+                        'seller_username' => $sellerUsername,
+                        'items' => []
+                    ];
+                }
+    
+                $cartItems[$sellerId]['items'][] = $design;
+            }
+        }
 
-        return view('carts.cart', [
+        return view('cart.cart', [
             'title' => 'My Cart',
-            'carts' => $carts
+            'cart' => $cart,
+            'cartItems' => $cartItems
         ]);
     }
 
     public function checkout()
     {
-        return view('carts.checkout', [
-            'title' => 'Checkout'
+        $cart = Cart::with('designs')->where('user_id', Auth::id())->first();
+        
+        $carts = Cart::with('designs')->where('user_id', Auth::id())->get();
+
+        $checkoutItems = [];
+
+        foreach ($carts as $cart) {
+            foreach ($cart->designs as $design) {
+                if ($design->pivot->isChecked) {
+                    $sellerId = $design->seller->id;
+                    $sellerName = $design->seller->name;
+                    $sellerUsername = $design->seller->username;
+        
+                    if (!isset($checkoutItems[$sellerId])) {
+                        $checkoutItems[$sellerId] = [
+                            'seller_name' => $sellerName,
+                            'seller_username' => $sellerUsername,
+                            'items' => []
+                        ];
+                    }
+        
+                    $checkoutItems[$sellerId]['items'][] = $design;
+                }
+            }
+        }
+
+        $productAmount = [];
+        foreach ($checkoutItems as $sellerId => $sellerGroup) {
+            $amount = 0;
+            foreach($sellerGroup['items'] as $item) {
+                $amount += $item->pivot->quantity;
+            }
+            $productAmount[] = $amount;
+        }
+
+        $checkoutItemsPrice = [];
+        $totalPrice = 0;
+        foreach ($checkoutItems as $sellerId => $sellerGroup) {
+            $subtotalPrice = 0;
+            foreach($sellerGroup['items'] as $item) {
+                $subtotalPrice += ($item->price * $item->pivot->quantity);
+            }
+            $checkoutItemsPrice[] = $subtotalPrice;
+            $totalPrice += $subtotalPrice;
+        }
+
+        return view('cart.checkout', [
+            'title' => 'Checkout',
+            'cart' => $cart,
+            'checkoutItems' => $checkoutItems,
+            'productAmount' => $productAmount,
+            'checkoutItemsPrice' => $checkoutItemsPrice,
+            'totalPrice' => $totalPrice
         ]);
     }
 
@@ -78,16 +151,17 @@ class CartController extends Controller
         $cartDesign = $cart->designs()->where('design_id', $design->id)->first();
 
         if ($cartDesign) {
-            // Design already in cart, update the quantity
             $cart->designs()->updateExistingPivot($design->id, [
-                'quantity' => $cartDesign->pivot->quantity + 1
+                'quantity' => $cartDesign->pivot->quantity + 1,
+                'isChecked' => true
             ]);
         } else {
-            // Design not in cart, attach it with default quantity of 1
-            $cart->designs()->attach($design->id, ['quantity' => 1]);
+            $cart->designs()->attach($design->id, [
+                'quantity' => 1,
+                'isChecked' => true
+            ]);
         }
 
-        // Redirect to the cart page with success message
         return redirect('/carts')->with('success', 'Design added to cart!');
     }
 
@@ -119,24 +193,63 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:0|max:' . $design["stock"]
         ]);
 
-        if ($validatedData['quantity'] == 0) {
-            return $this->destroy($cart, $designId);
-        }
-
         $cart = Cart::find($cart->id);
     
         if ($cart) {
             $cart->designs()->updateExistingPivot($designId, ['quantity' => $validatedData['quantity']]);
-    
             return redirect()->back();
         }
+    }
+
+    public function updateIsChecked(Request $request)
+    {
+        $request->validate([
+            'design_id' => 'required|integer|exists:cart_designs,design_id',
+            'is_checked' => 'required|boolean',
+        ]);
+
+        // Find the cart item by book ID and update its isChecked status
+        $cartItem = Cart::where('user_id', Auth::id())
+            ->whereHas('designs', function ($query) use ($request) {
+                $query->where('design_id', $request->design_id);
+            })
+            ->first();
+
+        if ($cartItem) {
+            $cartItem->designs()->updateExistingPivot($request->design_id, ['isChecked' => $request->is_checked]);
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 400);
+    }
+
+    public function updateQuantity(Request $request)
+    {
+        $request->validate([
+            'design_id' => 'required|integer|exists:cart_designs,design_id',
+            'quantity' => 'required|integer|min:0'
+        ]);
+
+        $cartItem = Cart::where('user_id', Auth::id())
+            ->whereHas('designs', function ($query) use ($request) {
+                $query->where('design_id', $request->design_id);
+            })
+            ->first();
+
+        if ($cartItem) {
+            $cartItem->designs()->updateExistingPivot($request->design_id, ['quantity' => $request->quantity]);
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 400);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart, $designId)
+    public function destroy(Request $request, Cart $cart)
     {
+        $designId = $request->input('design_id');
         $cart->designs()->detach($designId);
         return redirect()->back()->with('success', 'Item removed from cart.');
     }

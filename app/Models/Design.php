@@ -53,14 +53,36 @@ class Design extends Model
 
     public function seller() 
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'seller_id');
     }
 
     public function carts()
     {
         return $this->belongsToMany(Cart::class, 'cart_designs')
-        ->withPivot('quantity')
+        ->withPivot('quantity', 'isChecked')
         ->withTimestamps();
+    }
+
+    public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class, 'transaction_designs')
+        ->withPivot('id', 'quantity', 'sub_total_price')
+        ->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(DesignReview::class, 'design_id', 'id');
+    }
+
+    public function reviewByUser($userId)
+    {
+        return $this->reviews()->where('user_id', $userId)->first();
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating') ?: 0;
     }
 
     public function getRouteKeyName(): string

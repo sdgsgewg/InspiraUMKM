@@ -15,12 +15,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'name',
-    //     'username',
-    //     'email',
-    //     'password',
-    // ];
+    
     protected $guarded = ['id'];
 
     /**
@@ -47,19 +42,23 @@ class User extends Authenticatable
     }
 
     public function designs()
-    {
-        // if ($this->is_admin) {
-        //     return $this->hasMany(Design::class);
-        // }
-        
-        // return null;
-        
-        return $this->hasMany(Design::class);
+    {   
+        return $this->hasMany(Design::class, 'seller_id');
     }
 
     public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(DesignReview::class);
     }
 
     public function getRouteKeyName()

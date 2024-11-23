@@ -20,6 +20,8 @@ class UserSeeder extends Seeder
             'email' => 'jessen123ptk@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
+            'dob' => '2003-11-26',
+            'gender' => 'Male',
             'address' => 'Orange Street',
             'phoneNumber' => '08123456789',
             'is_admin' => 1,

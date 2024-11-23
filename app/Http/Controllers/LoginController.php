@@ -31,7 +31,6 @@ class LoginController extends Controller
             } else {
                 return redirect()->intended('/');
             }
-            
         }
  
         return back()->with(

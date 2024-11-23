@@ -15,4 +15,10 @@ class AppController extends Controller
             'designs' => Design::all()
         ]);
     }
+
+    public function about() {
+        return view('about', [
+            'title' => 'InspiraUMKM'
+        ]);
+    }
 }

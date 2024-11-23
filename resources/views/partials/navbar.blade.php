@@ -46,29 +46,14 @@
                         <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                     </li>
 
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ Request::is('designs*') ? 'active' : '' }}"
-                            href="{{ route('designs.index') }}">Design</a>
-                    </li> --}}
-
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('designs*') ? 'active' : '' }}"
+                        <a class="nav-link {{ Request::is('designs*') || Request::is('filtered-designs*') ? 'active' : '' }}"
                             href="{{ route('designs.index') }}">Designs</a>
                     </li>
 
-                    {{-- <div class="col-12 col-lg-5 d-flex gap-1 gap-lg-3">
-                        <div class="col-10 col-lg-10"> <!-- Full width on small screens, margin-bottom for spacing -->
-                            @include('components.search')
-                        </div>
-                        <div class="col-2 col-lg-2"> <!-- Full width on small screens -->
-                            @include('components.filter')
-                        </div>
-                    </div> --}}
-
                     <div class="col-lg-5">
-                        @include('components.search')
+                        @include('components.search', ['id' => 1])
                     </div>
-
 
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">About Us</a>
@@ -78,9 +63,30 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                Welcome back, {{ auth()->user()->name }}
+                                Welcome back, {{ Str::words(auth()->user()->name, 1, '') }}
                             </a>
                             <ul class="dropdown-menu">
+                                {{-- Orders --}}
+                                @if (!auth()->user()->is_admin)
+                                    <li>
+                                        <a class="dropdown-item d-flex {{ request()->routeIs('transactions.index') || request()->routeIs('transactions.show') ? 'active' : '' }}"
+                                            href="{{ route('transactions.index') }}">
+                                            <i class="bi bi-file-earmark-text me-2"></i> My Orders
+                                        </a>
+                                    </li>
+                                @else
+                                    <li>
+                                        <a class="dropdown-item d-flex {{ request()->routeIs('transactions.orderRequest') ? 'active' : '' }}"
+                                            href="{{ route('transactions.orderRequest') }}">
+                                            <i class="bi bi-inbox me-2"></i> Order Requests
+                                        </a>
+                                    </li>
+                                @endif
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                {{-- Dashboard --}}
                                 @can('admin')
                                     <li>
                                         <a class="dropdown-item d-flex" href="{{ route('admin.dashboard') }}">
@@ -102,7 +108,7 @@
                                 </li>
                                 <hr class="dropdown-divider">
                                 <li>
-                                    <form action="/logout" method="POST">
+                                    <form action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <button type="submit" class="dropdown-item d-flex">
                                             <i class="bi bi-box-arrow-right me-2"></i> Logout
@@ -113,7 +119,8 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a href="/login" class="nav-link d-flex {{ Request::is('login') ? 'active' : '' }}">
+                            <a href="{{ route('login') }}"
+                                class="nav-link d-flex {{ Request::is('login') ? 'active' : '' }}">
                                 <i class="bi bi-box-arrow-in-right me-2"></i> Login
                             </a>
                         </li>

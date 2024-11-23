@@ -30,9 +30,8 @@ function initializeCarousel(carousel) {
     }
 
     function getCardWidth() {
-        // Calculate the width of a card dynamically to account for resizing
-        const item = carousel.querySelector(".carousel-item");
-        return item ? item.offsetWidth + 20 : 0; // 20px gap
+        let item = carousel.querySelector(".carousel-item").offsetWidth + 20;
+        return item;
     }
 
     function updateCarousel() {
@@ -41,33 +40,61 @@ function initializeCarousel(carousel) {
         scrollAmount = 0;
         slider.scroll({ left: scrollAmount, behavior: "smooth" });
 
-        prev.style.display = scrollAmount === 0 ? "none" : "flex";
-        next.style.display = designAmount > visibleCards ? "flex" : "none";
+        if (scrollAmount == 0) {
+            prev.style.display = "none";
+            if (designAmount <= visibleCards) {
+                next.style.display = "none";
+            } else {
+                next.style.display = "flex";
+            }
+        }
     }
 
     window.addEventListener("resize", updateCarousel);
 
     next.addEventListener("click", () => {
-        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        const maxScroll = slider.scrollWidth - slider.clientWidth - 20;
         if (scrollAmount < maxScroll) {
             scrollAmount += cardWidth;
-            scrollAmount = Math.min(scrollAmount, maxScroll);
-            slider.scroll({ left: scrollAmount, behavior: "smooth" });
+            if (scrollAmount > maxScroll) {
+                scrollAmount = maxScroll;
+            }
+            slider.scroll({
+                left: scrollAmount,
+                behavior: "smooth",
+            });
             prev.style.display = "flex";
         }
-        next.style.display = scrollAmount >= maxScroll ? "none" : "flex";
+
+        if (scrollAmount >= maxScroll) {
+            next.style.display = "none";
+        }
     });
 
     prev.addEventListener("click", () => {
-        scrollAmount = Math.max(scrollAmount - cardWidth, 0);
-        slider.scroll({ left: scrollAmount, behavior: "smooth" });
-        next.style.display = scrollAmount >= maxScroll ? "none" : "flex";
-        prev.style.display = scrollAmount === 0 ? "none" : "flex";
+        if (scrollAmount > 0) {
+            scrollAmount -= cardWidth;
+            if (scrollAmount < 0) {
+                scrollAmount = 0;
+            }
+            slider.scroll({
+                left: scrollAmount,
+                behavior: "smooth",
+            });
+            next.style.display = "flex";
+        }
+
+        if (scrollAmount == 0) {
+            prev.style.display = "none";
+        }
     });
 
-    // Initialize button visibility on load
-    prev.style.display = scrollAmount === 0 ? "none" : "flex";
-    next.style.display = designAmount > visibleCards ? "flex" : "none";
+    if (scrollAmount == 0) {
+        prev.style.display = "none";
+        if (designAmount <= visibleCards) {
+            next.style.display = "none";
+        }
+    }
 }
 
 // Initialize carousels on initial load

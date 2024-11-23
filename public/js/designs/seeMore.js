@@ -1,6 +1,6 @@
-function toggleContent(id) {
-    const moreContent = document.querySelector(`.moreContent[data-id="${id}"]`);
-    const button = document.querySelector(`.toggleBtn[data-id="${id}"]`);
+function toggleContent() {
+    const moreContent = document.querySelector(`.moreContent`);
+    const button = document.querySelector(`.toggleBtn`);
 
     if (moreContent.style.display === "none") {
         moreContent.style.display = "block";

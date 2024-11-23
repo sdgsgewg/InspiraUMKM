@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cart_Design extends Model
+class CartDesign extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
 }

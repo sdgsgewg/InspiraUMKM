@@ -13,8 +13,9 @@
     @endif
 
 
-    <div class="table-responsive small col-lg-6">
-        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Create new category</a>
+    {{-- Design Tabel Biasa --}}
+    {{-- <div class="table-responsive small col-lg-8">
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Create New Category</a>
 
         <table class="table table-striped table-sm">
             <thead>
@@ -50,5 +51,68 @@
                 @endforeach
             </tbody>
         </table>
+    </div> --}}
+
+    {{-- Design Accordion --}}
+    <div class="table-responsive small col-lg-8">
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Create New Category</a>
+
+        <div class="accordion" id="accordionExample">
+            @foreach ($products as $product)
+                <?php $idx = 0; ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button {{ session('product_id') == $product->id ? '' : 'collapsed' }}"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->iteration }}"
+                            aria-expanded="{{ session('product_id') == $product->id ? 'true' : 'false' }}"
+                            aria-controls="collapse{{ $loop->iteration }}">
+                            {{ $product->name }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ $loop->iteration }}"
+                        class="accordion-collapse collapse {{ session('product_id') == $product->id ? 'show' : '' }}"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Category Name</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($categories as $category)
+                                        @if ($category->product_id == $product->id)
+                                            <?php $idx++; ?>
+                                            <tr>
+                                                <td>{{ $idx }}</td>
+                                                <td>{{ $category->name }}</td>
+                                                <td>
+
+                                                    <a href="{{ route('admin.categories.edit', ['category' => $category->slug]) }}"
+                                                        class="badge bg-warning">
+                                                        <i class="bi bi-pencil-square icon"></i>
+                                                    </a>
+
+                                                    <button type="button" class="badge bg-danger border-0"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal-{{ $category->id }}">
+                                                        <i class="bi bi-x-circle icon"></i>
+                                                    </button>
+
+                                                    @include('components.modals.dashboard.delete-category-modal')
+
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 @endsection

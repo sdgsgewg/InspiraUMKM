@@ -19,7 +19,7 @@ class DashboardDesignController extends Controller
     public function index()
     {
         return view('dashboard.designs.index', [
-            'designs' => Design::where('user_id', Auth::user()->id)->get()
+            'designs' => Design::where('seller_id', Auth::user()->id)->get()
         ]);
     }
 
@@ -54,8 +54,7 @@ class DashboardDesignController extends Controller
             $validatedData['image'] = $request->file('image')->store('design-images');
         }
 
-        /** @var \App\Models\User $user */
-        $validatedData['user_id'] = Auth::user()->id;
+        $validatedData['seller_id'] = Auth::user()->id;
 
         Design::create($validatedData);
 
@@ -115,7 +114,7 @@ class DashboardDesignController extends Controller
             $validatedData['image'] = $request->file('image')->store('design-images');
         }
 
-        $validatedData['user_id'] = Auth::user()->id;
+        $validatedData['seller_id'] = Auth::user()->id;
 
         Design::where('id', $design->id)->update($validatedData);
 

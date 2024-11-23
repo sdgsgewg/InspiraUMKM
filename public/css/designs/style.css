@@ -1,18 +1,13 @@
-/* Product Header */
+/* Content Header */
 
-.product-header {
+.content-header {
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-.product-title {
-    font-weight: bold;
-}
-
 .view-all-link {
     text-decoration: none;
-    color: white;
     font-size: 0.9rem;
     padding: 5px 12px;
 }
@@ -113,10 +108,18 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(145, 128, 128);
+    background-color: rgb(211, 202, 202);
     border-radius: 50%;
     opacity: 0.7;
     z-index: -1;
+}
+
+.custom-btn {
+    border: none;
+    transition: background-color 0.3s ease;
+}
+.custom-btn:hover {
+    background-color: #d5dade;
 }
 
 /* Extra Large Screens (>= 1200px) - Display 4 cards */
