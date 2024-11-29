@@ -42,7 +42,7 @@
             @if (!$transaction->isReceived)
                 @foreach ($transaction->nextStatuses as $status)
                     @if ($status === 'Completed')
-                        <form action="{{ route('transactions.updateStatus', ['transaction' => $transaction->id]) }}"
+                        <form action="{{ route('transactions.updateStatus', ['transaction' => $transaction->order_number]) }}"
                             method="POST">
                             @csrf
                             <input name="choice" type="hidden" value="{{ $status }}">
@@ -54,13 +54,13 @@
                     @endif
                 @endforeach
             @else
-                <a href="{{ route('transactions.show', ['transaction' => $transaction]) }}" class="btn btn-primary">View
+                <a href="{{ route('transactions.show', ['transaction' => $transaction->order_number]) }}" class="btn btn-primary">View
                     Detail
                 </a>
             @endif
         @else
             @foreach ($transaction->nextStatuses as $status)
-                <form action="{{ route('transactions.updateStatus', ['transaction' => $transaction->id]) }}"
+                <form action="{{ route('transactions.updateStatus', ['transaction' => $transaction->order_number]) }}"
                     method="POST">
                     @csrf
                     <input name="choice" type="hidden" value="{{ $status }}">

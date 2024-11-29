@@ -2,7 +2,7 @@
     <div class="col-12 position-relative">
         <div class="offer position-absolute"
             style="top:50%; left: 50%; transform:translate(-50%, -50%); z-index: 1; background-color: white; padding: 0 10px;">
-            <p class="fs-4 m-0">Special Offers</p>
+            <p class="fs-4 m-0">@lang('home.special_offers')</p>
         </div>
         <hr>
     </div>

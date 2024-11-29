@@ -98,12 +98,12 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/designs/script.js') }}"></script>
+    <script src="{{ asset('js/designs/script.js') }}?v={{ time() }}"></script>
 
     <script>
         const routeGetCategoriesByProduct = '{{ route('admin.designs.getCategoriesByProduct', ':id') }}';
         let oldCategoryId = @json(array_map('intval', old('category_id', $designCategories ?? [])));
         const oldProductId = "{{ old('product_id') }}";
     </script>
-    <script src="{{ asset('js/designs/loadCategory.js') }}"></script>
+    <script src="{{ asset('js/designs/loadCategory.js') }}?v={{ time() }}"></script>
 @endsection

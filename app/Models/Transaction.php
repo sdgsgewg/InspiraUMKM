@@ -73,7 +73,7 @@ class Transaction extends Model
 
     public function getRouteKeyName(): string
     {
-        return 'id';
+        return 'order_number';
     }
 
     public function updateStatus($newStatus)

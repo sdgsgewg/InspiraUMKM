@@ -3,6 +3,8 @@
 @section('container')
     <link rel="stylesheet" href="{{ asset('css/designs/style.css') }}?v={{ time() }}">
 
+    @include('components.modals.addToCartModal')
+
     <div class="row justify-content-center mt-4 mb-5">
         <div class="col-11 col-md-8">
             <h1 class="mt-2 mb-3">{{ $design['title'] }}</h1>
@@ -14,7 +16,6 @@
                         {{ $design->seller->name }}
                     </a>
                 </p>
-                {{-- <p>By. {{ $design->seller->name }}</p> --}}
             </div>
 
             <div class="d-flex flex-row" style="max-height: 350px;">
@@ -38,13 +39,10 @@
                             class="text-decoration-none">{{ $design->category->name }}</a>
                     </p>
 
-                    @php
-                        $averageRating = number_format($design->reviews()->avg('rating'), 2);
-                    @endphp
-                    @if ($averageRating != 0.0)
+                    @if ($avgDesignRating > 0.00)
                         <p>Rating: <span class="badge bg-warning text-dark shadow-sm"
                                 style="font-size: 0.9rem; font-weight: bold;">
-                                {{ $averageRating }}
+                                {{ number_format($avgDesignRating, 2) }}
                             </span></p>
                     @endif
 
@@ -54,8 +52,19 @@
                                 class="d-inline">
                                 @csrf
                                 <button type={{ $design->stock > 0 ? 'submit' : 'button' }}
-                                    class="btn {{ $design->stock > 0 ? 'btn-success' : 'btn-secondary' }} d-inline-flex">
+                                    class="btn {{ $design->stock > 0 ? 'btn-primary' : 'btn-secondary' }} d-inline-flex">
                                     <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                </button>
+                            </form>
+
+                            <form action="{{ route('carts.checkoutFromDesign') }}" class="d-inline">
+                                @csrf
+
+                                <input type="hidden" name="design_id" value="{{ $design->id }}">
+
+                                <button type={{ $design->stock > 0 ? 'submit' : 'button' }}
+                                    class="btn {{ $design->stock > 0 ? 'btn-success' : 'btn-secondary' }} d-inline-flex">
+                                    <i class="bi bi-bag-check me-2"></i>Checkout
                                 </button>
                             </form>
                         @endif

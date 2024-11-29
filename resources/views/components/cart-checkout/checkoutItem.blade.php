@@ -22,56 +22,9 @@
             </div>
             <div class="d-flex justify-content-end align-items-end">
                 <p class="qty d-flex flex-column justify-content-center m-0" data-design-id="{{ $design->id }}"
-                    data-qty="{{ $design->pivot->quantity }}">
-                    x{{ $design->pivot->quantity }}
+                    data-qty="{{ $quantity }}">
+                    x{{ $quantity }}
                 </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deleteModal-{{ $design->id }}" tabindex="-1"
-        aria-labelledby="deleteModalLabel-{{ $design->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteModalLabel-{{ $design->id }}">
-                        Confirm Deletion
-                    </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to remove design "{{ $design->title }}" from the
-                    cart?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form action="{{ route('carts.destroy', ['cart' => $cart->id]) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <input type="hidden" name="design_id" value="{{ $design->id }}">
-                        <button type="submit" class="btn btn-primary">Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="maxQtyModal-{{ $design->id }}" tabindex="-1"
-        aria-labelledby="maxQtyModalLabel-{{ $design->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="maxQtyModalLabel-{{ $design->id }}">
-                        Quantity Limit Reached
-                    </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    You have reached the maximum allowed quantity for "{{ $design->title }}"
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-                </div>
             </div>
         </div>
     </div>

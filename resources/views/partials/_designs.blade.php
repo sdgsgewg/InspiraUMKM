@@ -21,6 +21,6 @@
             <p class="result-item m-0 p-2" data-title="{{ $design->title }}">{{ $design->title }}</p>
         @endforeach
     @else
-        <p class="m-0">No designs found</p>
+        <p class="m-0">No design found</p>
     @endif
 </div>

@@ -22,8 +22,7 @@
                         <div class="d-flex flex-column ms-3">
                             <div class="d-flex gap-3">
                                 <p class="m-0 mb-1">
-                                    {{ $buyer->name }} | <span
-                                        class="text-secondary">{{ $buyer->phoneNumber }}</span>
+                                    {{ $buyer->name }} | <span class="text-secondary">{{ $buyer->phoneNumber }}</span>
                                 </p>
                             </div>
                             <div>
@@ -47,7 +46,7 @@
                             </div>
                         </div>
                         @foreach ($sellerGroup['items'] as $design)
-                            @include('components.cart-checkout.checkoutItem', ['quantity' => $design->pivot->quantity])
+                            @include('components.cart-checkout.checkoutItem', ['quantity' => $quantity])
                         @endforeach
                         <div class="d-flex flex-row justify-content-between mt-2">
                             <h6>Ordered Amount ({{ $productAmount[$idx] }}
@@ -125,7 +124,8 @@
                     <input type="hidden" name="serviceFee" value="{{ $service_fee }}">
                     <input type="hidden" name="totalPrice" value="{{ $total_price }}">
                     <input type="hidden" name="checkoutItems" value="{{ json_encode($checkoutItems) }}">
-                    <input type="hidden" name="source" value="cart">
+                    <input type="hidden" name="quantity" value="{{ $quantity }}">
+                    <input type="hidden" name="source" value="design">
 
                     <button type="submit"
                         class="btn btn-primary rounded-pill py-2 mt-2 text-decoration-none text-light w-100">

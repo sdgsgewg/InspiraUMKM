@@ -43,12 +43,13 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
+                        <a class="nav-link {{ Request::is('/') ? 'active' : '' }}"
+                            href="{{ route('home') }}">@lang('navbar.home')</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('designs*') || Request::is('filtered-designs*') ? 'active' : '' }}"
-                            href="{{ route('designs.index') }}">Designs</a>
+                            href="{{ route('designs.index') }}">@lang('navbar.designs')</a>
                     </li>
 
                     <div class="col-lg-5">
@@ -56,29 +57,85 @@
                     </div>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">About Us</a>
+                        <a class="nav-link {{ Request::is('about') ? 'active' : '' }}"
+                            href="/about">@lang('navbar.about_us')</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-translate"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('changeLanguage', ['lang' => 'en']) }}">
+                                    @lang('navbar.english')
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('changeLanguage', ['lang' => 'id']) }}">
+                                    @lang('navbar.bahasa_indonesia')
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     @auth
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                Welcome back, {{ Str::words(auth()->user()->name, 1, '') }}
+                                @lang('navbar.greet'), {{ Str::words(auth()->user()->name, 1, '') }}
                             </a>
                             <ul class="dropdown-menu">
+                                {{-- Dashboard --}}
+                                @can('admin')
+                                    <li>
+                                        <a class="dropdown-item d-flex" href="{{ route('admin.dashboard') }}">
+                                            <i class="bi bi-layout-text-sidebar-reverse me-2"></i> @lang('navbar.my_dashboard')
+                                        </a>
+                                    </li>
+                                @endcan
+
+                                {{-- Cart --}}
+                                @if (!auth()->user()->is_admin)
+                                    <li class="nav-item">
+                                        <a class="dropdown-item d-flex {{ Request::is('carts*') ? 'active' : '' }}"
+                                            href="{{ route('carts.index') }}">
+                                            <i class="bi bi-cart3 me-2"></i> @lang('navbar.cart')
+                                        </a>
+                                    </li>
+                                @endif
+
+                                {{-- Chat --}}
+                                <li>
+                                    <a class="dropdown-item d-flex {{ Request::is('chats*') ? 'active' : '' }}"
+                                        href="{{ route('chats.index') }}">
+                                        <i class="bi bi-chat-dots me-2"></i> @lang('navbar.chat')
+                                    </a>
+                                </li>
+
+                                {{-- Profile --}}
+                                <li>
+                                    <a class="dropdown-item d-flex {{ Request::is('profile*') ? 'active' : '' }}"
+                                        href="{{ route('users.index') }}">
+                                        <i class="bi bi-person-circle me-2"></i> @lang('navbar.profile')
+                                    </a>
+                                </li>
+                                <hr class="dropdown-divider">
+
                                 {{-- Orders --}}
                                 @if (!auth()->user()->is_admin)
                                     <li>
                                         <a class="dropdown-item d-flex {{ request()->routeIs('transactions.index') || request()->routeIs('transactions.show') ? 'active' : '' }}"
                                             href="{{ route('transactions.index') }}">
-                                            <i class="bi bi-file-earmark-text me-2"></i> My Orders
+                                            <i class="bi bi-file-earmark-text me-2"></i> @lang('navbar.my_orders')
                                         </a>
                                     </li>
                                 @else
                                     <li>
                                         <a class="dropdown-item d-flex {{ request()->routeIs('transactions.orderRequest') ? 'active' : '' }}"
                                             href="{{ route('transactions.orderRequest') }}">
-                                            <i class="bi bi-inbox me-2"></i> Order Requests
+                                            <i class="bi bi-inbox me-2"></i> @lang('navbar.order_requests')
                                         </a>
                                     </li>
                                 @endif
@@ -86,32 +143,11 @@
                                     <hr class="dropdown-divider">
                                 </li>
 
-                                {{-- Dashboard --}}
-                                @can('admin')
-                                    <li>
-                                        <a class="dropdown-item d-flex" href="{{ route('admin.dashboard') }}">
-                                            <i class="bi bi-layout-text-sidebar-reverse me-2"></i> My Dashboard
-                                        </a>
-                                    </li>
-                                @endcan
-                                <li class="nav-item">
-                                    <a class="dropdown-item d-flex {{ Request::is('carts*') ? 'active' : '' }}"
-                                        href="{{ route('carts.index') }}">
-                                        <i class="bi bi-cart3 me-2"></i> Cart
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex {{ Request::is('profile*') ? 'active' : '' }}"
-                                        href="{{ route('users.index') }}">
-                                        <i class="bi bi-person-circle me-2"></i> Profile
-                                    </a>
-                                </li>
-                                <hr class="dropdown-divider">
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <button type="submit" class="dropdown-item d-flex">
-                                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                            <i class="bi bi-box-arrow-right me-2"></i> @lang('navbar.logout')
                                         </button>
                                     </form>
                                 </li>
@@ -121,7 +157,7 @@
                         <li class="nav-item">
                             <a href="{{ route('login') }}"
                                 class="nav-link d-flex {{ Request::is('login') ? 'active' : '' }}">
-                                <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                                <i class="bi bi-box-arrow-in-right me-2"></i> @lang('navbar.login')
                             </a>
                         </li>
                     @endauth

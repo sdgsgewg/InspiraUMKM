@@ -31,14 +31,13 @@
     <div class="card-body d-flex flex-column h-50">
         <div class="mb-3">
             <h5 class="card-title">{{ $design->title }}</h5>
-            @php
-                $averageRating = number_format((float) $design->averageRating() ?: 0, 2);
-            @endphp
-            @if ($averageRating > 0.0)
+
+            @if (isset($avgDesignRating[$design->id]) && $avgDesignRating[$design->id] > 0)
                 <span class="badge bg-warning text-dark shadow-sm" style="font-size: 0.9rem; font-weight: bold;">
-                    {{ $averageRating }}
+                    {{ $avgDesignRating[$design->id] }}
                 </span>
             @endif
+
         </div>
         <div class="d-flex flex-row align-items-center justify-content-between mt-auto">
             <p class="my-auto">Rp{{ number_format($design->price, 0, ',', '.') }}</p>

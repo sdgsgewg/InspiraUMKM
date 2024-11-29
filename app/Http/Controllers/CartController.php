@@ -94,8 +94,64 @@ class CartController extends Controller
 
         return view('cart.checkout', [
             'title' => 'Checkout',
-            'cart' => $cart,
+            'buyer' => Auth::user(),
+            // 'cart' => $cart,
             'checkoutItems' => $checkoutItems,
+            'productAmount' => $productAmount,
+            'checkoutItemsPrice' => $checkoutItemsPrice,
+            'totalPrice' => $totalPrice
+        ]);
+    }
+
+    public function checkoutFromDesign(Request $request) {
+
+        $design = Design::findOrFail($request->input('design_id'));
+        $quantity = 1;
+
+        $checkoutItems = [];
+
+        if ($design) {
+            $sellerId = $design->seller->id;
+            $sellerName = $design->seller->name;
+            $sellerUsername = $design->seller->username;
+
+            if (!isset($checkoutItems[$sellerId])) {
+                $checkoutItems[$sellerId] = [
+                    'seller_name' => $sellerName,
+                    'seller_username' => $sellerUsername,
+                    'items' => []
+                ];
+            }
+
+            $checkoutItems[$sellerId]['items'][] = $design;
+        }
+
+        $productAmount = [];
+        foreach ($checkoutItems as $sellerId => $sellerGroup) {
+            $amount = 0;
+            foreach($sellerGroup['items'] as $item) {
+                $amount += $quantity;
+            }
+            $productAmount[] = $amount;
+        }
+
+        $checkoutItemsPrice = [];
+        $totalPrice = 0;
+        foreach ($checkoutItems as $sellerId => $sellerGroup) {
+            $subtotalPrice = 0;
+            foreach($sellerGroup['items'] as $item) {
+                $subtotalPrice += ($item->price * $quantity);
+            }
+            $checkoutItemsPrice[] = $subtotalPrice;
+            $totalPrice += $subtotalPrice;
+        }
+
+        return view('cart.checkout-from-design', [
+            'title' => 'Checkout',
+            'buyer' => Auth::user(),
+            // 'cart' => $cart,
+            'checkoutItems' => $checkoutItems,
+            'quantity' => 1,
             'productAmount' => $productAmount,
             'checkoutItemsPrice' => $checkoutItemsPrice,
             'totalPrice' => $totalPrice
@@ -162,7 +218,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect('/carts')->with('success', 'Design added to cart!');
+        return redirect()->back()->with('success', 'Design Added to Cart!');
     }
 
     /**

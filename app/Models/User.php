@@ -46,6 +46,16 @@ class User extends Authenticatable
         return $this->hasMany(Design::class, 'seller_id');
     }
 
+    public function buyerChats()
+    {
+        return $this->hasMany(Chat::class, 'buyer_id');
+    }
+
+    public function sellerChats()
+    {
+        return $this->hasMany(Chat::class, 'seller_id');
+    }
+
     public function carts()
     {
         return $this->hasMany(Cart::class);

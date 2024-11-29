@@ -10,6 +10,7 @@ class Chat extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $with = ['buyer', 'seller'];
 
     public function design()
     {
@@ -24,5 +25,10 @@ class Chat extends Model
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(ChatMessage::class);
     }
 }

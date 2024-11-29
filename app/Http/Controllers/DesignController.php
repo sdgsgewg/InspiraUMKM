@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Design;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Chat;
 use App\Models\Comment;
 use App\Models\DesignReview;
 use Illuminate\Http\Request;
@@ -24,10 +25,19 @@ class DesignController extends Controller
             return $productDesigns->groupBy('category_id');
         });
 
-        $soldQuantities = DB::table('transaction_designs')
-        ->select('design_id', DB::raw('SUM(quantity) as sold_quantity'))
-        ->groupBy('design_id')
-        ->pluck('sold_quantity', 'design_id'); // key: design_id, value: sold_quantity
+        $avgDesignRating = DB::table('designs as d')
+        ->join('design_reviews as dr', 'd.id', '=', 'dr.design_id')
+        ->select('d.id')
+        ->selectRaw('IFNULL(ROUND(AVG(dr.rating), 2), 0) as avg_rating')
+        ->groupBy('d.id')
+        ->pluck('avg_rating', 'd.id');
+
+        $soldQuantities = DB::table('transaction_designs as td')
+        ->select('td.design_id', DB::raw('SUM(td.quantity) as sold_quantity'))
+        ->join('transactions as t', 'td.transaction_id', '=', 't.id')
+        ->where('t.transaction_status', '=', 'Accepted')
+        ->groupBy('td.design_id')
+        ->pluck('sold_quantity', 'td.design_id');
 
         return view('designs.designs', [
             'title' => $title,
@@ -36,6 +46,7 @@ class DesignController extends Controller
             'categories' => Category::all(),
             'sellers' => User::has('designs')->get(),
             'user' => Auth::user(),
+            'avgDesignRating' => $avgDesignRating,
             'soldQuantities' => $soldQuantities,
         ]);
     }
@@ -85,7 +96,6 @@ class DesignController extends Controller
         ]);
     }
     
-
     protected function applyFilters($query, &$title)
     {
         // Filter by search query
@@ -190,6 +200,10 @@ class DesignController extends Controller
 
     public function show(Design $design)
     {
+        $avgDesignRating = DB::table('design_reviews')
+        ->where('design_id', $design->id)
+        ->avg('rating');        
+
         $soldQuantity = DB::table('transaction_designs')
         ->where('design_id', $design->id)
         ->sum('quantity');
@@ -200,6 +214,7 @@ class DesignController extends Controller
             'title' => 'Single Design',
             'design' => $design,
             'comments' => $comments,
+            'avgDesignRating' => $avgDesignRating,
             'soldQuantity' => $soldQuantity,
         ]);
     }
@@ -207,27 +222,46 @@ class DesignController extends Controller
     public function showSeller(User $seller)
     {
         $title = 'Seller Page';
+
+        $buyer = Auth::user();
+
+        $chat = Chat::firstOrCreate([
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
+        ]);
+
         $designs = $seller->designs()
+        ->leftJoin('design_reviews as dr', 'designs.id', '=', 'dr.design_id')
         ->select('designs.*')
-        ->selectRaw('IFNULL(AVG(design_reviews.rating), 0) as avg_rating') // Default to 0 for designs with no reviews
-        ->leftJoin('design_reviews', 'designs.id', '=', 'design_reviews.design_id')
+        ->selectRaw('IFNULL(AVG(dr.rating), 0) as avg_rating')
         ->groupBy('designs.id')
         ->orderByDesc('avg_rating')
         ->paginate(12);
 
-        $averageRating = $seller->designs->map(function ($design) {
-            return $design->reviews->avg('rating');
-        })->avg();
+        $avgSellerRating = $seller->designs()
+            ->leftJoin('design_reviews as dr', 'designs.id', '=', 'dr.design_id')
+            ->selectRaw('IFNULL(AVG(dr.rating), 0) as avg_rating')
+            ->value('avg_rating');
+    
+        // Format the rating to two decimal places
+        $avgSellerRating = number_format($avgSellerRating, 2) ?: '0.00';
 
-        $averageRating = number_format($averageRating, 2) ?: 0.00;
-
+        $avgDesignRating = DB::table('designs as d')
+        ->join('design_reviews as dr', 'd.id', '=', 'dr.design_id')
+        ->select('d.id')
+        ->selectRaw('IFNULL(ROUND(AVG(dr.rating), 2), 0) as avg_rating')
+        ->groupBy('d.id')
+        ->pluck('avg_rating', 'd.id');
+    
         return view('designs.seller', [
             'title' => $title,
             'seller' => $seller,
+            'chat' => $chat,
             'designs' => $designs,
-            'averageRating' => $averageRating
+            'avgSellerRating' => $avgSellerRating,
+            'avgDesignRating' => $avgDesignRating,
         ]);
-    }
+    }       
 
     public function sendFeedback(Request $request)
     {

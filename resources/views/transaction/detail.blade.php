@@ -5,7 +5,7 @@
     <div class="row justify-content-center mt-4">
         <div class="col-11">
             <a href="{{ auth()->user()->is_admin ? route('transactions.orderRequest') : route('transactions.index') }}"
-                class="btn btn-primary d-inline-flex mb-3">
+                class="btn btn-success d-inline-flex mb-3">
                 <i class="bi bi-arrow-left me-2"></i> Back
             </a>
         </div>
@@ -33,7 +33,7 @@
                         <div class="d-flex flex-column ms-3">
                             <div class="d-flex gap-3">
                                 <p class="m-0 mb-1">
-                                    {{ $transaction->buyer->name }} <span
+                                    {{ $transaction->buyer->name }} | <span
                                         class="text-secondary">{{ $transaction->buyer->phoneNumber }}</span>
                                 </p>
                             </div>

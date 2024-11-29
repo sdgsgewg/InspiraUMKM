@@ -87,11 +87,12 @@ class TransactionController extends Controller
             $transaction->save();
 
             foreach ($sellerGroup['items'] as $design) {
-                if (!isset($design['pivot']['quantity'])) {
-                    return redirect()->back()->withErrors(['quantity' => 'Quantity is missing for some designs.']);
+                if ($request->source === 'design') {
+                    $quantity = $request->quantity;
+                } else {
+                    $quantity = $design['pivot']['quantity'];
                 }
 
-                $quantity = $design['pivot']['quantity'];
                 $designModel = Design::find($design['id']);
 
                 $designModel['stock'] -= $quantity;
@@ -178,9 +179,8 @@ class TransactionController extends Controller
         //
     }
 
-    public function updateStatus(Request $request, $transactionId)
+    public function updateStatus(Request $request,Transaction $transaction)
     {
-        $transaction = Transaction::findOrFail($transactionId);
         $newStatus = $request->choice;
 
         if($newStatus === "Delivered") {

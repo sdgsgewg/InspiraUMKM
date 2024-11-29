@@ -16,7 +16,7 @@
                 @endforeach
             </div>
 
-            @include('components.transaction.noOrder')
+            @include('components.transaction.noOrderReq')
         </div>
     </div>
 
