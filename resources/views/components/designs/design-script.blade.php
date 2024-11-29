@@ -7,7 +7,7 @@
     var oldCategorySlugs = @json(old('category', request()->category ?? []));
     var routeGetCategoriesByProduct = '{{ route('designFilter.getCategoriesByProduct', ':slug') }}';
 </script>
-<script src="{{ asset('js/designs/filter.js') }}"></script>
+<script src="{{ asset('js/designs/filter.js') }}?v={{ time() }}"></script>
 
 <script src="{{ asset('js/designs/comment.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('js/designs/reply.js') }}?v={{ time() }}"></script>

@@ -18,6 +18,17 @@
                 <form method="GET" action="{{ route('designs.filter') }}">
                     @csrf
 
+                    <!-- Include existing query parameters as hidden fields -->
+                    @foreach (request()->except(['product', 'category', 'min_price', 'max_price', 'rating', 'seller', '_token']) as $key => $value)
+                        @if (is_array($value))
+                            @foreach ($value as $subValue)
+                                <input type="hidden" name="{{ $key }}[]" value="{{ $subValue }}">
+                            @endforeach
+                        @else
+                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                        @endif
+                    @endforeach
+
                     {{-- Product --}}
                     <div class="mb-3">
                         <label for="product" class="form-label">Product</label>

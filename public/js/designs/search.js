@@ -46,11 +46,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function fetchResults(query, id) {
     const form = document.querySelector(`.searchForm${id}`);
-    const url = `/filtered-designs?search=${encodeURIComponent(
-        query
-    )}&${new URLSearchParams(new FormData(form)).toString()}`;
+    const url = new URL(`/filtered-designs`, window.location.origin);
 
-    fetch(url, {
+    // Include existing query parameters
+    const formData = new FormData(form);
+    for (const [key, value] of formData.entries()) {
+        url.searchParams.append(key, value);
+    }
+
+    // Add the current search query
+    url.searchParams.set("search", query);
+
+    fetch(url.toString(), {
         method: "GET",
         headers: {
             "X-Requested-With": "XMLHttpRequest",

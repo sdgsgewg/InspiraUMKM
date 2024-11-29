@@ -57,7 +57,7 @@ class DesignController extends Controller
         $request->validate([
             'search' => 'nullable|string',
             'product' => 'nullable|string',
-            'category' => 'nullable|string',
+            'category' => 'nullable|array',
             'min_price' => 'nullable|numeric',
             'max_price' => 'nullable|numeric',
             'rating' => 'nullable|numeric|min:0|max:5',
@@ -79,6 +79,13 @@ class DesignController extends Controller
     
         // For regular requests, paginate the designs
         $filteredDesigns = $filteredQuery->paginate(12)->appends($request->query());
+
+        $avgDesignRating = DB::table('designs as d')
+        ->join('design_reviews as dr', 'd.id', '=', 'dr.design_id')
+        ->select('d.id')
+        ->selectRaw('IFNULL(ROUND(AVG(dr.rating), 2), 0) as avg_rating')
+        ->groupBy('d.id')
+        ->pluck('avg_rating', 'd.id');
     
         $soldQuantities = DB::table('transaction_designs')
             ->select('design_id', DB::raw('SUM(quantity) as sold_quantity'))
@@ -92,6 +99,7 @@ class DesignController extends Controller
             'categories' => Category::all(),
             'sellers' => User::has('designs')->get(),
             'user' => Auth::user(),
+            'avgDesignRating' => $avgDesignRating,
             'soldQuantities' => $soldQuantities,
         ]);
     }
@@ -150,7 +158,7 @@ class DesignController extends Controller
             $seller = User::firstWhere('username', request('seller'));
             if ($seller) {
                 $title .= ' by ' . $seller->name;
-                $query->where('user_id', $seller->id);
+                $query->where('seller_id', $seller->id);
             }
         }
 

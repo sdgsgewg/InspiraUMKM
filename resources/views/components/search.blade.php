@@ -1,5 +1,18 @@
 <div>
-    <form class="searchForm{{ $id }}" action="{{ route('designs.filter') }}" method="get">
+    <form class="searchForm{{ $id }}" action="{{ route('designs.filter') }}" method="get"
+        onsubmit="return validateSearch(this)">
+        <!-- Include existing query parameters as hidden fields -->
+        @foreach (request()->except('search', '_token') as $key => $value)
+            @if (is_array($value))
+                @foreach ($value as $subValue)
+                    <input type="hidden" name="{{ $key }}[]" value="{{ $subValue }}">
+                @endforeach
+            @else
+                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+            @endif
+        @endforeach
+
+
         <div class="position-relative input-group">
             <div class="col-12">
                 <input type="text" class="form-control rounded-pill ps-4 searchInput{{ $id }}"
