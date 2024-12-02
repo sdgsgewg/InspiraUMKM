@@ -64,5 +64,5 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/categories/script.js') }}"></script>
+    @include('components.dashboard.category-script')
 @endsection

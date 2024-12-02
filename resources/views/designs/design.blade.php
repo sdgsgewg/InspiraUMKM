@@ -57,7 +57,7 @@
                                 </button>
                             </form>
 
-                            <form action="{{ route('carts.checkoutFromDesign') }}" class="d-inline">
+                            <form action="{{ route('checkouts.checkoutFromDesign') }}" class="d-inline">
                                 @csrf
 
                                 <input type="hidden" name="design_id" value="{{ $design->id }}">

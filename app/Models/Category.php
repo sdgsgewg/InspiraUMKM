@@ -22,6 +22,11 @@ class Category extends Model
         return $this->hasMany(Design::class);
     }
 
+    public function optionValues()
+    {
+        return $this->hasMany(OptionValue::class);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

@@ -39,7 +39,7 @@
                                         data-design-stock="{{ $design->stock }}"
                                         {{ $design->pivot->isChecked ? 'checked' : '' }}>
                                 </div>
-                                @include('components.cart-checkout.cartItem')
+                                @include('components.cart.cartItem')
                                 @include('components.modals.cart.removeModal')
                                 @include('components.modals.cart.maxQtyModal')
                             </div>
@@ -48,7 +48,7 @@
                     <hr>
                 @endforeach
                 <a id="checkout-button" class="btn btn-primary rounded-pill py-2 mt-3 text-decoration-none text-light"
-                    data-checkout-url="{{ route('carts.checkout') }}">
+                    data-checkout-url="{{ route('checkouts.checkout') }}">
                     Checkout
                 </a>
                 @include('components.modals.cart.checkoutNoticeModal')
@@ -64,5 +64,5 @@
         </div>
     </div>
 
-    @include('components.cart-checkout.cart-script')
+    @include('components.cart.cart-script')
 @endsection

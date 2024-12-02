@@ -46,7 +46,10 @@
                             </div>
                         </div>
                         @foreach ($sellerGroup['items'] as $design)
-                            @include('components.cart-checkout.checkoutItem', ['quantity' => $quantity])
+                            @include('components.checkout.checkoutItem', [
+                                'quantity' =>
+                                    session('fromPage') === 'Cart' ? $design->pivot->quantity : $quantity,
+                            ])
                         @endforeach
                         <div class="d-flex flex-row justify-content-between mt-2">
                             <h6>Ordered Amount ({{ $productAmount[$idx] }}
@@ -124,8 +127,7 @@
                     <input type="hidden" name="serviceFee" value="{{ $service_fee }}">
                     <input type="hidden" name="totalPrice" value="{{ $total_price }}">
                     <input type="hidden" name="checkoutItems" value="{{ json_encode($checkoutItems) }}">
-                    <input type="hidden" name="quantity" value="{{ $quantity }}">
-                    <input type="hidden" name="source" value="design">
+                    <input type="hidden" name="source" value="cart">
 
                     <button type="submit"
                         class="btn btn-primary rounded-pill py-2 mt-2 text-decoration-none text-light w-100">

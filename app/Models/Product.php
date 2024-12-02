@@ -22,6 +22,11 @@ class Product extends Model
         return $this->hasMany(Category::class);
     }
 
+    public function options()
+    {
+        return $this->belongsToMany(Option::class, 'product_options')->withTimestamps();
+    }    
+
     public function getRouteKeyName(): string
     {
         return 'slug';

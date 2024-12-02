@@ -71,6 +71,16 @@ class Transaction extends Model
                     ->withTimestamps();
     }
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+    public function shipping()
+    {
+        return $this->hasOne(Shipping::class);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'order_number';

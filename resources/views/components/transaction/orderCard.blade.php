@@ -5,7 +5,7 @@
             {{ $transaction->seller->name }}
         </h6>
         <h6 class="text-success-emphasis">
-            {{ $transaction->transaction_status }}
+            @lang('order.status.' . $transaction->transaction_status)
         </h6>
     </div>
 
@@ -34,28 +34,29 @@
                 'Cancelled',
             ]))
             <div class="col-12 mt-2 d-flex flex-row justify-content-end">
-                <a href="{{ route('transactions.show', ['transaction' => $transaction]) }}" class="btn btn-primary">View
-                    Detail
+                <a href="{{ route('transactions.show', ['transaction' => $transaction]) }}"
+                    class="btn btn-primary">@lang('order.View Detail')
                 </a>
             </div>
         @elseif ($transaction->transaction_status === 'Delivered')
             @if (!$transaction->isReceived)
                 @foreach ($transaction->nextStatuses as $status)
                     @if ($status === 'Completed')
-                        <form action="{{ route('transactions.updateStatus', ['transaction' => $transaction->order_number]) }}"
+                        <form
+                            action="{{ route('transactions.updateStatus', ['transaction' => $transaction->order_number]) }}"
                             method="POST">
                             @csrf
                             <input name="choice" type="hidden" value="{{ $status }}">
                             <button type="submit"
                                 class="btn {{ in_array($status, ['Cancelled', 'Returned']) ? 'btn-danger' : 'btn-primary' }}">
-                                {{ $statusLabels[$status] ?? $status }}
+                                @lang('order.statusLabels.' . $statusLabels[$status] ?? $status)
                             </button>
                         </form>
                     @endif
                 @endforeach
             @else
-                <a href="{{ route('transactions.show', ['transaction' => $transaction->order_number]) }}" class="btn btn-primary">View
-                    Detail
+                <a href="{{ route('transactions.show', ['transaction' => $transaction->order_number]) }}"
+                    class="btn btn-primary">@lang('order.View Detail')
                 </a>
             @endif
         @else
@@ -66,7 +67,7 @@
                     <input name="choice" type="hidden" value="{{ $status }}">
                     <button type="submit"
                         class="btn {{ in_array($status, ['Cancelled', 'Returned']) ? 'btn-danger' : 'btn-primary' }}">
-                        {{ $statusLabels[$status] ?? $status }}
+                        @lang('order.statusLabels.' . $statusLabels[$status] ?? $status)
                     </button>
                 </form>
             @endforeach

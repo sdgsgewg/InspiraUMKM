@@ -3,6 +3,6 @@
         <div class="img-no-order">
             <img src="{{ asset('img/noOrder.png') }}" alt="">
         </div>
-        <h5 class="mt-1">You still don't have any order yet</h5>
+        <h5 class="mt-1">@lang('order.noOrder')</h5>
     </div>
 </div>

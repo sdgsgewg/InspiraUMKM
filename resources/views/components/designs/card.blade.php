@@ -13,8 +13,8 @@
 <div class="card d-flex flex-column h-100 {{ $design->stock > 0 ? 'card-hover' : 'cursor-not-allowed opacity-65' }}"
     onclick="{{ $design->stock > 0 ? "window.location.href='" . route('designs.show', ['design' => $design->slug]) . "'" : '' }}">
 
-    <div class="category position-absolute px-3 py-2"
-        onclick="event.stopPropagation(); window.location.href='{{ route('designs.category', ['category' => $design->category->slug]) }}'">
+    <div class="category position-absolute px-3 py-2 {{ $design->stock > 0 ? 'cursor-pointer' : 'cursor-not-allowed' }}"
+        onclick="{{ $design->stock > 0 ? "window.location.href'" . route('designs.category', ['category' => $design->category->slug]) . "'" : '' }}">
         <span class="text-white text-decoration-none">
             {{ $design->category->name }}
         </span>

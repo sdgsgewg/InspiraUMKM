@@ -49,7 +49,8 @@
 
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
-                <select id="category" class="form-select @error('genre_id') is-invalid @enderror" name="category_id">
+                <select id="category" class="form-select @error('genre_id') is-invalid @enderror" name="category_id" required>
+                    <option value="">Select a category</option>
                     <!-- Categories will be dynamically loaded here -->
                 </select>
                 @error('category_id')
@@ -98,12 +99,5 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/designs/script.js') }}?v={{ time() }}"></script>
-
-    <script>
-        const routeGetCategoriesByProduct = '{{ route('admin.designs.getCategoriesByProduct', ':id') }}';
-        let oldCategoryId = @json(array_map('intval', old('category_id', $designCategories ?? [])));
-        const oldProductId = "{{ old('product_id') }}";
-    </script>
-    <script src="{{ asset('js/designs/loadCategory.js') }}?v={{ time() }}"></script>
+    @include('components.dashboard.design-script')
 @endsection

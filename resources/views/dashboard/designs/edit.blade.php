@@ -105,12 +105,5 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/designs/script.js') }}"></script>
-
-    <script>
-        const routeGetCategoriesByProduct = '{{ route('admin.designs.getCategoriesByProduct', ':id') }}';
-        let oldCategoryId = @json(array_map('intval', old('category_id', $designCategory)));
-        let oldProductId = "{{ old('product_id', $design->product_id) }}";
-    </script>
-    <script src="{{ asset('js/designs/loadCategory.js') }}"></script>
+    @include('components.dashboard.design-script')
 @endsection

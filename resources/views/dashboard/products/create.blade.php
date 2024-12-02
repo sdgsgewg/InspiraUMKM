@@ -43,5 +43,5 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/products/script.js') }}"></script>
+    @include('components.dashboard.product-script')
 @endsection

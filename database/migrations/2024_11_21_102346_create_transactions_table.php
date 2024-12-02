@@ -17,18 +17,38 @@ return new class extends Migration
             $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
             $table->integer('total_price');
-            $table->integer('shipping_fee');
             $table->integer('service_fee');
             $table->integer('grand_total_price');
-            $table->enum('payment_method', ['Gopay', 'OVO', 'ShopeePay']);
-            $table->enum('transaction_status', ['Not Paid', 'Pending', 'Accepted', 'Delivered', 'Returned', 'Completed', 'Cancelled'])->default('Pending');
+            $table->enum('transaction_status', [
+                'Not Paid', 'Pending', 'Accepted', 'Delivered', 
+                'Returned', 'Completed', 'Cancelled'
+            ])->default('Pending');
             $table->boolean('isReceived')->default(false);
-
-            $table->timestamp('payment_time')->nullable();
-            $table->timestamp('shipping_time')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamp('completion_time')->nullable(); 
             $table->timestamps();
         });
+
+        // Schema::create('transactions', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('order_number')->unique()->nullable();
+        //     $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade');
+        //     $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
+        //     $table->integer('total_price');
+        //     $table->integer('shipping_fee');
+        //     $table->integer('service_fee');
+        //     $table->integer('grand_total_price');
+        //     $table->enum('payment_method', ['Gopay', 'OVO', 'ShopeePay']);
+        //     $table->enum('transaction_status', ['Not Paid', 'Pending', 'Accepted', 'Delivered', 'Returned', 'Completed', 'Cancelled'])->default('Pending');
+        //     $table->boolean('isReceived')->default(false);
+
+        //     $table->text('notes')->nullable();
+
+        //     $table->timestamp('payment_time')->nullable();
+        //     $table->timestamp('shipping_time')->nullable();
+        //     $table->timestamp('completion_time')->nullable(); 
+        //     $table->timestamps();
+        // });
     }
 
     /**

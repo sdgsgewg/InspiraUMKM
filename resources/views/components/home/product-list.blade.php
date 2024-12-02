@@ -10,7 +10,8 @@
     }
 
     .image-container {
-        height: 200px; /* Fixed height for the image container */
+        height: 200px;
+        /* Fixed height for the image container */
         background-color: rgb(214, 215, 181);
     }
 
@@ -46,7 +47,13 @@
 
                     <!-- Product Name -->
                     <div class="product-name mt-1">
-                        <p class="fs-4 m-0">{{ $p->name }}</p>
+                        @php
+                            $productName = Lang::has('designs.products.' . $p->name)
+                                ? __('designs.products.' . $p->name)
+                                : $p->name;
+                        @endphp
+
+                        <p class="fs-4 m-0">{{ $productName }}</p>
                     </div>
                 </div>
             @endforeach

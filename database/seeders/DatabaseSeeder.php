@@ -22,7 +22,11 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
                 ProductSeeder::class,
                 CategorySeeder::class,
-                DesignSeeder::class
+                DesignSeeder::class,
+                OptionSeeder::class,
+                OptionValueSeeder::class,
+                PaymentMethodSeeder::class,
+                ShippingMethodSeeder::class,
             ]
         );
     }

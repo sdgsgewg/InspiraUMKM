@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Display Cart Page
     public function index()
     {
         $cart = Cart::with('designs')->where('user_id', Auth::id())->first();
@@ -44,155 +42,12 @@ class CartController extends Controller
         ]);
     }
 
-    public function checkout()
-    {
-        $cart = Cart::with('designs')->where('user_id', Auth::id())->first();
-        
-        $carts = Cart::with('designs')->where('user_id', Auth::id())->get();
-
-        $checkoutItems = [];
-
-        foreach ($carts as $cart) {
-            foreach ($cart->designs as $design) {
-                if ($design->pivot->isChecked) {
-                    $sellerId = $design->seller->id;
-                    $sellerName = $design->seller->name;
-                    $sellerUsername = $design->seller->username;
-        
-                    if (!isset($checkoutItems[$sellerId])) {
-                        $checkoutItems[$sellerId] = [
-                            'seller_name' => $sellerName,
-                            'seller_username' => $sellerUsername,
-                            'items' => []
-                        ];
-                    }
-        
-                    $checkoutItems[$sellerId]['items'][] = $design;
-                }
-            }
-        }
-
-        $productAmount = [];
-        foreach ($checkoutItems as $sellerId => $sellerGroup) {
-            $amount = 0;
-            foreach($sellerGroup['items'] as $item) {
-                $amount += $item->pivot->quantity;
-            }
-            $productAmount[] = $amount;
-        }
-
-        $checkoutItemsPrice = [];
-        $totalPrice = 0;
-        foreach ($checkoutItems as $sellerId => $sellerGroup) {
-            $subtotalPrice = 0;
-            foreach($sellerGroup['items'] as $item) {
-                $subtotalPrice += ($item->price * $item->pivot->quantity);
-            }
-            $checkoutItemsPrice[] = $subtotalPrice;
-            $totalPrice += $subtotalPrice;
-        }
-
-        return view('cart.checkout', [
-            'title' => 'Checkout',
-            'buyer' => Auth::user(),
-            // 'cart' => $cart,
-            'checkoutItems' => $checkoutItems,
-            'productAmount' => $productAmount,
-            'checkoutItemsPrice' => $checkoutItemsPrice,
-            'totalPrice' => $totalPrice
-        ]);
-    }
-
-    public function checkoutFromDesign(Request $request) {
-
-        $design = Design::findOrFail($request->input('design_id'));
-        $quantity = 1;
-
-        $checkoutItems = [];
-
-        if ($design) {
-            $sellerId = $design->seller->id;
-            $sellerName = $design->seller->name;
-            $sellerUsername = $design->seller->username;
-
-            if (!isset($checkoutItems[$sellerId])) {
-                $checkoutItems[$sellerId] = [
-                    'seller_name' => $sellerName,
-                    'seller_username' => $sellerUsername,
-                    'items' => []
-                ];
-            }
-
-            $checkoutItems[$sellerId]['items'][] = $design;
-        }
-
-        $productAmount = [];
-        foreach ($checkoutItems as $sellerId => $sellerGroup) {
-            $amount = 0;
-            foreach($sellerGroup['items'] as $item) {
-                $amount += $quantity;
-            }
-            $productAmount[] = $amount;
-        }
-
-        $checkoutItemsPrice = [];
-        $totalPrice = 0;
-        foreach ($checkoutItems as $sellerId => $sellerGroup) {
-            $subtotalPrice = 0;
-            foreach($sellerGroup['items'] as $item) {
-                $subtotalPrice += ($item->price * $quantity);
-            }
-            $checkoutItemsPrice[] = $subtotalPrice;
-            $totalPrice += $subtotalPrice;
-        }
-
-        return view('cart.checkout-from-design', [
-            'title' => 'Checkout',
-            'buyer' => Auth::user(),
-            // 'cart' => $cart,
-            'checkoutItems' => $checkoutItems,
-            'quantity' => 1,
-            'productAmount' => $productAmount,
-            'checkoutItemsPrice' => $checkoutItemsPrice,
-            'totalPrice' => $totalPrice
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(StoreCartRequest $request, $designSlug)
-    // {
-    //     // Validate that cart_id is present
-    //     $request->validate([
-    //         'cart_id' => 'required|exists:carts->id',
-    //     ]);
-
-    //     // Find the design by slug
-    //     $design = Design::where('slug', $designSlug)->firstOrFail();
-
-    //     // Find the cart
-    //     $cart = Cart::findOrFail($request->input('cart_id'));
-
-    //     // Check if the authenticated user owns the cart
-    //     if ($cart->user_id !== Auth::user()->id()) {
-    //         return redirect()->back()->with('error', 'You do not own this cart.');
-    //     }
-
-    //     // Attach the design to the cart
-    //     $cart->designs()->attach($design->id, ['quantity' => 1]);
-
-    //     return redirect('/carts')->with('success', 'Design added to cart!');
-    // }
-
+    // Menambah design ke dalam cart
     public function store(Request $request, Design $design)
     {
         // Check if the design is retrieved correctly
@@ -221,25 +76,16 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Design Added to Cart!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Cart $cart)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Cart $cart)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Cart $cart)
     {
         $designId = $request->input('design_id');
@@ -257,6 +103,7 @@ class CartController extends Controller
         }
     }
 
+    // Buat update checkbox di cart page
     public function updateIsChecked(Request $request)
     {
         $request->validate([
@@ -279,6 +126,7 @@ class CartController extends Controller
         return response()->json(['success' => false], 400);
     }
 
+    // Buat update quantity per design item
     public function updateQuantity(Request $request)
     {
         $request->validate([
@@ -300,9 +148,7 @@ class CartController extends Controller
         return response()->json(['success' => false], 400);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Buat hapus design dari cart
     public function destroy(Request $request, Cart $cart)
     {
         $designId = $request->input('design_id');

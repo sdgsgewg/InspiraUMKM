@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     UserController, LoginController, DesignController, ProductController,
     CategoryController, RegisterController, AdminProductController,
-    AdminCategoryController, AppController, CartController, ChatController, CommentController, DashboardDesignController,
+    AdminCategoryController, AdminOptionController, AdminOptionValueController, AppController, CartController, ChatController, CheckoutController, CommentController, DashboardDesignController,
+    PaymentController,
     ReplyController,
     TransactionController
 };
@@ -87,15 +88,24 @@ Route::middleware('auth')->group(function () {
 // ROUTE FOR CART
 
 Route::middleware('auth')->prefix('carts')->as('carts.')->group(function () {
-    // Buat checkout design
-    Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
-    Route::get('checkoutFromDesign', [CartController::class, 'checkoutFromDesign'])->name('checkoutFromDesign');
-
-    // buat manage data-data cart
     Route::resource('/', CartController::class)->parameters(['' => 'cart'])->except(['create', 'edit']);
     Route::post('store/{design:slug}', [CartController::class, 'store'])->name('store');
     Route::post('update-is-checked', [CartController::class, 'updateIsChecked'])->name('updateIsChecked');
     Route::post('update-quantity', [CartController::class, 'updateQuantity'])->name('updateQuantity');
+});
+
+// ROUTE FOR CHECKOUT
+
+Route::middleware('auth')->prefix('checkouts')->as('checkouts.')->group(function () {
+    Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::get('checkoutFromDesign', [CheckoutController::class, 'checkoutFromDesign'])->name('checkoutFromDesign');
+});
+
+// ROUTE FOR PAYMENT
+
+Route::middleware('auth')->prefix('payments')->as('payments.')->group(function () {
+    Route::post('payment', [PaymentController::class, 'payment'])->name('payment');
+    // Route::get('checkoutFromDesign', [PaymentController::class, 'checkoutFromDesign'])->name('checkoutFromDesign');
 });
 
 // ROUTE FOR TRANSACTION
@@ -109,17 +119,29 @@ Route::middleware('auth')->prefix('transactions')->as('transactions.')->group(fu
 // ROUTE BUAT ADMIN
 
 Route::middleware([IsAdmin::class])->prefix('dashboard')->as('admin.')->group(function () {
+    // Dashboard Page
     Route::get('/', fn() => view('dashboard.index'))->name('dashboard');
 
+    // Manage Designs
     Route::resource('designs', DashboardDesignController::class);
     Route::get('design/checkSlug', [DashboardDesignController::class, 'checkSlug']);
     Route::get('design/categories/{productId}', [DashboardDesignController::class, 'getCategoriesByProduct'])->name('designs.getCategoriesByProduct');
 
-    Route::resource('categories', AdminCategoryController::class)->except('show');
+    // Manage Products
+    Route::get('products/checkSlug', [AdminProductController::class, 'checkSlug']);
     Route::resource('products', AdminProductController::class)->except('show');
 
+    // Manage Categories
     Route::get('categories/checkSlug', [AdminCategoryController::class, 'checkSlug']);
-    Route::get('products/checkSlug', [AdminProductController::class, 'checkSlug']);
+    Route::resource('categories', AdminCategoryController::class)->except('show');
+
+    // Manage Options
+    Route::get('options/checkSlug', [AdminOptionController::class, 'checkSlug']);
+    Route::resource('options', AdminOptionController::class);
+
+    // Manage Option Values
+    Route::get('option-values/checkSlug', [AdminOptionValueController::class, 'checkSlug']);
+    Route::resource('option-values', AdminOptionValueController::class);
 });
 
 });

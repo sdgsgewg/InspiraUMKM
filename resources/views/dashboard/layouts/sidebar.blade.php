@@ -43,6 +43,22 @@
                             Design Categories
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link d-flex gap-2 {{ Request::is('dashboard/options*') ? 'active' : 'text-muted' }}"
+                            aria-current="page" href="{{ route('admin.options.index') }}">
+                            <i class="bi bi-menu-button-wide"></i>
+                            Design Options
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link d-flex gap-2 {{ Request::is('dashboard/option-values*') ? 'active' : 'text-muted' }}"
+                            aria-current="page" href="{{ route('admin.option-values.index') }}">
+                            <i class="bi bi-menu-button-wide"></i>
+                            Design Option Values
+                        </a>
+                    </li>
                 </ul>
             @endcan
 

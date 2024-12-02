@@ -27,9 +27,7 @@ $(document).ready(function () {
 
                             // Build the option element
                             var listItem = 
-                                '<option value="' + value.id + '" ' + isSelected + '>' +
-                                value.name +
-                                '</option>';
+                                `<option value="${value.id }" ${isSelected}>${value.name}</option>`;
 
                             // Append the option to the category select list
                             $("#category").append(listItem);

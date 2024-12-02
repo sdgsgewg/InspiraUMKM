@@ -47,8 +47,9 @@ class AdminCategoryController extends Controller
         Category::create($validatedData);
 
         session(['product_id' => $request->product_id]);
+        session()->forget('product_id');
 
-        return redirect('/dashboard/categories')->with('success', 'New category has been added!');
+        return redirect()->route('admin.categories.index')->with('success', 'New category has been added!');
     }
 
     /**
@@ -98,6 +99,7 @@ class AdminCategoryController extends Controller
         Category::where('id', $category->id)->update($validatedData);
 
         session(['product_id' => $request->product_id]);
+        session()->forget('product_id');
 
         return redirect('/dashboard/categories')->with('success', 'Category has been updated!');
     }
@@ -115,7 +117,7 @@ class AdminCategoryController extends Controller
         return redirect('/dashboard/categories')->with('success', 'Category has been deleted!');
     }
 
-    public function checkSlug(request $request)
+    public function checkSlug(Request $request)
     {
         $slug = SlugService::createSlug(Category::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);

@@ -1,7 +1,6 @@
-<!-- Check if there are books for this genre -->
 @php
     $designsInCategory = $product->designs->filter(function ($design) use ($category) {
-        return $design->category == $category;
+        return $design->category->id == $category->id;
     });
 @endphp
 
@@ -9,11 +8,19 @@
     {{-- Display Category Name --}}
     <div class="d-flex justify-content-between align-items-center my-4">
         @if ($product->name === 'Packaging')
-            <h4>{{ $category->name . ' Packaging' }}</h4>
+            @if (app()->getLocale() === 'en')
+                <h4>{{ __('designs.categories.' . $category->name) . ' ' . __('designs.products.Packaging') }}</h4>
+            @else
+                <h4>{{ __('designs.products.Packaging') . ' ' . __('designs.categories.' . $category->name) }}</h4>
+            @endif
         @elseif ($product->name === 'Stickers')
-            <h4>{{ 'Kertas Sticker ' . $category->name }}</h4>
+            @if (app()->getLocale() === 'en')
+                <h4>{{ __('designs.categories.' . $category->name) . ' ' . __('designs.products.Stickers') }}</h4>
+            @else
+                <h4>{{ __('designs.products.Stickers') . ' ' . __('designs.categories.' . $category->name) }}</h4>
+            @endif
         @else
-            <h4>{{ $category->name }}</h4>
+            <h4>{{ __('designs.categories.' . $category->name) }}</h4>
         @endif
 
         @if ($designsInCategory->count() > 6)
@@ -38,4 +45,6 @@
 
         @include('components.designs.carousel-control')
     </div>
+@else
+    <p>Test</p>
 @endif

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Design;
+use App\Models\DesignOption;
+use App\Models\OptionValue;
+use App\Models\Payment;
+use App\Models\Shipping;
 use App\Models\Transaction;
 use App\Models\TransactionDesign;
 use Illuminate\Http\Request;
@@ -61,28 +65,36 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'paymentMethod' => 'required|string',
-        ]);
+        // Masukkan data ke tabel 'design_options'
+        $optionValues = json_decode($request->optionValues, true);
+
+        foreach ($optionValues as $designId => $options) {
+            foreach ($options as $optionId => $optionValueId) {
+                $designOption = DesignOption::create([
+                    'design_id' => $designId,
+                    'option_value_id' => $optionValueId,
+                ]);
+                $designOption->save();
+            }
+        }
 
         $checkoutItems = json_decode($request->checkoutItems, true);
 
         $designIds = [];
 
         foreach ($checkoutItems as $sellerId => $sellerGroup) {
-            
+
+            // Masukkan data ke tabel 'transactions'
             $transaction = Transaction::create([
                 'buyer_id' => Auth::id(),
                 'seller_id' => $sellerId,
                 'total_price' => $request->subTotalPrice,
-                'shipping_fee' => $request->shippingFee,
                 'service_fee' => $request->serviceFee,
                 'grand_total_price' => $request->totalPrice,
-                'payment_method' => $request->paymentMethod,
-                'transaction_status' => 'Pending'
+                'transaction_status' => 'Pending',
+                'notes' => $request->notes
             ]);
 
-            $transaction->payment_time = now();
             $transaction->order_number = 'TX-' . now()->format('Ymd') . '-' . str_pad($transaction->id, 6, '0', STR_PAD_LEFT);
             $transaction->save();
 
@@ -98,21 +110,43 @@ class TransactionController extends Controller
                 $designModel['stock'] -= $quantity;
                 $designModel->save();
 
+                // Masukkan data ke tabel 'transaction_designs'
                 TransactionDesign::create([
                     'transaction_id' => $transaction->id,
                     'design_id' => $design['id'],
                     'quantity' => $quantity,
                     'sub_total_price' => $design['price'] * $quantity,
-                    'transaction_status' => 'Pending'
                 ]);
 
                 $designIds[] = $design['id'];
             }
         }
 
+        // Masukkan data ke tabel 'payments'
+        $payment = Payment::create([
+            'transaction_id' => $transaction->id,
+            'payment_method_id' => $request->payment_method_id,
+            'amount' => $request->totalPrice,
+            'payment_status' => 'Paid',
+            'payment_time' => now()
+        ]);
+        $payment->save();
+
+        // Masukkan data ke tabel 'shippings'
+        $shipping = Shipping::create([
+            'transaction_id' => $transaction->id,
+            'shipping_method_id' => $request->shipping_method_id,
+            'shipping_status' => 'Awaiting Pickup'
+        ]);
+        // Generate tracking number
+        $shipping->tracking_number = $this->generateTrackingNumber($shipping->id, $shipping->shipping_method_id);
+
+        $shipping->save();
+
         $cart = Cart::where('user_id', Auth::id())->first();
 
         if ($cart) {
+            // Hapus semua item yang telah dibeli dari cart
             $cart->designs()->detach($designIds);
         }
 
@@ -184,8 +218,10 @@ class TransactionController extends Controller
         $newStatus = $request->choice;
 
         if($newStatus === "Delivered") {
-            $transaction->shipping_time = now();
-            $transaction->save();
+            // Update shipping time dari transaksi
+            $shippingModel = Shipping::where('transaction_id', $transaction->id);
+            $shippingModel->shipping_time = now();
+            $shippingModel->save();
         } else if ( in_array( $newStatus, ['Returned', 'Cancelled'] ) ) {
             foreach( $transaction->designs as $design ){
                 $designModel = Design::find($design->id);
@@ -196,6 +232,10 @@ class TransactionController extends Controller
             if (!$transaction->isReceived) {
                 $transaction->isReceived = true;
                 $transaction->save();
+
+                $shippingModel = Shipping::where('transaction_id', $transaction->id);
+                $shippingModel->delivery_time = now();
+                $shippingModel->save();
 
                 session(['selectedStatus' => 'Delivered']);
 
@@ -213,6 +253,15 @@ class TransactionController extends Controller
         }
 
         return redirect()->back()->with('error', 'Invalid status transition.');
+    }
+
+    private function generateTrackingNumber($shippingId, $shippingMethodId)
+    {
+        $prefix = strtoupper(substr(md5($shippingMethodId), 0, 4)); // Generate prefix dari shipping method
+        $timestamp = now()->format('YmdHis'); // Format tanggal dan waktu
+        $uniqueId = str_pad($shippingId, 6, '0', STR_PAD_LEFT); // ID shipping dengan leading zeros
+
+        return "{$prefix}-{$timestamp}-{$uniqueId}";
     }
 
     /**

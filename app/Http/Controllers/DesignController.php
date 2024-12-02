@@ -180,12 +180,20 @@ class DesignController extends Controller
         $product->load(['designs' => function ($query) {
             $query->latest();
         }, 'designs.category']);
+
+        $categories = DB::table('designs as d')
+        ->join('categories as c', 'd.category_id', '=', 'c.id')
+        ->select('c.*', DB::raw('COUNT(d.id) as count'))
+        ->where('d.product_id', '=', $product->id)
+        ->groupBy('c.id')
+        ->having(DB::raw('COUNT(d.id)'), '>', 0)
+        ->get();
     
         return view('designs.design-product', [
             'title' => $product->name . ' Designs',
             'product' => $product,
             'products' => Product::all(),
-            'categories' => Category::all(),
+            'categories' => $categories,
             'sellers' => User::has('designs')->get(),
             'user' => Auth::user()
         ]);

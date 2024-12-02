@@ -3,10 +3,17 @@
 @endphp
 @if ($product->designs->count())
     <div class="d-flex justify-content-between align-items-center content-header mb-3">
-        <h2 class="fw-bold">{{ $product->name }}</h2>
+        <h2 class="fw-bold">
+            @php
+                $productName = Lang::has('designs.products.' . $product->name)
+                    ? __('designs.products.' . $product->name)
+                    : $product->name;
+            @endphp
+            {{ $productName }}
+        </h2>
         <a href="{{ route('designs.product', ['product' => $product->slug]) }}"
             class="d-flex align-items-center view-all-link btn btn-primary">
-            View All <i class="bi bi-arrow-right-circle ms-2"></i>
+            @lang('designs.view_all') <i class="bi bi-arrow-right-circle ms-2"></i>
         </a>
     </div>
 

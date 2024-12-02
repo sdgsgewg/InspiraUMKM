@@ -5,7 +5,6 @@
         <a href="{{ route('designs.seller', ['seller' => $transaction->seller->username]) }}"
             class="text-decoration-none color-inherit fw-bold fs-6">
             {{ $transaction->seller->name }}</a>
-        {{-- <p>{{ $transaction->seller->name }}</p> --}}
     </div>
 
     @php
@@ -40,7 +39,7 @@
                         @if ($transaction->transaction_status === 'Completed')
                             <button class="btn btn-warning" data-bs-toggle="modal"
                                 data-bs-target="#sendFeedbackModal-{{ $design->id }}">
-                                Send Feedback
+                                @lang('order.Send Feedback')
                             </button>
                             @include('components.modals.sendFeedbackModal', ['design' => $design])
                         @endif
@@ -53,21 +52,30 @@
 
     <hr>
 
+    {{-- Notes --}}
+    <div class="col-12">
+        <p class="fw-bold">@lang('order.notes'):</p>
+        <p class="m-0">{{ $transaction->notes }}</p>
+    </div>
+
+    <hr>
+
+    {{-- Transaction Fee --}}
     <div class="col-12 d-flex flex-column text-secondary">
         <div class="d-flex flex-row justify-content-between">
-            <p>Subtotal for Product</p>
+            <p>@lang('order.Subtotal for Product')</p>
             <p>
                 Rp{{ number_format($transaction->total_price, 0, ',', '.') }}
             </p>
         </div>
         <div class="d-flex flex-row justify-content-between">
-            <p>Shipping Fee</p>
+            <p>@lang('order.Shipping Fee')</p>
             <p>
-                Rp{{ number_format($transaction->shipping_fee, 0, ',', '.') }}
+                Rp{{ number_format($transaction->shipping->shippingMethod->shipping_fee, 0, ',', '.') }}
             </p>
         </div>
         <div class="d-flex flex-row justify-content-between">
-            <p class="m-0">Service Fee</p>
+            <p class="m-0">@lang('order.Service Fee')</p>
             <p class="m-0">
                 Rp{{ number_format($transaction->service_fee, 0, ',', '.') }}
             </p>
@@ -77,7 +85,7 @@
     <hr>
 
     <div class="col-12 d-flex flex-row justify-content-end">
-        <h5 class="m-0 py-1">Total Order:
+        <h5 class="m-0 py-1">@lang('order.Total Order')
             <strong>Rp{{ number_format($transaction->grand_total_price, 0, ',', '.') }}</strong>
         </h5>
     </div>

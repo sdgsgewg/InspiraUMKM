@@ -31,13 +31,13 @@
 </style>
 
 <div class="title mb-2">
-    <h1>{{ $title }}</h1>
+    <h1>@lang('order.title.' . $title)</h1>
 </div>
 <div class="position-relative">
     <ul class="nav nav-underline nav-fill d-flex justify-content-between" data-selected-status="{{ $selectedStatus }}">
         @foreach ($allStatus as $s)
             <li class="nav-item position-relative">
-                <a class="nav-link me-2" href="#" data-status="{{ $s }}">{{ $s }}</a>
+                <a class="nav-link me-2" href="#" data-status="{{ $s }}">@lang('order.status.' . $s)</a>
                 <span class="badge bg-primary text-white rounded-circle">{{ $numTransactionByStatus[$s] ?? 0 }}</span>
             </li>
         @endforeach

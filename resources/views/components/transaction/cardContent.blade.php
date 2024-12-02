@@ -27,7 +27,9 @@
 @endforeach
 
 <div class="col-12 d-flex flex-row justify-content-end">
-    <h5>Total {{ $products }} {{ count($transaction->designs) > 1 ? 'products' : 'product' }}:
+    <h5>
+        Total {{ $products }}
+        {{ count($transaction->designs) > 1 ? __('order.products') : __('order.product') }}:
         <strong>Rp{{ number_format($transaction->grand_total_price, 0, ',', '.') }}</strong>
     </h5>
 </div>

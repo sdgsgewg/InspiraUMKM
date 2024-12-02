@@ -101,7 +101,11 @@
                                                         <i class="bi bi-x-circle icon"></i>
                                                     </button>
 
-                                                    @include('components.modals.dashboard.delete-category-modal')
+                                                    @include('components.modals.dashboard.delete-modal', [
+                                                        'item' => $category,
+                                                        'resourceType' => 'category',
+                                                        'resourceUrl' => 'categories',
+                                                    ])
 
                                                 </td>
                                             </tr>

@@ -51,6 +51,11 @@ class Design extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function options()
+    {
+        return $this->belongsToMany(OptionValue::class, 'design_options')->withTimestamps();
+    }
+
     public function seller() 
     {
         return $this->belongsTo(User::class, 'seller_id');

@@ -5,13 +5,18 @@
         @foreach (request()->except('search', '_token') as $key => $value)
             @if (is_array($value))
                 @foreach ($value as $subValue)
-                    <input type="hidden" name="{{ $key }}[]" value="{{ $subValue }}">
+                    @if (is_array($subValue))
+                        @foreach ($subValue as $innerValue)
+                            <input type="hidden" name="{{ $key }}[]" value="{{ $innerValue }}">
+                        @endforeach
+                    @else
+                        <input type="hidden" name="{{ $key }}[]" value="{{ $subValue }}">
+                    @endif
                 @endforeach
             @else
                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
             @endif
         @endforeach
-
 
         <div class="position-relative input-group">
             <div class="col-12">

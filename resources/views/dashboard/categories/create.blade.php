@@ -32,7 +32,7 @@
 
             <div class="mb-3">
                 <label for="product" class="form-label">Product</label>
-                <select class="form-select" name="product_id">
+                <select class="form-select @error('product_id') is-invalid @enderror" name="product_id">
                     <option value="">Select a product</option>
                     @foreach ($products as $product)
                         <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
@@ -56,5 +56,5 @@
         </form>
     </div>
 
-    <script src="{{ asset('js/categories/script.js') }}"></script>
+    @include('components.dashboard.category-script')
 @endsection

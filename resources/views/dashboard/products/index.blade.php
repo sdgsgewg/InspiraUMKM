@@ -36,14 +36,16 @@
                                 <i class="bi bi-pencil-square icon"></i>
                             </a>
 
-                            <form action="{{ route('admin.products.destroy', ['product' => $product->slug]) }}"
-                                method="POST" class="d-inline">
-                                @method('DELETE')
-                                @csrf
-                                <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')">
-                                    <i class="bi bi-x-circle icon"></i>
-                                </button>
-                            </form>
+                            <button type="button" class="badge bg-danger border-0" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal-{{ $product->id }}">
+                                <i class="bi bi-x-circle icon"></i>
+                            </button>
+
+                            @include('components.modals.dashboard.delete-modal', [
+                                'item' => $product,
+                                'resourceType' => 'product',
+                                'resourceUrl' => 'products',
+                            ])
 
                         </td>
                     </tr>
