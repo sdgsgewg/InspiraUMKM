@@ -11,7 +11,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="filterModalLabel">Filter Designs</h5>
+                <h5 class="modal-title" id="filterModalLabel">@lang('filter.title')</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -125,8 +125,8 @@
                     </div>
 
                     <div class="d-flex flex-row-reverse gap-3">
-                        <button type="submit" class="btn btn-primary">Apply</button>
-                        <a href="{{ route('designs.index') }}" class="btn btn-secondary">Reset</a>
+                        <button type="submit" class="btn btn-primary">@lang('filter.apply')</button>
+                        <a href="{{ route('designs.index') }}" class="btn btn-secondary">@lang('filter.reset')</a>
                     </div>
                 </form>
             </div>

@@ -12,6 +12,8 @@ use App\Models\Transaction;
 use App\Models\TransactionDesign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class TransactionController extends Controller
 {
@@ -99,7 +101,7 @@ class TransactionController extends Controller
             $transaction->save();
 
             foreach ($sellerGroup['items'] as $design) {
-                if ($request->source === 'design') {
+                if ($request->source === 'DesignDetail') {
                     $quantity = $request->quantity;
                 } else {
                     $quantity = $design['pivot']['quantity'];
@@ -107,6 +109,7 @@ class TransactionController extends Controller
 
                 $designModel = Design::find($design['id']);
 
+                // Mengurangi jumlah stok design yang dibeli
                 $designModel['stock'] -= $quantity;
                 $designModel->save();
 
@@ -140,7 +143,6 @@ class TransactionController extends Controller
         ]);
         // Generate tracking number
         $shipping->tracking_number = $this->generateTrackingNumber($shipping->id, $shipping->shipping_method_id);
-
         $shipping->save();
 
         $cart = Cart::where('user_id', Auth::id())->first();
@@ -152,7 +154,38 @@ class TransactionController extends Controller
 
         session(['selectedStatus' => 'Pending']);
 
-        return redirect()->route('transactions.index')->with('success', 'Order created successfully!');
+        $this->processPayment($transaction);
+
+        return redirect()->route('payments.snap', ['transaction' => $transaction->order_number]);
+    }
+
+    private function processPayment(Transaction $transaction)
+    {
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => rand(),
+                'gross_amount' => $transaction['grand_total_price'],
+            ),
+            'customer_details' => array(
+                'first_name' => Auth::user()->name,
+                'email' => Auth::user()->email
+            ),
+        );
+        
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        $transaction->snap_token = $snapToken;
+
+        $transaction->save();
     }
 
     /**

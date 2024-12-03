@@ -38,11 +38,13 @@
 
                     <div class="row d-flex flex-wrap justify-content-between">
                         {{-- Checkout Items --}}
-                        <div class="col-11 col-lg-6">
+                        <div class="col-12 col-lg-6">
                             @include('components.checkout.checkout-items')
                         </div>
                         {{-- Checkout Confirmation --}}
-                        <div class="col-11 col-lg-6 d-flex flex-column ps-lg-5 gap-3">
+                        <div class="col-12 col-lg-6 d-flex flex-column ps-lg-5 gap-3 mt-4 mt-lg-0">
+                            <h3>Order Confirmation</h3>
+
                             {{-- Option dari setiap design --}}
                             @include('components.checkout.design-option')
 

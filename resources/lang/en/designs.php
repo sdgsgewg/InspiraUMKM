@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'search' => 'Search...',
     'view_all' => 'View All',
     'see_more' => 'See More >>>',
     'see_less' => 'See Less >>>',
@@ -34,4 +35,5 @@ return [
         'One Way' => 'One Way',
         'Transparan' => 'Transparent',
     ],
+    'out_of_stock' => 'Stok habis'
 ];

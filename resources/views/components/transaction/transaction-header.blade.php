@@ -1,43 +1,11 @@
-<style>
-    .nav-item {
-        display: flex;
-        align-items: center;
-    }
-
-    .nav-link {
-        flex-grow: 1;
-        text-align: center;
-    }
-
-    .badge {
-        position: absolute;
-        right: 10%;
-        visibility: hidden;
-        opacity: 0;
-        min-width: 24px;
-        min-height: 24px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.9rem;
-        margin-left: auto;
-        transition: visibility 0s, opacity 0.2s ease-in-out;
-    }
-
-    .nav-item:hover .badge {
-        visibility: visible;
-        opacity: 1;
-    }
-</style>
-
 <div class="title mb-2">
     <h1>@lang('order.title.' . $title)</h1>
 </div>
 <div class="position-relative">
     <ul class="nav nav-underline nav-fill d-flex justify-content-between" data-selected-status="{{ $selectedStatus }}">
         @foreach ($allStatus as $s)
-            <li class="nav-item position-relative">
-                <a class="nav-link me-2" href="#" data-status="{{ $s }}">@lang('order.status.' . $s)</a>
+            <li class="nav-item nav-item-order position-relative">
+                <a class="nav-link nav-link-order me-2" href="#" data-status="{{ $s }}">@lang('order.status.' . $s)</a>
                 <span class="badge bg-primary text-white rounded-circle">{{ $numTransactionByStatus[$s] ?? 0 }}</span>
             </li>
         @endforeach

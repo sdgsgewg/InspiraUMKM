@@ -12,6 +12,8 @@ use App\Http\Controllers\{
     TransactionController
 };
 use App\Http\Middleware\LocalizationMiddleware;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 Route::middleware([LocalizationMiddleware::class])->group(function () {
 
@@ -104,9 +106,11 @@ Route::middleware('auth')->prefix('checkouts')->as('checkouts.')->group(function
 // ROUTE FOR PAYMENT
 
 Route::middleware('auth')->prefix('payments')->as('payments.')->group(function () {
-    Route::post('payment', [PaymentController::class, 'payment'])->name('payment');
-    // Route::get('checkoutFromDesign', [PaymentController::class, 'checkoutFromDesign'])->name('checkoutFromDesign');
+    Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
+    Route::get('/snap/{transaction:order_number}', [PaymentController::class, 'processPayment'])->name('snap');
+    Route::get('/payment/success/{transaction:order_number}', [PaymentController::class, 'handlePaymentSuccess'])->name('payment-success');
 });
+
 
 // ROUTE FOR TRANSACTION
 

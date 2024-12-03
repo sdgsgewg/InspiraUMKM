@@ -19,14 +19,14 @@
             @endif
 
             <div class="form-signin">
-                <h1 class="mb-5 fw-bold text-center">Please Login</h1>
+                <h1 class="mb-5 fw-bold text-center">@lang('login.title')</h1>
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
 
                     <div class="form-floating">
                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                             id="email" placeholder="name@example.com" autofocus required value="{{ old('email') }}">
-                        <label for="email">Email address</label>
+                        <label for="email">@lang('login.email')</label>
                         @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -37,16 +37,16 @@
                     <div class="form-floating">
                         <input type="password" name="password" class="form-control" id="password" placeholder="Password"
                             required>
-                        <label for="password">Password</label>
+                        <label for="password">@lang('login.password')</label>
                     </div>
 
-                    <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
+                    <button class="btn btn-primary w-100 py-2" type="submit">@lang('login.login')</button>
                 </form>
-                
+
                 <small class="d-block text-center mt-3">
-                    Don't have an account yet?
+                    @lang('login.dont_have_account')
                     <a href="/register">
-                        Register Now!
+                        @lang('login.register')
                     </a>
                 </small>
             </div>

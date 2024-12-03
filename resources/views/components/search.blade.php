@@ -21,7 +21,7 @@
         <div class="position-relative input-group">
             <div class="col-12">
                 <input type="text" class="form-control rounded-pill ps-4 searchInput{{ $id }}"
-                    placeholder="Search..." name="search" value="{{ request('search') }}" autocomplete="off"
+                    placeholder=@lang('designs.search') name="search" value="{{ request('search') }}" autocomplete="off"
                     style="padding-right: 80px;">
             </div>
             <div class="position-absolute search-btn" style="right: 0; top: 0;">

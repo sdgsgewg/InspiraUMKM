@@ -8,7 +8,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-12 d-flex flex-column align-items-center">
+        <div class="col-11 col-lg-12 d-flex flex-column align-items-center">
 
             @if (session()->has('success'))
                 <div class="alert alert-success alert-dismissible fade show col-lg-6" role="alert">

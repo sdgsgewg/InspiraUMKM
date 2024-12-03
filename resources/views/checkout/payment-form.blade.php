@@ -19,13 +19,13 @@
                     <div class="col-11">
                         <div class="row d-flex flex-wrap justify-content-center">
                             {{-- Checkout Items --}}
-                            <div class="col-12 col-lg-6">
+                            <div class="col-11 col-lg-6">
                                 @include('components.checkout.checkout-items')
                             </div>
 
                             {{-- Order Detail --}}
-                            <div class="col-12 col-lg-6 d-flex flex-column ps-lg-5 mt-4 mt-lg-0 gap-3">
-                                <h2 class="mb-1 mb-lg-3">Order Detail</h2>
+                            <div class="col-11 col-lg-6 d-flex flex-column ps-lg-5 gap-3">
+                                <h2 class="mb-3">Order Detail</h2>
 
                                 {{-- Option dari setiap design --}}
                                 @foreach ($optionValueOutputs as $output)
@@ -117,11 +117,41 @@
                     <input type="hidden" name="source" value={{ $source }}>
                     <input type="hidden" name="quantity" value="{{ $quantity }}">
 
-                    @include('components.checkout.checkout-button', ['navigateTo' => 'Create Order'])
+                    @include('components.checkout.checkout-button', ['navigateTo' => 'Pay Now'])
                 @endif
             </div>
         </form>
     </div>
 
 
+@endsection
+
+@section('scripts')
+    {{-- <script src="{{ asset('js/transaction/checkout.js') }}?v={{ time() }}"></script> --}}
+
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
+    </script>
+
+    <script type="text/javascript">
+        document.getElementById('pay-button').onclick = function() {
+            // SnapToken acquired from previous step
+            snap.pay({{ $transaction->snap_token }}, {
+                // Optional
+                onSuccess: function(result) {
+                    /* You may add your own js here, this is just example */
+                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                },
+                // Optional
+                onPending: function(result) {
+                    /* You may add your own js here, this is just example */
+                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                },
+                // Optional
+                onError: function(result) {
+                    /* You may add your own js here, this is just example */
+                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                }
+            });
+        };
+    </script>
 @endsection

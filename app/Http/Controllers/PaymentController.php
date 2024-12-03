@@ -7,6 +7,7 @@ use App\Models\Option;
 use App\Models\OptionValue;
 use App\Models\PaymentMethod;
 use App\Models\ShippingMethod;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -68,4 +69,20 @@ class PaymentController extends Controller
         ]);
     }
     
+    public function processPayment(Transaction $transaction)
+    {
+        // Redirect ke halaman pembayaran
+        return view('payment.snap', [
+            'title' => 'Payment',
+            'transaction' => $transaction,
+        ]);
+    }
+
+    public function handlePaymentSuccess(Transaction $transaction)
+    {
+        return view('payment.success',[
+            'title' => 'Payment Success',
+            'transaction' => $transaction,
+        ]);
+    }
 }

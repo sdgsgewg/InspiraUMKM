@@ -16,7 +16,13 @@
     <div class="category position-absolute px-3 py-2 {{ $design->stock > 0 ? 'cursor-pointer' : 'cursor-not-allowed' }}"
         onclick="{{ $design->stock > 0 ? "window.location.href'" . route('designs.category', ['category' => $design->category->slug]) . "'" : '' }}">
         <span class="text-white text-decoration-none">
-            {{ $design->category->name }}
+            @php
+                $categoryName = Lang::has('designs.categories.' . $design->category->name)
+                    ? __('designs.categories.' . $design->category->name)
+                    : $design->category->name;
+            @endphp
+
+            {{ $categoryName }}
         </span>
     </div>
 
@@ -49,7 +55,7 @@
 
     @if ($design->stock == 0)
         <div class="notAvailable d-flex flex-column justify-content-center">
-            <p class="text-center fw-bold m-0">Out of stock</p>
+            <p class="text-center fw-bold m-0">@lang('designs.out_of_stock')</p>
         </div>
     @endif
 </div>

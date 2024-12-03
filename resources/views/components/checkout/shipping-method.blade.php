@@ -7,7 +7,7 @@
         @foreach ($shippingMethods as $sm)
             <option value="{{ $sm->id }} {{ old('shipping_method_id' == $sm->id) ? 'selected' : '' }}">
                 <p>{{ $sm->name }}</p>
-                <small>{{ ' (' . $sm->shipping_fee . ')' }}</small>
+                <small>{{ ' (Rp' . number_format($sm->shipping_fee, 2, ',', '.') . ')' }}</small>
                 <small>{{ ' (' . $sm->description . ')' }}</small>
             </option>
         @endforeach

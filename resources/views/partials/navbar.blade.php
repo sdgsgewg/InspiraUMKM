@@ -1,4 +1,8 @@
 <style>
+    .offcanvas {
+        text-align: left;
+    }
+
     .nav-link {
         text-transform: uppercase;
     }
@@ -12,11 +16,14 @@
 
 <nav class="navbar navbar-expand-lg bg-dark sticky-top border-bottom" data-bs-theme="dark">
     <div class="col-12 d-flex justify-content-between px-5 py-2">
-        <a class="navbar-brand d-lg-none" href="{{ route('home') }}">
-            <svg class="bi" width="24" height="24">
-                <use xlink:href="#aperture" />
-            </svg>
-            InspiraUMKM
+        <a class="navbar-brand d-inline-flex align-items-center d-lg-none" href="{{ route('home') }}">
+            <div class="d-flex align-items-center overflow-hidden" style="width: 40px; height: 40px;">
+                <img src="{{ asset('img/inspira.png') }}" alt=""
+                    style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="ms-2">
+                <p class="m-0">InspiraUMKM</p>
+            </div>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
@@ -33,7 +40,7 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
 
-                    <li class="nav-item">
+                    <li class="nav-item mb-3">
                         <div class="d-flex align-items-center" style="width: 40px; height: 40px;">
                             <a class="nav-link {{ Request::is('/') ? 'active' : '' }} p-0" href="{{ route('home') }}">
                                 <img src="{{ asset('img/inspira.png') }}" alt=""
@@ -52,13 +59,13 @@
                             href="{{ route('designs.index') }}">@lang('navbar.designs')</a>
                     </li>
 
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 my-3 my-lg-0">
                         @include('components.search', ['id' => 1])
                     </div>
 
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('about') ? 'active' : '' }}"
-                            href="/about">@lang('navbar.about_us')</a>
+                            href="{{ route('about') }}">@lang('navbar.about_us')</a>
                     </li>
 
                     {{-- Localization --}}
@@ -119,7 +126,7 @@
 
                                 {{-- Profile --}}
                                 <li>
-                                    <a class="dropdown-item d-flex {{ Request::is('profile*') ? 'active' : '' }}"
+                                    <a class="dropdown-item d-flex {{ Request::is('users*') ? 'active' : '' }}"
                                         href="{{ route('users.index') }}">
                                         <i class="bi bi-person-circle me-2"></i> @lang('navbar.profile')
                                     </a>
