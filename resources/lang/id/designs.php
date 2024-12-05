@@ -1,6 +1,7 @@
 <?php
 
 return [
+    // Design Page
     'search' => 'Cari...',
     'view_all' => 'Lihat Semua',
     'see_more' => 'Lihat Lebih Banyak >>>',
@@ -35,5 +36,26 @@ return [
         'One Way' => 'One Way',
         'Transparan' => 'Transparan',
     ],
-    'out_of_stock' => 'Stok habis'
+    'out_of_stock' => 'Stok habis',
+
+    // Design Detail Page
+    'by' => 'Oleh.',
+    'product' => 'Produk:',
+    'category' => 'Kategori:',
+    'rating' => 'Penilaian:',
+    'add_to_cart' => 'Tambahkan ke Keranjang',
+    'checkout' => 'Pembayaran',
+    'detailed_information' => 'Informasi Detail',
+    'price' => 'Harga:',
+    'stock' => 'Stok:',
+    'sold' => 'Terjual:',
+    'description' => 'Deskripsi',
+    'reviews' => 'Ulasan',
+    'discussions' => 'Diskusi',
+    'write_comment' => 'Tulis komentar Anda di sini',
+    'cancel' => 'Batal',
+    'post' => 'Kirim',
+    'write_reply' => 'Tulis balasan Anda di sini',
+    'reply' => 'Balas',
+    'replies' => 'Balasan',
 ];

@@ -32,26 +32,24 @@ $(document).ready(function () {
                                     ? "checked"
                                     : "";
 
-                            var listItem =
-                                '<li class="list-group-item">' +
-                                '<input class="form-check-input me-1" type="checkbox" name="category[]" value="' +
-                                value.slug +
-                                '" ' +
-                                isChecked +
-                                ' id="CheckboxStretched' +
-                                key +
-                                '">' +
-                                '<label class="form-check-label stretched-link" for="CheckboxStretched' +
-                                key +
-                                '">' +
-                                value.name +
-                                "</label>" +
-                                "</li>";
+                            // Translate category name using categories object
+                            var categoryName =
+                                categories[value.name] || value.name; // Fallback to original value if not found in categories
+
+                            var listItem = `<li class="list-group-item">
+                                    <input class="form-check-input me-1" type="checkbox" name="category[]" value="${value.slug}" ${isChecked} id="CheckboxStretched${key}">
+                                    <label class="form-check-label stretched-link" for="CheckboxStretched${key}">
+                                        ${categoryName}
+                                    </label>
+                                </li>`;
                             $("#category").append(listItem);
                         });
                     } else {
+                        // Use the translated message if no categories are found
                         $("#category").append(
-                            '<li class="list-group-item">No categories found for this category.</li>'
+                            `<li class="list-group-item">
+                                ${lang.categoryErrorMsg}
+                            </li>`
                         );
                     }
                 },

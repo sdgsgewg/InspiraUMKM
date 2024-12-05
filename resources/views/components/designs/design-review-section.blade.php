@@ -1,6 +1,6 @@
 <div>
     <hr>
-    <h2 class="pb-2">Reviews</h2>
+    <h2 class="pb-2">@lang('designs.reviews')</h2>
     @foreach ($design->reviews as $review)
         <div class="d-flex mt-1">
             <div class="align-items-start rounded-circle overflow-hidden" style="width: 50px; height: 50px;">

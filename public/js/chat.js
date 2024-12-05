@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const chatMessagesContainer = document.querySelector("#chat-messages");
-    let lastMessageTimestamp = null; // Variable to track the last message timestamp
+    let lastMessageTimestamp = null;
 
     // Scroll to the bottom on initial load
     if (chatMessagesContainer) {
@@ -118,31 +118,33 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Clear the message input field after sending
                     document.querySelector('input[name="message"]').value = "";
 
-                //     // Only append the new message dynamically
-                //     const messageElement = `
-                //     <div class="message ${
-                //         response.data.sender_id === userId ? "sent" : "received"
-                //     } pb-2">
-                //         <div class="message-bubble">
-                //             <p class="m-0">${response.data.message}</p>
-                //         </div>
-                //         <div class="message-info ${
-                //             response.data.sender_id === userId
-                //                 ? "sent"
-                //                 : "received"
-                //         }">
-                //             <span class="timestamp">${
-                //                 response.data.timestamp
-                //             }</span>
-                //         </div>
-                //     </div>
-                // `;
-                //     const chatMessagesContainer =
-                //         document.querySelector("#chat-messages");
-                //     chatMessagesContainer.innerHTML += messageElement;
+                    // Only append the new message dynamically
+                    const messageElement = `
+                        <div class="message ${
+                            response.data.sender_id === userId
+                                ? "sent"
+                                : "received"
+                        } pb-2">
+                            <div class="message-bubble">
+                                <p class="m-0">${response.data.message}</p>
+                            </div>
+                            <div class="message-info ${
+                                response.data.sender_id === userId
+                                    ? "sent"
+                                    : "received"
+                            }">
+                                <span class="timestamp">${
+                                    response.data.timestamp
+                                }</span>
+                            </div>
+                        </div>
+                    `;
+                    const chatMessagesContainer =
+                        document.querySelector("#chat-messages");
+                    chatMessagesContainer.innerHTML += messageElement;
 
-                //     // Scroll to the bottom after sending a message
-                //     scrollToBottom(chatMessagesContainer);
+                    // Scroll to the bottom after sending a message
+                    scrollToBottom(chatMessagesContainer);
                 })
                 .catch((error) => {
                     console.error("Error sending message:", error);

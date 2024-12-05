@@ -1,6 +1,7 @@
 <?php
 
 return [
+    // Design Page
     'search' => 'Search...',
     'view_all' => 'View All',
     'see_more' => 'See More >>>',
@@ -35,5 +36,26 @@ return [
         'One Way' => 'One Way',
         'Transparan' => 'Transparent',
     ],
-    'out_of_stock' => 'Stok habis'
+    'out_of_stock' => 'Stok habis',
+
+    // Design Detail Page
+    'by' => 'By.',
+    'product' => 'Product:',
+    'category' => 'Category:',
+    'rating' => 'Rating:',
+    'add_to_cart' => 'Add to Cart',
+    'checkout' => 'Checkout',
+    'detailed_information' => 'Detailed Information',
+    'price' => 'Price:',
+    'stock' => 'Stock:',
+    'sold' => 'Sold:',
+    'description' => 'Description',
+    'reviews' => 'Reviews',
+    'discussions' => 'Discussions',
+    'write_comment' => 'Write your comment here',
+    'cancel' => 'Cancel',
+    'post' => 'Post',
+    'write_reply' => 'Write your reply here',
+    'reply' => 'Reply',
+    'replies' => 'Replies',
 ];

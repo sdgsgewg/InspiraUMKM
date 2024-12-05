@@ -1,20 +1,20 @@
 <div class="mt-0">
     <hr>
-    <h2 class="mb-3">Discussions</h2>
+    <h2 class="mb-3">@lang('designs.discussions')</h2>
 
     <!-- Comment Form -->
     <form action="{{ route('comments.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <input type="hidden" name="design_id" value="{{ $design->id }}">
-            <textarea name="comment" id="comment" class="form-control" placeholder="Write your comment here" rows="3" required
+            <textarea name="comment" id="comment" class="form-control" placeholder="@lang('designs.write_comment')" rows="3" required
                 oninput="handlePostBtn()" onclick="toggleCommentButtonVisibility()"></textarea>
         </div>
         <!-- Button Container -->
         <div id="commentBtnContainer" class="justify-content-end gap-3" style="display: none;">
             <button id="cancel" type="button" class="btn btn-secondary"
-                onclick="hideCommentButtonContainer()">Cancel</button>
-            <button id="post" type="submit" class="btn btn-primary" disabled>Post</button>
+                onclick="hideCommentButtonContainer()">@lang('designs.cancel')</button>
+            <button id="post" type="submit" class="btn btn-primary" disabled>@lang('designs.post')</button>
         </div>
     </form>
 

@@ -25,7 +25,7 @@
 
                             {{-- Order Detail --}}
                             <div class="col-12 col-lg-6 d-flex flex-column ps-lg-5 mt-4 mt-lg-0 gap-3">
-                                <h2 class="mb-1 mb-lg-3">Order Detail</h2>
+                                <h2 class="mb-1 mb-lg-3">@lang('checkout.order_detail')</h2>
 
                                 {{-- Option dari setiap design --}}
                                 @foreach ($optionValueOutputs as $output)
@@ -33,14 +33,14 @@
                                 @endforeach
 
                                 {{-- Notes for seller --}}
-                                <p class="m-0">Notes for Seller: {{ $notes }}</p>
+                                <p class="m-0">@lang('checkout.notes_for_seller') {{ $notes }}</p>
 
                                 {{-- Payment Method --}}
-                                <p class="m-0">Payment Method: {{ $paymentMethod->name }}</p>
+                                <p class="m-0">@lang('checkout.payment_method') {{ $paymentMethod->name }}</p>
 
                                 {{-- Shipping Method --}}
                                 <div>
-                                    <p class="m-0">Shipping Method:</p>
+                                    <p class="m-0">@lang('checkout.shipping_method')</p>
                                     <p class="m-0">
                                         {{ $shippingMethod->name . ' (Rp' . number_format($shippingMethod->shipping_fee, 0, ',', '.') . ')' }}
                                     </p>
@@ -57,7 +57,7 @@
                     <div class="col-11 d-flex flex-column mb-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <i class="bi bi-journal-text fs-3"></i>
-                            <h3 class="m-0">Order Summary</h3>
+                            <h3 class="m-0">@lang('checkout.order_summary')</h3>
                         </div>
                         @php
                             $sub_total_price = $subTotalPrice;
@@ -66,25 +66,25 @@
                             $total_price = $sub_total_price + $shipping_fee + $service_fee;
                         @endphp
                         <div class="d-flex flex-row justify-content-between">
-                            <p>Subtotal for Product</p>
+                            <p>@lang('checkout.subtotal')</p>
                             <p>
                                 Rp{{ number_format($sub_total_price, 0, ',', '.') }}
                             </p>
                         </div>
                         <div class="d-flex flex-row justify-content-between">
-                            <p>Shipping Fee</p>
+                            <p>@lang('checkout.shipping_fee')</p>
                             <p>
                                 Rp{{ number_format($shipping_fee, 0, ',', '.') }}
                             </p>
                         </div>
                         <div class="d-flex flex-row justify-content-between">
-                            <p>Service Fee</p>
+                            <p>@lang('checkout.service_fee')</p>
                             <p>
                                 Rp{{ number_format($service_fee, 0, ',', '.') }}
                             </p>
                         </div>
                         <div class="d-flex flex-row justify-content-between">
-                            <h5 class="fw-bold">Total Payment</h5>
+                            <h5 class="fw-bold">@lang('checkout.total_payment')</h5>
                             <h5 class="text-info fw-bold">
                                 Rp{{ number_format($total_price, 0, ',', '.') }}
                             </h5>
@@ -117,7 +117,7 @@
                     <input type="hidden" name="source" value={{ $source }}>
                     <input type="hidden" name="quantity" value="{{ $quantity }}">
 
-                    @include('components.checkout.checkout-button', ['navigateTo' => 'Create Order'])
+                    @include('components.checkout.checkout-button', ['navigateTo' => 'create_order'])
                 @endif
             </div>
         </form>

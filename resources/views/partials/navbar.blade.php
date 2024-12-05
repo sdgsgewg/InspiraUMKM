@@ -1,8 +1,4 @@
 <style>
-    .offcanvas {
-        text-align: left;
-    }
-
     .nav-link {
         text-transform: uppercase;
     }
@@ -40,7 +36,7 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
 
-                    <li class="nav-item mb-3">
+                    <li class="nav-item mb-3 mb-lg-0">
                         <div class="d-flex align-items-center" style="width: 40px; height: 40px;">
                             <a class="nav-link {{ Request::is('/') ? 'active' : '' }} p-0" href="{{ route('home') }}">
                                 <img src="{{ asset('img/inspira.png') }}" alt=""

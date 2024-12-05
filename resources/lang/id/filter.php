@@ -7,6 +7,8 @@ return [
     'category' => 'Kategori',
     'category-error-msg' => 'Kolom kategori harus diisi',
     'price-range' => 'Rentang Harga',
+    'enter_min_price' => 'Masukkan harga minimum',
+    'enter_max_price' => 'Masukkan harga maksimum',
     'rating' => 'Penilaian',
     'select_rating' => 'Pilih penilaian',
     'stars' => 'bintang',

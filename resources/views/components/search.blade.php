@@ -24,8 +24,8 @@
                     placeholder=@lang('designs.search') name="search" value="{{ request('search') }}" autocomplete="off"
                     style="padding-right: 80px;">
             </div>
-            <div class="position-absolute search-btn" style="right: 0; top: 0;">
-                <button class="btn btn-outline-success rounded-pill px-4" type="submit" style="padding: 5px 0;">
+            <div class="position-absolute search-btn" style="right: 0%; top: 0%;">
+                <button class="btn btn-outline-success rounded-pill px-4" type="submit" style="padding: 5.8px 0;">
                     <i class="bi bi-search"></i>
                 </button>
             </div>

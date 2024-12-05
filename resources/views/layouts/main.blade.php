@@ -19,6 +19,8 @@
 
     @include('partials.navbar')
 
+    @yield('css')
+
     <div class="content container-fluid px-0" style="min-height: 100vh;">
         @yield('container')
     </div>

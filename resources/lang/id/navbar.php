@@ -5,7 +5,7 @@ return [
     'designs' => 'Desain',
     'about_us' => 'Tentang Kami',
     'language' => 'Bahasa',
-    'english' => 'Inggris',
+    'english' => 'Bahasa Inggris',
     'bahasa_indonesia' => 'Bahasa Indonesia',
     'greet' => 'Halo',
     'my_dashboard' => 'Dasbor Saya',

@@ -43,15 +43,12 @@ class ChatController extends Controller
     // Store message in a chat
     public function store(Request $request)
     {
-        $chat_id = $request->chat;
-        $chat = Chat::findOrFail($chat_id);
+        $chat = Chat::findOrFail($request->chat);
     
-        // Validate the incoming message
         $request->validate([
             'message' => 'required|string|max:255',
         ]);
     
-        // Store the message in the chat
         $message = $chat->messages()->create([
             'chat_id' => $chat->id,
             'sender_id' => Auth::user()->id,
@@ -60,10 +57,10 @@ class ChatController extends Controller
     
         return response()->json([
             'sender_id' => $message->sender_id,
-            'message' => $message->message_text,
-            'timestamp' => \Carbon\Carbon::parse($message->created_at)->timezone('Asia/Jakarta')->format('H:i'),
+            'message_text' => $message->message_text,
+            'timestamp' => $message->created_at->timezone('Asia/Jakarta')->format('H:i'),
         ]);
-    }
+    }    
 
     // Show chat conversation between two users
     public function show(Chat $chats)

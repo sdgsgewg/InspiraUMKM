@@ -28,6 +28,8 @@ return [
         'Review' => 'Tinjauan',
         'Process Order' => 'Proses Pesanan',
         'Confirm Delivery' => 'Konfirmasi Pengiriman',
+        'Confirm Receipt' => 'Konfirmasi Penerimaan',
+        'Finalize' => 'Selesaikan',
         'Handle Return' => 'Tangani Pengembalian',
         'Finalize' => 'Selesaikan',
         'Decline' => 'Tolak',

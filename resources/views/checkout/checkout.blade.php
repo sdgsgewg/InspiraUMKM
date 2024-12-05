@@ -7,7 +7,7 @@
         <div class="col-11 d-flex flex-column">
             <div class="d-flex flex-row align-items-center">
                 <a href="{{ route('carts.index') }}" class="btn btn-success me-3"><i class="bi bi-arrow-left"></i></a>
-                <h1>{{ $title }}</h1>
+                <h1>@lang('checkout.title.Checkout')</h1>
             </div>
             <hr class="mb-4">
 
@@ -17,7 +17,7 @@
                 @if (count($checkoutItems) > 0)
                     {{-- Delivery Address --}}
                     <div class="d-flex flex-column">
-                        <h6 class="fw-bold">Delivery Address</h6>
+                        <h6 class="fw-bold">@lang('checkout.delivery_address')</h6>
                         <div class="d-flex">
                             <div>
                                 <i class="bi bi-geo-alt"></i>
@@ -43,16 +43,15 @@
                         </div>
                         {{-- Checkout Confirmation --}}
                         <div class="col-12 col-lg-6 d-flex flex-column ps-lg-5 gap-3 mt-4 mt-lg-0">
-                            <h3>Order Confirmation</h3>
-
+                            <h3>@lang('checkout.order_confirmation')</h3>
                             {{-- Option dari setiap design --}}
                             @include('components.checkout.design-option')
 
                             {{-- Notes for seller --}}
                             <div class="col-12 d-flex flex-column">
-                                <label for="notes" class="form-label mb-0">Notes for Seller :</label>
-                                <small class="fst-italic  text-secondary my-1">*optional</small>
-                                <textarea class="w-100" name="notes" id="notes" rows="3" placeholder="Input your notes here..."></textarea>
+                                <label for="notes" class="form-label mb-0">@lang('checkout.notes_for_seller')</label>
+                                <small class="fst-italic  text-secondary my-1">@lang('checkout.optional')</small>
+                                <textarea class="w-100" name="notes" id="notes" rows="3" placeholder="@lang('checkout.input_notes')"></textarea>
                             </div>
 
                             {{-- Payment Method --}}
@@ -79,7 +78,7 @@
                         <input type="hidden" name="quantity" value="{{ $quantity }}">
                     @endif
 
-                    @include('components.checkout.checkout-button', ['navigateTo' => 'Proceed To Payment'])
+                    @include('components.checkout.checkout-button', ['navigateTo' => 'proceed_to_payment'])
                 @endif
             </form>
         </div>

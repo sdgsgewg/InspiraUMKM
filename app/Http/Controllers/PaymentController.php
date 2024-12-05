@@ -8,6 +8,7 @@ use App\Models\OptionValue;
 use App\Models\PaymentMethod;
 use App\Models\ShippingMethod;
 use App\Models\Transaction;
+use App\Models\TransactionDesign;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -71,10 +72,12 @@ class PaymentController extends Controller
     
     public function processPayment(Transaction $transaction)
     {
-        // Redirect ke halaman pembayaran
+        $transaction_designs = TransactionDesign::where('transaction_id', $transaction->id)->get();
+
         return view('payment.snap', [
             'title' => 'Payment',
             'transaction' => $transaction,
+            'transaction_designs' => $transaction_designs,
         ]);
     }
 

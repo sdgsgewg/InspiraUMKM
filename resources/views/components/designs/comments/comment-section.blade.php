@@ -38,7 +38,8 @@
                 </div>
                 <div class="cursor-pointer">
                     <button onclick="showReplyForm({{ $comment->id }})"
-                        class="toggleButton btn custom-btn rounded-pill my-0" data-id={{ $comment->id }}>Reply
+                        class="toggleButton btn custom-btn rounded-pill my-0"
+                        data-id={{ $comment->id }}>@lang('designs.reply')
                     </button>
                 </div>
             </div>
@@ -49,14 +50,14 @@
                 <div class="replyForm col-12" style="display: none;" data-id={{ $comment->id }}>
                     <div class="col-12 mb-3">
                         <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                        <textarea name="reply" class="reply form-control" data-id={{ $comment->id }} placeholder="Write your reply here"
+                        <textarea name="reply" class="reply form-control" data-id={{ $comment->id }} placeholder="@lang('designs.write_reply')"
                             rows="2" required oninput="handleReplyBtn({{ $comment->id }})"></textarea>
                     </div>
                     <div class="col-12 justify-content-end gap-3">
                         <button class="cancel btn btn-secondary" data-id={{ $comment->id }} type="button"
-                            onclick="hideReplyForm({{ $comment->id }})">Cancel</button>
+                            onclick="hideReplyForm({{ $comment->id }})">@lang('designs.cancel')</button>
                         <button type="submit" class="replyBtn btn btn-primary" data-id={{ $comment->id }}
-                            disabled>Reply</button>
+                            disabled>@lang('designs.reply')</button>
                     </div>
                 </div>
             </form>

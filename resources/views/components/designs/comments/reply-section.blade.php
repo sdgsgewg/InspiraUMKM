@@ -8,7 +8,7 @@
             data-id="{{ $comment->id }}" data-reply-amount="{{ $replyAmount }}"
             onclick="toggleReply({{ $comment->id }})">
             <i class="bi bi-caret-down"></i> {{ $replyAmount }}
-            {{ $replyAmount > 1 ? 'Replies' : 'Reply' }}
+            {{ $replyAmount > 1 ? __('designs.replies') : __('designs.reply') }}
         </button>
     </div>
     @foreach ($comment->replies as $reply)
@@ -65,7 +65,7 @@
                             <div class="cursor-pointer">
                                 <button onclick="showReplyToReplyForm({{ $reply->id }})"
                                     class="toggleButton btn btn-dark rounded-pill my-0"
-                                    data-id={{ $reply->id }}>Reply
+                                    data-id={{ $reply->id }}>@lang('designs.reply')
                                 </button>
                             </div>
                         </div>
@@ -77,14 +77,14 @@
                                 <div class="mb-3">
                                     <input type="hidden" name="comment_id" value="{{ $comment->id }}">
                                     <input type="hidden" name="reply_id" value="{{ $reply->id }}">
-                                    <textarea name="reply" class="replyToReply form-control" data-id={{ $reply->id }}
-                                        placeholder="Write your reply here" rows="1" required oninput="handleReplyToReplyBtn({{ $reply->id }})"></textarea>
+                                    <textarea name="reply" class="replyToReply form-control" data-id={{ $reply->id }} placeholder="@lang('designs.write_reply')"
+                                        rows="1" required oninput="handleReplyToReplyBtn({{ $reply->id }})"></textarea>
                                 </div>
                                 <div class="justify-content-end gap-3">
                                     <button class="cancel btn btn-secondary" data-id={{ $reply->id }} type="button"
-                                        onclick="hideReplyToReplyForm({{ $reply->id }})">Cancel</button>
+                                        onclick="hideReplyToReplyForm({{ $reply->id }})">@lang('designs.cancel')</button>
                                     <button type="submit" class="replyToReplyBtn btn btn-primary"
-                                        data-id={{ $reply->id }} disabled>Reply</button>
+                                        data-id={{ $reply->id }} disabled>@lang('designs.reply')</button>
                                 </div>
                             </div>
                         </form>

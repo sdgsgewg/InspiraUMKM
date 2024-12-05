@@ -7,6 +7,8 @@ return [
     'category' => 'Category',
     'category-error-msg' => 'The category field is required',
     'price-range' => 'Price Range',
+    'enter_min_price' => 'Enter minimum price',
+    'enter_max_price' => 'Enter maximum price',
     'rating' => 'Rating',
     'select_rating' => 'Select a rating',
     'stars' => 'stars',

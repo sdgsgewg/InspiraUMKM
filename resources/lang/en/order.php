@@ -28,6 +28,8 @@ return [
         'Review' => 'Review',
         'Process Order' => 'Process Order',
         'Confirm Delivery' => 'Confirm Delivery',
+        'Confirm Receipt' => 'Confirm Receipt',
+        'Finalize' => 'Finalize',
         'Handle Return' => 'Handle Return',
         'Finalize' => 'Finalize',
         'Deline' => 'Decline',

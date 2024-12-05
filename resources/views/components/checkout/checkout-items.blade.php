@@ -17,8 +17,8 @@
             ])
         @endforeach
         <div class="d-flex flex-row justify-content-between mt-2">
-            <h6>Ordered Amount ({{ $productAmount[$idx] }}
-                {{ $productAmount[$idx] > 1 ? 'products' : 'product' }})</h6>
+            <h6>@lang('checkout.ordered_amount') ({{ $productAmount[$idx] }}
+                {{ $productAmount[$idx] > 1 ? __('checkout.products') : __('checkout.product') }})</h6>
             <h6 class="text-info fw-bold">
                 Rp{{ number_format($checkoutItemsPrice[$idx], 0, ',', '.') }}
             </h6>

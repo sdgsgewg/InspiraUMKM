@@ -58,8 +58,8 @@ class DesignController extends Controller
             'search' => 'nullable|string',
             'product' => 'nullable|string',
             'category' => 'nullable|array',
-            'min_price' => 'nullable|numeric',
-            'max_price' => 'nullable|numeric',
+            'min_price' => 'nullable|numeric|lte:max_price',
+            'max_price' => 'nullable|numeric|gte:min_price',
             'rating' => 'nullable|numeric|min:0|max:5',
             'seller' => 'nullable|string',
         ]);

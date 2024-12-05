@@ -164,11 +164,11 @@ class TransactionController extends Controller
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = config('midtrans.is_production');
         // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$isSanitized = config('midtrans.is_sanitized');
         // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$is3ds = config('midtrans.is_3ds');
 
         $params = array(
             'transaction_details' => array(
@@ -252,9 +252,13 @@ class TransactionController extends Controller
 
         if($newStatus === "Delivered") {
             // Update shipping time dari transaksi
-            $shippingModel = Shipping::where('transaction_id', $transaction->id);
-            $shippingModel->shipping_time = now();
-            $shippingModel->save();
+            $shippingModel = Shipping::where('transaction_id', $transaction->id)->first();
+
+            if ($shippingModel) {
+                $shippingModel->shipping_time = now();
+                $shippingModel->save();
+            }
+
         } else if ( in_array( $newStatus, ['Returned', 'Cancelled'] ) ) {
             foreach( $transaction->designs as $design ){
                 $designModel = Design::find($design->id);
@@ -266,9 +270,13 @@ class TransactionController extends Controller
                 $transaction->isReceived = true;
                 $transaction->save();
 
-                $shippingModel = Shipping::where('transaction_id', $transaction->id);
-                $shippingModel->delivery_time = now();
-                $shippingModel->save();
+                $shippingModel = Shipping::where('transaction_id', $transaction->id)->first();
+
+                if ($shippingModel) {
+                    $shippingModel->shipping_status = "Delivered";
+                    $shippingModel->delivery_time = now();
+                    $shippingModel->save();
+                }                
 
                 session(['selectedStatus' => 'Delivered']);
 
