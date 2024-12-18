@@ -40,7 +40,7 @@
 
         <div class="row d-flex flex-wrap justify-content-evenly gap-3">
             @foreach ($products as $p)
-            <div class="product-card col-5 col-sm-4 col-md-3 col-xl-2 d-flex flex-column rounded-4 p-0" style="background-color:#333333"
+            <div class="product-card col-5 col-sm-4 col-md-3 col-xl-2 d-flex flex-column rounded-4 p-0" style="background-color:#777777"
                 onclick="{{ "window.location.href='" . route('designs.product', ['product' => $p->slug]) . "'" }}">
 
                 <!-- Image Container -->
