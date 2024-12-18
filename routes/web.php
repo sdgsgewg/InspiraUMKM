@@ -111,7 +111,6 @@ Route::middleware('auth')->prefix('payments')->as('payments.')->group(function (
     Route::get('/payment/success/{transaction:order_number}', [PaymentController::class, 'handlePaymentSuccess'])->name('payment-success');
 });
 
-
 // ROUTE FOR TRANSACTION
 
 Route::middleware('auth')->prefix('transactions')->as('transactions.')->group(function () {
