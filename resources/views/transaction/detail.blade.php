@@ -84,7 +84,7 @@
                             <div class="d-flex justify-content-between">
                                 <p>@lang('order.Payment Time')</p>
                                 <p>
-                                    {{ \Carbon\Carbon::parse($transaction->payment_time)->timezone('Asia/Jakarta')->format('d-m-Y H:i') }}
+                                    {{ \Carbon\Carbon::parse($transaction->payment->payment_time)->timezone('Asia/Jakarta')->format('d-m-Y H:i') }}
                                 </p>
                             </div>
                         @endif

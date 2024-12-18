@@ -96,7 +96,7 @@
                 <h2 class="mb-3">@lang('designs.detailed_information')</h2>
                 <p>@lang('designs.price') Rp{{ number_format($design->price, 2, ',', '.') }}</p>
                 <p>@lang('designs.stock') {{ $design->stock }}</p>
-                <p>@lang('designs.stock') {{ $soldQuantity }}</p>
+                <p>@lang('designs.sold') {{ $soldQuantity }}</p>
             </article>
 
             {{-- Design Description --}}

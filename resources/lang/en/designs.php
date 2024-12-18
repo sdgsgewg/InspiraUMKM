@@ -15,7 +15,7 @@ return [
         // Packaging
         'Primary' => 'Primary',
         'Secondary' => 'Secondary',
-        'Tertiary' => 'Tertiary',
+    'Tertiary' => 'Tertiary',
         'Eco-Friendly' => 'Eco-Friendly',
 
         // Banners
@@ -43,7 +43,7 @@ return [
     'product' => 'Product:',
     'category' => 'Category:',
     'rating' => 'Rating:',
-    'add_to_cart' => 'Add to Cart',
+    'add_to_cart' => 'Cart',
     'checkout' => 'Checkout',
     'detailed_information' => 'Detailed Information',
     'price' => 'Price:',

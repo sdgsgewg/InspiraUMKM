@@ -33,9 +33,9 @@ class DesignController extends Controller
         ->pluck('avg_rating', 'd.id');
 
         $soldQuantities = DB::table('transaction_designs as td')
-        ->select('td.design_id', DB::raw('SUM(td.quantity) as sold_quantity'))
         ->join('transactions as t', 'td.transaction_id', '=', 't.id')
-        ->where('t.transaction_status', '=', 'Accepted')
+        ->select('td.design_id', DB::raw('SUM(td.quantity) as sold_quantity'))
+        ->where('t.transaction_status', '=', 'Completed')
         ->groupBy('td.design_id')
         ->pluck('sold_quantity', 'td.design_id');
 

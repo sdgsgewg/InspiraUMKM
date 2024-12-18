@@ -43,7 +43,7 @@ return [
     'product' => 'Produk:',
     'category' => 'Kategori:',
     'rating' => 'Penilaian:',
-    'add_to_cart' => 'Tambahkan ke Keranjang',
+    'add_to_cart' => 'Keranjang',
     'checkout' => 'Pembayaran',
     'detailed_information' => 'Informasi Detail',
     'price' => 'Harga:',
