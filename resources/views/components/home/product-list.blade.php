@@ -12,7 +12,7 @@
     .image-container {
         height: 200px;
         /* Fixed height for the image container */
-        background-color: rgb(214, 215, 181);
+        background-color: rgb(25, 135, 84);
     }
 
     .product-name {
@@ -23,39 +23,50 @@
         text-align: center;
         font-weight: bold;
     }
+
+    .title {
+        font-size: xx-large;
+        font-weight: bold;
+    }
 </style>
 
 <div class="row justify-content-center mb-5">
     <div class="col-11">
+
+        <div class="flex flex-col justify-center items-center mb-3">
+            <h2 class="title mb-4">INSPIRA UMKM • @lang('home.title')</h2>
+            <h3 class="text-center my-5">@lang('home.headline')</h2>
+        </div>
+
         <div class="row d-flex flex-wrap justify-content-evenly gap-3">
             @foreach ($products as $p)
-                <div class="product-card col-5 col-sm-4 col-md-3 col-xl-2 d-flex flex-column rounded-4 p-0"
-                    onclick="{{ "window.location.href='" . route('designs.product', ['product' => $p->slug]) . "'" }}">
+            <div class="product-card col-5 col-sm-4 col-md-3 col-xl-2 d-flex flex-column rounded-4 p-0" style="background-color:#333333"
+                onclick="{{ "window.location.href='" . route('designs.product', ['product' => $p->slug]) . "'" }}">
 
-                    <!-- Image Container -->
-                    <div class="image-container d-flex align-items-center justify-content-center rounded-4 p-3 w-100">
-                        <div class="overflow-hidden w-100 h-100">
-                            @if ($p->image)
-                                <img src="{{ asset('storage/' . $p->image) }}" alt="{{ $p->name }}"
-                                    class="w-100 h-100 object-fit-cover">
-                            @else
-                                <img src="{{ asset('img/product/' . $p->slug . '.png') }}" alt="{{ $p->name }}"
-                                    class="w-100 h-100 object-fit-cover">
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- Product Name -->
-                    <div class="product-name mt-1">
-                        @php
-                            $productName = Lang::has('designs.products.' . $p->name)
-                                ? __('designs.products.' . $p->name)
-                                : $p->name;
-                        @endphp
-
-                        <p class="fs-4 m-0">{{ $productName }}</p>
+                <!-- Image Container -->
+                <div class="image-container d-flex align-items-center justify-content-center rounded-4 p-3 w-100">
+                    <div class="overflow-hidden w-100 h-100">
+                        @if ($p->image)
+                        <img src="{{ asset('storage/' . $p->image) }}" alt="{{ $p->name }}"
+                            class="w-100 h-100 object-fit-cover">
+                        @else
+                        <img src="{{ asset('img/product/' . $p->slug . '.png') }}" alt="{{ $p->name }}"
+                            class="w-100 h-100 object-fit-cover">
+                        @endif
                     </div>
                 </div>
+
+                <!-- Product Name -->
+                <div class="product-name mt-3 mb-3">
+                    @php
+                    $productName = Lang::has('designs.products.' . $p->name)
+                    ? __('designs.products.' . $p->name)
+                    : $p->name;
+                    @endphp
+
+                    <p class="fs-4 m-0">{{ $productName }}</p>
+                </div>
+            </div>
             @endforeach
         </div>
     </div>
