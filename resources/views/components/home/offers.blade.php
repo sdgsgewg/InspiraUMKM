@@ -44,16 +44,16 @@
 
 
 <div class="row justify-content-center mb-5">
-    <div class="col-12 position-relative">
+    <div class="col-12 position-relative mt-5">
         <div class="offer position-absolute"
-            style="top:50%; left: 50%; transform:translate(-50%, -50%); z-index: 1; background-color: white; padding: 0 10px;">
-            <p class="fs-4 m-0">@lang('home.special_offers')</p>
+            style="top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; background-color: white; padding: 10px; border-radius: 15px;">
+            <p class="fs-5 fw-bold m-1" style="color: #28a745;">@lang('home.special_offers')</p>
         </div>
         <hr>
     </div>
 </div>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center mb-5">
     <div class="col-11">
         <div class="card offer-card d-flex flex-row">
             <div class="col-4 col-md-3">
