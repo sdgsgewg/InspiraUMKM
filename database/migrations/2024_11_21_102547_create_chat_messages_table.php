@@ -16,6 +16,11 @@ return new class extends Migration
             $table->foreignId('chat_id')->constrained('chats')->onDelete('cascade');
             $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
             $table->text('message_text');
+
+            // Menambahkan index
+            $table->index('chat_id');
+            $table->index('sender_id');
+
             $table->timestamps();
         });
     }

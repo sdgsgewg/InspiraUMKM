@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('option_id')->constrained()->cascadeOnDelete();
+
+            // Menambahkan index
+            $table->index('product_id');
+            $table->index('option_id');
+
             $table->timestamps();
         });        
     }

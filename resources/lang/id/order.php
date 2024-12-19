@@ -31,7 +31,6 @@ return [
         'Confirm Receipt' => 'Konfirmasi Penerimaan',
         'Finalize' => 'Selesaikan',
         'Handle Return' => 'Tangani Pengembalian',
-        'Finalize' => 'Selesaikan',
         'Decline' => 'Tolak',
         'Cancel' => 'Batal',
     ],
@@ -57,5 +56,10 @@ return [
     'Payment Time' => 'Waktu Pembayaran',
     'Shipping Time' => 'Waktu Pengiriman',
     'Received Time' => 'Waktu Penerimaan',
-    'Completion Time' => 'Waktu Selesai'
+    'Completion Time' => 'Waktu Selesai',
+
+    // Order Modal
+    'order_created' => 'Pesanan telah dibuat',
+    'order_received' => 'Pesanan telah diterima',
+    'transaction_updated' => 'Status transaksi diperbarui',
 ];

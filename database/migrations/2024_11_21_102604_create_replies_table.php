@@ -17,6 +17,12 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->constrained('replies')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('reply_text');
+
+            // Menambahkan index
+            $table->index('comment_id');
+            $table->index('parent_id');
+            $table->index('user_id');
+
             $table->timestamps();
         });
     }

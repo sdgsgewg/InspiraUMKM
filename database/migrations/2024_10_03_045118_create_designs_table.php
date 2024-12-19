@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('title')->index();
             $table->string('slug')->unique();
             $table->string('image')->nullable();
-            $table->integer('price');
+            $table->integer('price')->index();
             $table->integer('stock');
             $table->text('description')->nullable();
+            $table->index(['product_id', 'category_id']);
             $table->timestamps();
         });
     }

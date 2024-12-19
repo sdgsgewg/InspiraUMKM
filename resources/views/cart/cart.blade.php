@@ -49,7 +49,7 @@
                 @endforeach
                 <a id="checkout-button" class="btn btn-primary rounded-pill py-2 mt-3 text-decoration-none text-light"
                     data-checkout-url="{{ route('checkouts.checkout') }}">
-                    Checkout
+                    @lang('cart.checkout')
                 </a>
                 @include('components.modals.cart.checkoutNoticeModal')
             @else
@@ -57,7 +57,7 @@
                     <div class="img-no-order">
                         <img src="{{ asset('img/emptyCart.png') }}" alt="">
                     </div>
-                    <h5 class="mt-1">Your cart is empty</h5>
+                    <h5 class="mt-1">@lang('cart.cart_empty')</h5>
                 </div>
             @endif
 

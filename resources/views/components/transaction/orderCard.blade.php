@@ -1,4 +1,5 @@
-<div class="card col-12 rounded p-3 mb-4 d-flex flex-column">
+<div class="card order-card col-12 rounded p-3 mb-4 d-flex flex-column"
+    onclick="window.location.href='{{ route('transactions.show', ['transaction' => $transaction->order_number]) }}'">
 
     <div class="col-12 mb-2 d-flex justify-content-between">
         <h6 class="fw-bold">

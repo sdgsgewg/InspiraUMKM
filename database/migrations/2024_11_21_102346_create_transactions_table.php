@@ -27,6 +27,11 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->text('snap_token')->nullable();
             $table->timestamp('completion_time')->nullable(); 
+
+            // Penambahan Index
+            $table->index(['transaction_status', 'buyer_id']);
+            $table->index(['transaction_status', 'seller_id']);
+            
             $table->timestamps();
         });
     }

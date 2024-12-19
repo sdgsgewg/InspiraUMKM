@@ -55,7 +55,9 @@
                         <hr>
                         <div class="d-flex justify-content-between">
                             <p class="m-0">@lang('checkout.payment_time')</p>
-                            <p class="fw-bold m-0">{{ $transaction->payment->payment_time }}</p>
+                            <p class="fw-bold m-0">
+                                {{ \Carbon\Carbon::parse($transaction->payment->payment_time)->timezone('Asia/Jakarta')->format('d-m-Y H:i') }}
+                            </p>
                         </div>
                         <hr>
                     </div>
@@ -65,7 +67,7 @@
                         <a href="{{ route('home') }}" class="btn btn-primary">@lang('checkout.to_home_page')</a>
 
                         @php
-                            session()->flash('success', 'Order has been created');
+                            session()->flash('success',  __('order.order_created') );
                         @endphp
 
                         <a href="{{ route('transactions.index') }}" class="btn btn-success">@lang('checkout.to_order_page')</a>

@@ -11,7 +11,9 @@ use App\Models\Comment;
 use App\Models\DesignReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 
 class DesignController extends Controller
 {
@@ -21,23 +23,21 @@ class DesignController extends Controller
         $designs = Design::latest()->get();
 
         // Group designs by product and category for display
-        $designsByProduct = $designs->groupBy('product_id')->map(function ($productDesigns) {
-            return $productDesigns->groupBy('category_id');
-        });
+        $designsByProduct = $designs->groupBy('product_id')->map(fn($productDesigns) => $productDesigns->groupBy('category_id'));
 
         $avgDesignRating = DB::table('designs as d')
-        ->join('design_reviews as dr', 'd.id', '=', 'dr.design_id')
-        ->select('d.id')
-        ->selectRaw('IFNULL(ROUND(AVG(dr.rating), 2), 0) as avg_rating')
-        ->groupBy('d.id')
-        ->pluck('avg_rating', 'd.id');
+                ->leftJoin('design_reviews as dr', 'd.id', '=', 'dr.design_id')
+                ->select('d.id')
+                ->selectRaw('IFNULL(ROUND(AVG(dr.rating), 2), 0) as avg_rating')
+                ->groupBy('d.id')
+                ->pluck('avg_rating', 'd.id');
 
         $soldQuantities = DB::table('transaction_designs as td')
-        ->join('transactions as t', 'td.transaction_id', '=', 't.id')
-        ->select('td.design_id', DB::raw('SUM(td.quantity) as sold_quantity'))
-        ->where('t.transaction_status', '=', 'Completed')
-        ->groupBy('td.design_id')
-        ->pluck('sold_quantity', 'td.design_id');
+                ->join('transactions as t', 'td.transaction_id', '=', 't.id')
+                ->select('td.design_id', DB::raw('SUM(td.quantity) as sold_quantity'))
+                ->where('t.transaction_status', '=', 'Completed')
+                ->groupBy('td.design_id')
+                ->pluck('sold_quantity', 'td.design_id');
 
         return view('designs.designs', [
             'title' => $title,
@@ -188,6 +188,20 @@ class DesignController extends Controller
         ->groupBy('c.id')
         ->having(DB::raw('COUNT(d.id)'), '>', 0)
         ->get();
+
+        $avgDesignRating = DB::table('designs as d')
+                ->leftJoin('design_reviews as dr', 'd.id', '=', 'dr.design_id')
+                ->select('d.id')
+                ->selectRaw('IFNULL(ROUND(AVG(dr.rating), 2), 0) as avg_rating')
+                ->groupBy('d.id')
+                ->pluck('avg_rating', 'd.id');
+
+        $soldQuantities = DB::table('transaction_designs as td')
+                ->join('transactions as t', 'td.transaction_id', '=', 't.id')
+                ->select('td.design_id', DB::raw('SUM(td.quantity) as sold_quantity'))
+                ->where('t.transaction_status', '=', 'Completed')
+                ->groupBy('td.design_id')
+                ->pluck('sold_quantity', 'td.design_id');
     
         return view('designs.design-product', [
             'title' => $product->name . ' Designs',
@@ -195,7 +209,9 @@ class DesignController extends Controller
             'products' => Product::all(),
             'categories' => $categories,
             'sellers' => User::has('designs')->get(),
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'avgDesignRating' => $avgDesignRating,
+            'soldQuantities' => $soldQuantities,
         ]);
     }    
 
@@ -297,6 +313,6 @@ class DesignController extends Controller
             ]
         );
 
-        return redirect()->back()->with('success', 'Feedback submitted successfully.');
+        return redirect()->back()->with('success', __('feedback.feedback_submit_success'));
     }
 }

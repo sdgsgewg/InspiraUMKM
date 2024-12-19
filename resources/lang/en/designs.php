@@ -48,7 +48,7 @@ return [
     'detailed_information' => 'Detailed Information',
     'price' => 'Price:',
     'stock' => 'Stock:',
-    'sold' => 'Sold:',
+    'sold' => 'Sold',
     'description' => 'Description',
     'reviews' => 'Reviews',
     'discussions' => 'Discussions',

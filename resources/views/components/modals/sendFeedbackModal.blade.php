@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="sendFeedbackModalLabel-{{ $design->id }}">
-                    Send Feedback Form
+                    @lang('feedback.send_feedback_form')
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -32,28 +32,31 @@
                     <input type="hidden" name="design_id" value="{{ $design->id }}">
 
                     <div class="mb-3">
-                        <label for="rating-{{ $design->id }}" class="form-label">Rate:</label>
+                        <label for="rating-{{ $design->id }}"
+                            class="form-label">{{ __('feedback.rate') . ':' }}</label>
                         <select class="form-select" id="rating-{{ $design->id }}" name="rating" required>
-                            <option value="" disabled selected>Select Rating</option>
-                            <option value="1">1 - Very Bad</option>
-                            <option value="2">2 - Bad</option>
-                            <option value="3">3 - Average</option>
-                            <option value="4">4 - Good</option>
-                            <option value="5">5 - Excellent</option>
+                            <option value="" disabled selected>@lang('feedback.select_rating')</option>
+                            <option value="1">1 - @lang('feedback.very_bad')</option>
+                            <option value="2">2 - @lang('feedback.bad')</option>
+                            <option value="3">3 - @lang('feedback.average')</option>
+                            <option value="4">4 - @lang('feedback.good')</option>
+                            <option value="5">5 - @lang('feedback.very_good')</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
-                        <label for="feedback-{{ $design->id }}" class="form-label">Feedback:</label>
+                        <label for="feedback-{{ $design->id }}"
+                            class="form-label">{{ __('feedback.feedback') . ': ' }}</label>
                         <textarea class="form-control" id="feedback-{{ $design->id }}" name="feedback" rows="3"
-                            placeholder="Optional feedback..."></textarea>
+                            placeholder="{{ __('feedback.optional_feedback') }}"></textarea>
+
                     </div>
                 </div>
 
                 <!-- Submit button -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Send Feedback</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('feedback.cancel')</button>
+                    <button type="submit" class="btn btn-primary">@lang('feedback.send_feedback')</button>
                 </div>
             </form>
         </div>

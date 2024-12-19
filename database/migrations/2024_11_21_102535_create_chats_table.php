@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
+
+            // Menambahkan index
+            $table->index('buyer_id');
+            $table->index('seller_id');
+
             $table->timestamps();
         });
     }

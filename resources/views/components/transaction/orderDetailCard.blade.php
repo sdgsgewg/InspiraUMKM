@@ -12,41 +12,42 @@
     @endphp
 
     @foreach ($transaction->designs as $design)
-        <div class="col-12 mb-3 d-flex flex-row">
-            <div class="img-wrapper col-2 col-lg-2">
-                @if ($design->image)
-                    <img src="{{ asset('storage/' . $design->image) }}" alt="...">
-                @else
-                    <img src="{{ asset('img/' . $design->product->name) . '.jpg' }}" alt="...">
-                @endif
-            </div>
-            <div class="card-info col-10 col-lg-10 ps-4 d-flex flex-column justify-content-between">
-                <div>
-                    <h5>{{ $design->title }}</h5>
-                    <p>x{{ $design->pivot->quantity }}</p>
+        <div class="col-12 mb-3 d-flex flex-column">
+            <div class="d-flex flex-row">
+                <div class="img-wrapper col-3 col-lg-2">
+                    @if ($design->image)
+                        <img src="{{ asset('storage/' . $design->image) }}" alt="...">
+                    @else
+                        <img src="{{ asset('img/' . $design->product->name) . '.jpg' }}" alt="...">
+                    @endif
                 </div>
-                <div>
-                    <p>Rp{{ number_format($design->price, 0, ',', '.') }}</p>
-                </div>
-
-                @php
-                    $userRating = $design->reviewByUser(Auth::id());
-                    $isSeller = Auth::id() === $transaction->seller->id; // Check if the current user is the seller
-                @endphp
-
-                @if (!$isSeller && (!$userRating || !$userRating->isRated))
-                    <div class="col-12 d-flex flex-row-reverse mt-2">
-                        @if ($transaction->transaction_status === 'Completed')
-                            <button class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#sendFeedbackModal-{{ $design->id }}">
-                                @lang('order.Send Feedback')
-                            </button>
-                            @include('components.modals.sendFeedbackModal', ['design' => $design])
-                        @endif
+                <div class="card-info col-9 col-lg-10 ps-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <h5>{{ $design->title }}</h5>
+                        <p>x{{ $design->pivot->quantity }}</p>
                     </div>
-                @endif
+                    <div>
+                        <p>Rp{{ number_format($design->price, 0, ',', '.') }}</p>
+                    </div>
+
+                    @php
+                        $userRating = $design->reviewByUser(Auth::id());
+                        $isSeller = Auth::id() === $transaction->seller->id; // Check if the current user is the seller
+                    @endphp
+                </div>
 
             </div>
+            @if (!$isSeller && (!$userRating || !$userRating->isRated))
+                <div class="col-12 d-flex flex-row-reverse mt-2">
+                    @if ($transaction->transaction_status === 'Completed')
+                        <button class="btn btn-warning" data-bs-toggle="modal"
+                            data-bs-target="#sendFeedbackModal-{{ $design->id }}">
+                            @lang('order.Send Feedback')
+                        </button>
+                        @include('components.modals.sendFeedbackModal', ['design' => $design])
+                    @endif
+                </div>
+            @endif
         </div>
     @endforeach
 

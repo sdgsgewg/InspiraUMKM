@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('design_id')->constrained()->onDelete('cascade');
             $table->foreignId('option_value_id')->constrained()->onDelete('cascade');
+
+            // Menambahkan index
+            $table->index('design_id');
+            $table->index('option_value_id');
+
             $table->timestamps();
         });
     }

@@ -18,6 +18,11 @@ return new class extends Migration
             $table->integer('rating');
             $table->text('feedback')->nullable();
             $table->boolean('isRated')->default(false);
+
+            // Menambahkan index
+            $table->index('design_id');
+            $table->index('user_id');
+
             $table->timestamps();
         });
     }

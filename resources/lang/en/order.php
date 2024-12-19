@@ -57,5 +57,10 @@ return [
     'Payment Time' => 'Payment Time',
     'Shipping Time' => 'Shipping Time',
     'Received Time' => 'Received Time',
-    'Completion Time' => 'Completion Time'
+    'Completion Time' => 'Completion Time',
+
+    // Order Modal
+    'order_created' => 'Order has been created',
+    'order_received' => 'Order has been received',
+    'transaction_updated' => 'Transaction status updated',
 ];

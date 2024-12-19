@@ -18,6 +18,12 @@ return new class extends Migration
             $table->integer('amount'); // Total yang dibayarkan
             $table->enum('payment_status', ['Pending', 'Paid', 'Failed'])->default('Pending');
             $table->timestamp('payment_time')->nullable();
+
+            // Menambah index
+            $table->index('transaction_id');
+            $table->index('payment_method_id');
+            $table->index('payment_status');
+
             $table->timestamps();
         });
     }

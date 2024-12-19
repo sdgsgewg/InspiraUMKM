@@ -13,34 +13,6 @@ class Design extends Model
     protected $guarded = ['id'];
     protected $with = ['product', 'category', 'seller'];
 
-    public function scopeFilter($query, array $filters)
-    {
-        $query->when($filters['search'] ?? false, function($query, $search) {
-            return $query->where(function($query) use ($search) {
-                 $query->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
-             });
-         });
-
-        $query->when( $filters['product'] ?? false, function($query, $product) {
-            return $query->whereHas('product', function($query) use ($product) {
-                $query->where('slug', $product);
-            });
-        });
-
-        $query->when( $filters['category'] ?? false, function($query, $category) {
-            return $query->whereHas('category', function($query) use ($category) {
-                $query->where('slug', $category);
-            });
-        });
-
-        $query->when( $filters['seller'] ?? false, fn($query, $seller) => 
-            $query->whereHas('seller', fn($query) => 
-                $query->where('username', $seller)
-            )
-        );
-    }
-
     public function product()
     {
         return $this->belongsTo(Product::class);

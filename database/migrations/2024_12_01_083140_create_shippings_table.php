@@ -21,6 +21,12 @@ return new class extends Migration
             $table->string('tracking_number')->nullable(); // Nomor resi
             $table->timestamp('shipping_time')->nullable();
             $table->timestamp('delivery_time')->nullable();
+
+            // Menambah index
+            $table->index('transaction_id');
+            $table->index('shipping_method_id');
+            $table->index('shipping_status');
+
             $table->timestamps();
         });
     }

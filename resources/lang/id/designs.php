@@ -48,7 +48,7 @@ return [
     'detailed_information' => 'Informasi Detail',
     'price' => 'Harga:',
     'stock' => 'Stok:',
-    'sold' => 'Terjual:',
+    'sold' => 'Terjual',
     'description' => 'Deskripsi',
     'reviews' => 'Ulasan',
     'discussions' => 'Diskusi',

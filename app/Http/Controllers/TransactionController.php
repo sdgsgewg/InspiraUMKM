@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Design;
 use App\Models\DesignOption;
-use App\Models\OptionValue;
 use App\Models\Payment;
 use App\Models\Shipping;
 use App\Models\Transaction;
 use App\Models\TransactionDesign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Midtrans\Config;
-use Midtrans\Snap;
+use Illuminate\Support\Facades\Lang;
 
 class TransactionController extends Controller
 {
@@ -280,7 +278,7 @@ class TransactionController extends Controller
 
                 session(['selectedStatus' => 'Delivered']);
 
-                return redirect()->back()->with('success', 'Order has been received');
+                return redirect()->back()->with('success', __('order.order_received'));
             } else {
                 $transaction->completion_time = now();
                 $transaction->save();
@@ -290,7 +288,7 @@ class TransactionController extends Controller
         session(['selectedStatus' => $newStatus]);
 
         if ($transaction->transitionTo($newStatus)) {
-            return redirect()->back()->with('success', 'Transaction status updated.');
+            return redirect()->back()->with('success', __('order.transaction_updated'));
         }
 
         return redirect()->back()->with('error', 'Invalid status transition.');

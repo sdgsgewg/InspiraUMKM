@@ -17,6 +17,11 @@ return new class extends Migration
             $table->foreignId('design_id')->constrained('designs')->onDelete('cascade');
             $table->integer('quantity');
             $table->integer('sub_total_price');
+
+            // Penambahan index
+            $table->index('transaction_id');
+            $table->index('design_id');
+
             $table->timestamps();
         });
     }

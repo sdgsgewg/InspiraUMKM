@@ -16,6 +16,11 @@ return new class extends Migration
             $table->foreignId('design_id')->constrained('designs')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('comment_text');
+
+            // Menambahkan index
+            $table->index('design_id');
+            $table->index('user_id');
+
             $table->timestamps();
         });
     }

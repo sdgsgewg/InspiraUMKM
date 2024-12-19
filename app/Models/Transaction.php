@@ -25,8 +25,8 @@ class Transaction extends Model
 
     protected static $allowedTransitions = [
         'Not Paid' => ['Pending', 'Cancelled'],
-        'Pending' => ['Cancelled', 'Accepted'],
-        'Accepted' => ['Cancelled', 'Delivered'],
+        'Pending' => ['Accepted'],
+        'Accepted' => ['Delivered'],
         'Delivered' => ['Returned', 'Completed'],
         'Returned' => ['Refunded', 'Closed'],
         'Completed' => [],

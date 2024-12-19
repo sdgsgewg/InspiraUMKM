@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Design;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
 class CartController extends Controller
 {
@@ -36,7 +37,7 @@ class CartController extends Controller
         }
 
         return view('cart.cart', [
-            'title' => 'My Cart',
+            'title' => __('cart.my_cart'),
             'cart' => $cart,
             'cartItems' => $cartItems
         ]);
@@ -73,7 +74,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Design Added to Cart!');
+        return redirect()->back()->with('success', __('cart.design_added_to_cart'));
     }
 
     public function show(Cart $cart)

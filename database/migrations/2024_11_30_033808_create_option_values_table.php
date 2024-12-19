@@ -17,6 +17,11 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('value');
             $table->string('slug')->unique();
+
+            // Menambahkan index
+            $table->index('option_id');
+            $table->index('category_id');
+
             $table->timestamps();
         });
     }

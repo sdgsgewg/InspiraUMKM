@@ -48,7 +48,7 @@
         <div class="d-flex flex-row align-items-center justify-content-between mt-auto">
             <p class="my-auto">Rp{{ number_format($design->price, 0, ',', '.') }}</p>
             <p class="my-auto">
-                {{ isset($soldQuantities[$design->id]) && $soldQuantities[$design->id] > 0 ? $soldQuantities[$design->id] . ' sold' : '' }}
+                {{ isset($soldQuantities[$design->id]) && $soldQuantities[$design->id] > 0 ? $soldQuantities[$design->id] . ' ' . __('designs.sold') : '' }}
             </p>
         </div>
     </div>
