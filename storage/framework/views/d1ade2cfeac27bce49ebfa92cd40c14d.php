@@ -15,4 +15,6 @@
 <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/" />
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
-<?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/vendors/main/css.blade.php ENDPATH**/ ?>
+
+
+<link rel="icon" href="<?php echo e(secure_asset('img/inspira.png')); ?>" type="image/png"><?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/vendors/main/css.blade.php ENDPATH**/ ?>
