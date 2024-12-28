@@ -1,13 +1,13 @@
 <?php return array (
   'barryvdh/laravel-debugbar' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    ),
     'aliases' => 
     array (
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
     ),
   ),
   'barryvdh/laravel-ide-helper' => 
@@ -24,17 +24,6 @@
       0 => 'Cviebrock\\EloquentSluggable\\ServiceProvider',
     ),
   ),
-  'kreait/laravel-firebase' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Kreait\\Laravel\\Firebase\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Firebase' => 'Kreait\\Laravel\\Firebase\\Facades\\Firebase',
-    ),
-  ),
   'laravel/sail' => 
   array (
     'providers' => 
@@ -47,17 +36,6 @@
     'providers' => 
     array (
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    ),
-  ),
-  'marksitko/laravel-unsplash' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'MarkSitko\\LaravelUnsplash\\UnsplashServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Unsplash' => 'MarkSitko\\LaravelUnsplash\\Facades\\Unsplash',
     ),
   ),
   'nesbot/carbon' => 
