@@ -12,4 +12,6 @@
 
 
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-<?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/vendors/dashboard/css.blade.php ENDPATH**/ ?>
+
+
+<link rel="icon" href="<?php echo e(secure_asset('img/inspira.png')); ?>" type="image/png"><?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/vendors/dashboard/css.blade.php ENDPATH**/ ?>

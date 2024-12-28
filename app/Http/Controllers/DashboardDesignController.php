@@ -58,7 +58,7 @@ class DashboardDesignController extends Controller
 
         Design::create($validatedData);
 
-        return redirect('/dashboard/designs')->with('success', 'New design has been added!');
+        return redirect()->route('admin.designs.index')->with('success', 'New design has been added!');
     }
 
     /**
@@ -118,7 +118,7 @@ class DashboardDesignController extends Controller
 
         Design::where('id', $design->id)->update($validatedData);
 
-        return redirect('/dashboard/designs')->with('success', 'Design has been updated!');
+        return redirect()->route('admin.designs.index')->with('success', 'Design has been updated!');
     }
 
     public function getCategoriesByProduct($productId)
@@ -134,7 +134,7 @@ class DashboardDesignController extends Controller
         }
         Design::destroy($design->id);
 
-        return redirect('/dashboard/designs')->with('success', 'Design has been deleted!');
+        return redirect()->route('admin.designs.index')->with('success', 'Design has been deleted!');
     }
 
     public function checkSlug(Request $request)

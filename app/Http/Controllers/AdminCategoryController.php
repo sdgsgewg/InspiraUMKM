@@ -101,7 +101,7 @@ class AdminCategoryController extends Controller
         session(['product_id' => $request->product_id]);
         session()->forget('product_id');
 
-        return redirect('/dashboard/categories')->with('success', 'Category has been updated!');
+        return redirect()->route('admin.categories.index')->with('success', 'Category has been updated!');
     }
 
     /**
@@ -114,7 +114,7 @@ class AdminCategoryController extends Controller
         // }
         Category::destroy($category->id);
 
-        return redirect('/dashboard/categories')->with('success', 'Category has been deleted!');
+        return redirect()->route('admin.categories.index')->with('success', 'Category has been deleted!');
     }
 
     public function checkSlug(Request $request)
