@@ -10,5 +10,5 @@
     {{-- Special Offers --}}
     @include('components.home.offers')
 
-    {{-- <script src="{{ asset('js/ads-slider.js') }}"></script> --}}
+    {{-- <script src="{{ secure_asset('js/ads-slider.js') }}"></script> --}}
 @endsection

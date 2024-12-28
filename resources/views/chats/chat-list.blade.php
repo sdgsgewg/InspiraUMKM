@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
-@section('container')
-
+@section('css')
     <style>
         .chat-card {
             transition: background-color 0.2s;
@@ -19,6 +18,9 @@
             object-fit: cover;
         }
     </style>
+@endsection
+
+@section('container')
 
     <div class="row justify-content-center mt-5">
         <div class="col-11">

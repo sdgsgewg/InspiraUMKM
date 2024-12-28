@@ -8,4 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    define: {
+        "process.env.NODE_ENV": '"production"', // Explicitly define NODE_ENV for production
+    }
 });

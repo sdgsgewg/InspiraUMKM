@@ -12,7 +12,6 @@
         </div>
     @endif
 
-
     <div class="table-responsive small col-lg-6">
         <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-3">Create new product</a>
 

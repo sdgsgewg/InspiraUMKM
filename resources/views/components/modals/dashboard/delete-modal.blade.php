@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the {{ $resourceType }} "{{ $item->name }}"?
+                Are you sure you want to delete the {{ $resourceType }} "{{ $resourceType == "design" ? $item->title : $item->name }}"?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

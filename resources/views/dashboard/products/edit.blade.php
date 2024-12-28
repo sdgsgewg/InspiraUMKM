@@ -50,6 +50,8 @@
             <button type="submit" class="btn btn-primary">Update Product</button>
         </form>
     </div>
+@endsection
 
+@section('scripts')
     @include('components.dashboard.product-script')
 @endsection

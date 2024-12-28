@@ -33,7 +33,8 @@
 
             <div class="mb-3">
                 <label for="product" class="form-label">Product</label>
-                <select id="product" class="form-select @error('product_id') is-invalid @enderror" name="product_id" required>
+                <select id="product" class="form-select @error('product_id') is-invalid @enderror" name="product_id"
+                    required>
                     @foreach ($products as $product)
                         @if (old('product_id', $design->product_id) == $product->id)
                             <option value="{{ $product->id }}" selected>{{ $product->name }}</option>
@@ -104,6 +105,8 @@
             <button type="submit" class="btn btn-primary">Update Design</button>
         </form>
     </div>
+@endsection
 
+@section('scripts')
     @include('components.dashboard.design-script')
 @endsection

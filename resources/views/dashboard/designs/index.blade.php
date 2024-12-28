@@ -46,7 +46,18 @@
                                     <i class="bi bi-pencil-square icon"></i>
                                 </a>
 
-                                <form action="{{ route('admin.designs.destroy', ['design' => $design->slug]) }}"
+                                <button type="button" class="badge bg-danger border-0" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal-{{ $design->id }}">
+                                    <i class="bi bi-x-circle icon"></i>
+                                </button>
+
+                                @include('components.modals.dashboard.delete-modal', [
+                                    'item' => $design,
+                                    'resourceType' => 'design',
+                                    'resourceUrl' => 'designs',
+                                ])
+
+                                {{-- <form action="{{ route('admin.designs.destroy', ['design' => $design->slug]) }}"
                                     method="POST" class="d-inline">
                                     @method('DELETE')
                                     @csrf
@@ -54,7 +65,7 @@
                                         onclick="return confirm('Are you sure?')">
                                         <i class="bi bi-x-circle icon"></i>
                                     </button>
-                                </form>
+                                </form> --}}
 
                             </td>
                         </tr>

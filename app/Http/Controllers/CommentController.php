@@ -42,7 +42,7 @@ class CommentController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
-        return redirect()->back()->with('success', 'Comment posted successfully');
+        return redirect()->back();
     }
 
     /**

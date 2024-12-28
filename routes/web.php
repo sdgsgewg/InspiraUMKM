@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Design;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
@@ -51,7 +50,7 @@ Route::get('/filtered-designs', [DesignController::class, 'filter'])->name('desi
 Route::prefix('designs')->as('designs.')->group(function() {
     Route::get('/product/{product:slug}', [DesignController::class, 'showDesignProduct'])->name('product');
     Route::get('/category/{category:slug}', [DesignController::class, 'showDesignCategory'])->name('category');
-    Route::get('/seller/{seller:username}', [DesignController::class, 'showSeller'])->name('seller');
+    Route::get('/seller/{seller:username}', [DesignController::class, 'showSeller'])->name('seller')->middleware('auth');
 });
 
 Route::get('design/categories/{productSlug}', [DesignController::class, 'getCategoriesByProduct'])->name('designFilter.getCategoriesByProduct');

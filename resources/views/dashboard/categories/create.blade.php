@@ -42,19 +42,11 @@
                 </select>
             </div>
 
-            {{-- <div class="mb-3">
-                <label for="image" class="form-label">Category Image</label>
-                <img class="img-preview img-fluid mb-3 col-sm-5">
-                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
-                    name="image" onchange="previewImage()">
-                @error('image')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div> --}}
-
             <button type="submit" class="btn btn-primary">Create Category</button>
         </form>
     </div>
+@endsection
 
+@section('scripts')
     @include('components.dashboard.category-script')
 @endsection
