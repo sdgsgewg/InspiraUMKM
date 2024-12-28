@@ -15,3 +15,7 @@
 <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/" />
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+
+
+{{-- Icon tab url --}}
+<link rel="icon" href="{{ secure_asset('img/inspira.png') }}" type="image/png">
