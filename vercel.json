@@ -15,7 +15,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://pustaka-bekas.vercel.app",
+        "APP_URL": "https://inspira-umkm.vercel.app",
         "APP_KEY": "base64:L0Wx9d6nBpoiCmSWtb8XrpvxCDU8yRwDwXwuos/UVeE=",
 
         "APP_CONFIG_CACHE": "/tmp/config.php",
