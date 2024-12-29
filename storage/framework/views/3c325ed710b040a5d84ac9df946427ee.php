@@ -1,5 +1,5 @@
 <?php $__env->startSection('css'); ?>
-    <link rel="stylesheet" href="<?php echo e(asset('css/designs/style.css')); ?>?v=<?php echo e(time()); ?>">
+    <link rel="stylesheet" href="<?php echo e(secure_asset('css/designs/style.css')); ?>?v=<?php echo e(time()); ?>">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('container'); ?>
@@ -23,10 +23,10 @@
                 <div class="col-4 overflow-hidden">
                     <?php if($design->image): ?>
                         <div style="max-height: 350px; overflow:hidden">
-                            <img src="<?php echo e(asset('storage/' . $design->image)); ?>" alt="<?php echo e($design->name); ?>" class="img-fluid">
+                            <img src="<?php echo e(secure_asset('storage/' . $design->image)); ?>" alt="<?php echo e($design->name); ?>" class="img-fluid">
                         </div>
                     <?php else: ?>
-                        <img src="<?php echo e(asset('img/' . $design->product->name . '.jpg')); ?>" alt="<?php echo e($design->name); ?>"
+                        <img src="<?php echo e(secure_asset('img/' . $design->product->name . '.jpg')); ?>" alt="<?php echo e($design->name); ?>"
                             width="1200" height="400" class="img-fluid">
                     <?php endif; ?>
                 </div>

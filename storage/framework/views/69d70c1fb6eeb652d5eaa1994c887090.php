@@ -1,8 +1,6 @@
-
-
 <?php $__env->startSection('container'); ?>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Design Categories</h1>
+        <h1 class="h2"><?php echo app('translator')->get('dashboard.design_categories'); ?></h1>
     </div>
 
     <?php if(session()->has('success')): ?>
@@ -13,13 +11,9 @@
         </div>
     <?php endif; ?>
 
-
-    
-    
-
     
     <div class="table-responsive small col-lg-8">
-        <a href="<?php echo e(route('admin.categories.create')); ?>" class="btn btn-primary mb-3">Create New Category</a>
+        <a href="<?php echo e(route('admin.categories.create')); ?>" class="btn btn-primary mb-3"><?php echo app('translator')->get('dashboard.create_new_category'); ?></a>
 
         <div class="accordion" id="accordionExample">
             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -30,7 +24,12 @@
                             type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo e($loop->iteration); ?>"
                             aria-expanded="<?php echo e(session('product_id') == $product->id ? 'true' : 'false'); ?>"
                             aria-controls="collapse<?php echo e($loop->iteration); ?>">
-                            <?php echo e($product->name); ?>
+                            <?php
+                                $productName = Lang::has('designs.products.' . $product->name)
+                                    ? __('designs.products.' . $product->name)
+                                    : $product->name;
+                            ?>
+                            <?php echo e($productName); ?>
 
                         </button>
                     </h2>
@@ -42,8 +41,8 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Category Name</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col"><?php echo app('translator')->get('dashboard.category_name'); ?></th>
+                                        <th scope="col"><?php echo app('translator')->get('dashboard.action'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,9 +51,18 @@
                                             <?php $idx++; ?>
                                             <tr>
                                                 <td><?php echo e($idx); ?></td>
-                                                <td><?php echo e($category->name); ?></td>
                                                 <td>
+                                                    <?php
+                                                        $categoryName = Lang::has(
+                                                            'designs.categories.' . $category->name,
+                                                        )
+                                                            ? __('designs.categories.' . $category->name)
+                                                            : $category->name;
+                                                    ?>
+                                                    <?php echo e($categoryName); ?>
 
+                                                </td>
+                                                <td>
                                                     <a href="<?php echo e(route('admin.categories.edit', ['category' => $category->slug])); ?>"
                                                         class="badge bg-warning">
                                                         <i class="bi bi-pencil-square icon"></i>

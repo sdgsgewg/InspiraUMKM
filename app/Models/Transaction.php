@@ -14,7 +14,7 @@ class Transaction extends Model
     protected $with = ['buyer' , 'seller'];
 
     const STATUSES = [
-        // 'Not Paid',
+        'Not Paid',
         'Pending',
         'Accepted',
         'Delivered',
@@ -24,7 +24,7 @@ class Transaction extends Model
     ];
 
     protected static $allowedTransitions = [
-        'Not Paid' => ['Pending', 'Cancelled'],
+        'Not Paid' => ['Cancelled', 'Pending'],
         'Pending' => ['Accepted'],
         'Accepted' => ['Delivered'],
         'Delivered' => ['Returned', 'Completed'],

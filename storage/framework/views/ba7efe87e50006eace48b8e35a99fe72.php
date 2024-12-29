@@ -1,9 +1,7 @@
-
-
 <?php $__env->startSection('container'); ?>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">My Designs</h1>
+        <h1 class="h2"><?php echo app('translator')->get('dashboard.my_designs'); ?></h1>
     </div>
 
     <?php if(session()->has('success')): ?>
@@ -15,17 +13,17 @@
     <?php endif; ?>
 
     <div class="table-responsive small col-lg-10">
-        <a href="<?php echo e(route('admin.designs.create')); ?>" class="btn btn-primary mb-3">Create new design</a>
+        <a href="<?php echo e(route('admin.designs.create')); ?>" class="btn btn-primary mb-3"><?php echo app('translator')->get('dashboard.create_new_design'); ?></a>
 
         <?php if($designs->count()): ?>
             <table class="table table-striped table-sm">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Action</th>
+                        <th scope="col"><?php echo app('translator')->get('dashboard.title'); ?></th>
+                        <th scope="col"><?php echo app('translator')->get('dashboard.product'); ?></th>
+                        <th scope="col"><?php echo app('translator')->get('dashboard.category'); ?></th>
+                        <th scope="col"><?php echo app('translator')->get('dashboard.action'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,10 +31,25 @@
                         <tr>
                             <td><?php echo e($loop->iteration); ?></td>
                             <td><?php echo e($design->title); ?></td>
-                            <td><?php echo e($design->product->name); ?></td>
-                            <td><?php echo e($design->category->name); ?></td>
                             <td>
+                                <?php
+                                    $productName = Lang::has('designs.products.' . $design->product->name)
+                                        ? __('designs.products.' . $design->product->name)
+                                        : $design->product->name;
+                                ?>
+                                <?php echo e($productName); ?>
 
+                            </td>
+                            <td>
+                                <?php
+                                    $categpryName = Lang::has('designs.categories.' . $design->category->name)
+                                        ? __('designs.categories.' . $design->category->name)
+                                        : $design->category->name;
+                                ?>
+                                <?php echo e($categpryName); ?>
+
+                            </td>
+                            <td>
                                 <a href="<?php echo e(route('admin.designs.show', ['design' => $design->slug])); ?>"
                                     class="badge bg-info">
                                     <i class="bi bi-eye icon"></i>
@@ -57,9 +70,6 @@
                                     'resourceType' => 'design',
                                     'resourceUrl' => 'designs',
                                 ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-                                
-
                             </td>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -69,7 +79,7 @@
             <tbody>
                 <tr>
                     <td class="col-lg-8">
-                        <p class="text-center">No design found.</p>
+                        <p class="text-center"><?php echo app('translator')->get('dashboard.no_design'); ?></p>
                     </td>
                 </tr>
             </tbody>

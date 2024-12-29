@@ -1,11 +1,9 @@
-
-
 <?php $__env->startSection('container'); ?>
     <div class="d-flex flex-column justify-content-between align-items-start gap-2 pt-3 pb-3 mb-3 border-bottom">
-        <h1 class="h2">Edit Category</h1>
+        <h1 class="h2"><?php echo app('translator')->get('dashboard.edit_category'); ?></h1>
 
         <a href="<?php echo e(route('admin.categories.index')); ?>" class="btn btn-success d-inline-flex"><i
-                class="bi bi-arrow-left me-2"></i> Cancel</a>
+                class="bi bi-arrow-left me-2"></i><?php echo app('translator')->get('dashboard.cancel'); ?></a>
     </div>
 
     <div class="col-lg-8">
@@ -14,7 +12,7 @@
             <?php echo method_field('put'); ?>
             <?php echo csrf_field(); ?>
             <div class="mb-3">
-                <label for="name" class="form-label">Category Name</label>
+                <label for="name" class="form-label"><?php echo app('translator')->get('dashboard.category_name'); ?></label>
                 <input type="text" class="form-control <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -37,7 +35,7 @@ unset($__errorArgs, $__bag); ?>
             </div>
 
             <div class="mb-3">
-                <label for="slug" class="form-label">Slug</label>
+                <label for="slug" class="form-label"><?php echo app('translator')->get('dashboard.slug'); ?></label>
                 <input type="text" class="form-control <?php $__errorArgs = ['slug'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -60,7 +58,7 @@ unset($__errorArgs, $__bag); ?>
             </div>
 
             <div class="mb-3">
-                <label for="product" class="form-label">Product</label>
+                <label for="product" class="form-label"><?php echo app('translator')->get('dashboard.product'); ?></label>
                 <select class="form-select <?php $__errorArgs = ['product_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -70,21 +68,26 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" name="product_id" required>
                     <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php if(old('product_id', $category->product_id) == $product->id): ?>
-                            <option value="<?php echo e($product->id); ?>" selected><?php echo e($product->name); ?></option>
-                        <?php else: ?>
-                            <option value="<?php echo e($product->id); ?>"><?php echo e($product->name); ?></option>
-                        <?php endif; ?>
+                        <option value="<?php echo e($product->id); ?>"
+                            <?php echo e(old('product_id', $category->product_id) == $product->id ? 'selected' : ''); ?>>
+                            <?php
+                                $productName = Lang::has('designs.products.' . $product->name)
+                                    ? __('designs.products.' . $product->name)
+                                    : $product->name;
+                            ?>
+                            <?php echo e($productName); ?>
+
+                        </option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
 
-            
-
-            <button type="submit" class="btn btn-primary">Update Category</button>
+            <button type="submit" class="btn btn-primary"><?php echo app('translator')->get('dashboard.update_category'); ?></button>
         </form>
     </div>
+<?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('scripts'); ?>
     <?php echo $__env->make('components.dashboard.category-script', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
 

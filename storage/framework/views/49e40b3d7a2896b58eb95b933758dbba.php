@@ -29,9 +29,9 @@
 
     <div class="img-wrapper">
         <?php if($design->image): ?>
-            <img src="<?php echo e(asset('storage/' . $design->image)); ?>" alt="<?php echo e($design->category->name); ?>">
+            <img src="<?php echo e(secure_asset('storage/' . $design->image)); ?>" alt="<?php echo e($design->category->name); ?>">
         <?php else: ?>
-            <img src="<?php echo e(asset('img/' . $design->product->name . '.jpg')); ?>" alt="<?php echo e($design->category->name); ?>">
+            <img src="<?php echo e(secure_asset('img/' . $design->product->name . '.jpg')); ?>" alt="<?php echo e($design->category->name); ?>">
         <?php endif; ?>
     </div>
 

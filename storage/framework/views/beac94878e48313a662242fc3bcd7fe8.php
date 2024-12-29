@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo e(asset('css/designs/style.css')); ?>?v=<?php echo e(time()); ?>">
+<link rel="stylesheet" href="<?php echo e(secure_asset('css/designs/style.css')); ?>?v=<?php echo e(time()); ?>">
 
 <div class="row justify-content-center pb-5 my-5">
     <div class="col-11 col-md-6 d-flex flex-column ">

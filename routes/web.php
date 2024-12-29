@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     UserController, LoginController, DesignController, ProductController,
@@ -8,13 +7,9 @@ use App\Http\Controllers\{
     AdminCategoryController, AdminOptionController, AdminOptionValueController, AppController, CartController, ChatController, CheckoutController, CommentController, DashboardDesignController,
     PaymentController,
     ReplyController,
+    SubscriptionController,
     TransactionController
 };
-use App\Http\Middleware\LocalizationMiddleware;
-use Midtrans\Config;
-use Midtrans\Snap;
-
-Route::middleware([LocalizationMiddleware::class])->group(function () {
 
 // ROUTE BUAT HOME DAN ABOUT PAGE
 
@@ -29,8 +24,7 @@ Route::get('/about', [AppController::class, 'about'])->name('about');
 
 Route::get('/change-language/{lang}', function ($lang) {
     if (in_array($lang, ['en', 'id'])) {
-        Session::put('locale', $lang);
-        App::setLocale($lang);
+        session(['locale' => $lang]);
     }
     return redirect()->back();
 })->name('changeLanguage');
@@ -45,11 +39,17 @@ Route::resources([
 
 // ROUTE BUAT TAMBAHAN VIEW DESIGNS
 
+// Filter design feature
 Route::get('/filtered-designs', [DesignController::class, 'filter'])->name('designs.filter');
 
 Route::prefix('designs')->as('designs.')->group(function() {
+    // Show Designs by Product
     Route::get('/product/{product:slug}', [DesignController::class, 'showDesignProduct'])->name('product');
+
+    // Show Designs by Category
     Route::get('/category/{category:slug}', [DesignController::class, 'showDesignCategory'])->name('category');
+
+    // Show Seller Designs
     Route::get('/seller/{seller:username}', [DesignController::class, 'showSeller'])->name('seller')->middleware('auth');
 });
 
@@ -58,69 +58,107 @@ Route::get('design/categories/{productSlug}', [DesignController::class, 'getCate
 // ROUTE BUAT GUEST USER
 
 Route::middleware('guest')->group(function () {
+    // Login Page
     Route::get('/login', [LoginController::class, 'index'])->name('login');
+    // Authentication
     Route::post('/login', [LoginController::class, 'authenticate']);
+    // Register Page
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
+    // Store New User
     Route::post('/register', [RegisterController::class, 'store']);
 });
+// Logout
 Route::middleware('auth')->post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // ROUTE BUAT PROFILE PAGE
 
 Route::middleware('auth')->prefix('users')->as('users.')->group(function() {
+    // Manage Profile Page
     Route::resource('/', UserController::class)->parameters(['' => 'user']);
+});
+
+// ROUTE FOR SUBSCRIPTIONS
+
+Route::prefix('subscriptions')->as('subscriptions.')->group(function() {
+    Route::get('/pricing', [SubscriptionController::class, 'pricing'])->name('pricing');
 });
 
 // ROUTE BUAT COMMUNICATION
 
 Route::middleware('auth')->prefix('chats')->as('chats.')->group(function () {
+    //  Single chat page
     Route::get('/{chatId}/messages', [ChatController::class, 'fetchMessages']);
-    
+    // Resource for chat
     Route::resource('/', ChatController::class)->parameters(['' => 'chats']);
 });
 
 Route::middleware('auth')->group(function () {
+    // Comments
     Route::resource('/comments', CommentController::class);
+    // Replies
     Route::resource('/replies', ReplyController::class);
-
+    // Send Feedback
     Route::post('/sendFeedback', [DesignController::class, 'sendFeedback'])->name('sendFeedback');
 });
 
 // ROUTE FOR CART
 
 Route::middleware('auth')->prefix('carts')->as('carts.')->group(function () {
+    // Resource for cart
     Route::resource('/', CartController::class)->parameters(['' => 'cart'])->except(['create', 'edit']);
+
+    // Store design to cart
     Route::post('store/{design:slug}', [CartController::class, 'store'])->name('store');
+
+    // Update cart item checkbox
     Route::post('update-is-checked', [CartController::class, 'updateIsChecked'])->name('updateIsChecked');
+
+    // Update cart item quantity
     Route::post('update-quantity', [CartController::class, 'updateQuantity'])->name('updateQuantity');
 });
 
 // ROUTE FOR CHECKOUT
 
 Route::middleware('auth')->prefix('checkouts')->as('checkouts.')->group(function () {
+    // Checkout from cart
     Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+
+    // Normal checkout
     Route::get('checkoutFromDesign', [CheckoutController::class, 'checkoutFromDesign'])->name('checkoutFromDesign');
 });
 
 // ROUTE FOR PAYMENT
 
 Route::middleware('auth')->prefix('payments')->as('payments.')->group(function () {
+    // Payment Summary Page
     Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
+
+    // Payment Snap Page
     Route::get('/snap/{transaction:order_number}', [PaymentController::class, 'processPayment'])->name('snap');
+
+    // Payment Success Page
     Route::get('/payment/success/{transaction:order_number}', [PaymentController::class, 'handlePaymentSuccess'])->name('payment-success');
 });
 
 // ROUTE FOR TRANSACTION
 
 Route::middleware('auth')->prefix('transactions')->as('transactions.')->group(function () {
+    // Route for order request
     Route::get('/orderRequest', [TransactionController::class, 'orderRequest'])->name('orderRequest');
+
+    // Route for update transaction status
     Route::post('updateStatus/{transaction:order_number}', [TransactionController::class, 'updateStatus'])->name('updateStatus');
+
+    // Route for cancel payment
+    Route::get('cancel/{transaction:order_number}', [TransactionController::class, 'cancelPayment'])->name('cancel');
+
+    // Resource Route
     Route::resource('/', TransactionController::class)->parameters(['' => 'transaction']);
 });
 
-// ROUTE BUAT ADMIN
+// ROUTE FOR ADMIN
 
-Route::middleware([IsAdmin::class])->prefix('dashboard')->as('admin.')->group(function () {
+Route::middleware('auth', 'IsAdmin')->prefix('dashboard')->as('admin.')->group(function () {
     // Dashboard Page
     Route::get('/', fn() => view('dashboard.index'))->name('dashboard');
 
@@ -144,6 +182,4 @@ Route::middleware([IsAdmin::class])->prefix('dashboard')->as('admin.')->group(fu
     // Manage Option Values
     Route::get('option-values/checkSlug', [AdminOptionValueController::class, 'checkSlug']);
     Route::resource('option-values', AdminOptionValueController::class);
-});
-
 });

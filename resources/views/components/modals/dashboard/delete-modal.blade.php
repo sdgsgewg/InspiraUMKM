@@ -4,19 +4,23 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="deleteModalLabel-{{ $item->id }}">
-                    Confirm Deletion</h1>
+                    @lang('dashboard.confirm_deletion')</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the {{ $resourceType }} "{{ $resourceType == "design" ? $item->title : $item->name }}"?
+                {{ __('dashboard.delete_confirmation') .
+                    ' ' .
+                    $resourceType .
+                    "$resourceType == 'design' ? $item->title : $item->name" .
+                    '?' }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('dashboard.cancel')</button>
                 <form action="{{ route('admin.' . $resourceUrl . '.destroy', [$resourceType => $item->slug]) }}"
                     method="POST" class="d-inline">
                     @method('DELETE')
                     @csrf
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="submit" class="btn btn-primary">@lang('dashboard.delete')</button>
                 </form>
             </div>
         </div>

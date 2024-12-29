@@ -5,6 +5,10 @@ return [
     'designs' => 'Desain',
     'about_us' => 'Tentang Kami',
     'language' => 'Bahasa',
+    'theme' => 'Tema Warna',
+    'light' => 'Terang',
+    'dark' => 'Gelap',
+    'auto' => 'Otomatis',
     'english' => 'Bahasa Inggris',
     'bahasa_indonesia' => 'Bahasa Indonesia',
     'greet' => 'Halo',
@@ -16,4 +20,5 @@ return [
     'order_requests' => 'Permintaan Pesanan',
     'logout' => 'Keluar',
     'login' => 'Masuk',
+    'back' => 'Kembali'
 ];

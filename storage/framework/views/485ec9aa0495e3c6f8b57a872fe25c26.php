@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('container'); ?>
     
     <?php echo $__env->make('components.home.advertisements', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

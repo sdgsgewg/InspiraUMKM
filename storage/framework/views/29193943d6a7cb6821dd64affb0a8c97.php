@@ -3,10 +3,10 @@
     <div class="d-flex">
         <div class="align-items-start rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
             <?php if($comment->user->image): ?>
-                <img src="<?php echo e(asset('storage/' . $comment->user->image)); ?>" alt="<?php echo e($comment->user->name); ?>"
+                <img src="<?php echo e(secure_asset('storage/' . $comment->user->image)); ?>" alt="<?php echo e($comment->user->name); ?>"
                     style="width: 100%; height: 100%; object-fit: cover;">
             <?php else: ?>
-                <img src="<?php echo e(asset('img/' . $comment->user->gender . ' icon.png')); ?>" alt="<?php echo e($comment->user->name); ?>"
+                <img src="<?php echo e(secure_asset('img/' . $comment->user->gender . ' icon.png')); ?>" alt="<?php echo e($comment->user->name); ?>"
                     style="width: 100%; height: 100%; object-fit: cover;">
             <?php endif; ?>
         </div>

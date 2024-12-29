@@ -5,6 +5,10 @@ return [
     'designs' => 'Designs',
     'about_us' => 'About Us',
     'language' => 'Language',
+    'theme' => 'Color Theme',
+    'light' => 'Light',
+    'dark' => 'Dark',
+    'auto' => 'Auto',
     'english' => 'English',
     'bahasa_indonesia' => 'Bahasa Indonesia',
     'greet' => 'Hello',
@@ -16,4 +20,5 @@ return [
     'order_requests' => 'Order Requests',
     'logout' => 'Logout',
     'login' => 'Login',
+    'back' => 'Back'
 ];

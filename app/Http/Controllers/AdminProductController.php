@@ -44,7 +44,7 @@ class AdminProductController extends Controller
 
         Product::create($validatedData);
 
-        return redirect()->route('admin.products.index')->with('success', 'New product has been added!');
+        return redirect()->route('admin.products.index')->with('success', __('dashboard.product_created'));
     }
 
     /**
@@ -91,7 +91,7 @@ class AdminProductController extends Controller
 
         Product::where('id', $product->id)->update($validatedData);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product has been updated!');
+        return redirect()->route('admin.products.index')->with('success', __('dashboard.product_updated'));
     }
 
     /**
@@ -104,7 +104,7 @@ class AdminProductController extends Controller
         }
         Product::destroy($product->id);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product has been deleted!');
+        return redirect()->route('admin.products.index')->with('success', __('dashboard.product_deleted'));
     }
 
     public function checkSlug(Request $request)

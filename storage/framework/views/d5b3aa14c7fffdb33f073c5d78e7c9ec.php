@@ -4,19 +4,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="deleteModalLabel-<?php echo e($item->id); ?>">
-                    Confirm Deletion</h1>
+                    <?php echo app('translator')->get('dashboard.confirm_deletion'); ?></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the <?php echo e($resourceType); ?> "<?php echo e($resourceType == "design" ? $item->title : $item->name); ?>"?
+                <?php echo e(__('dashboard.delete_confirmation') .
+                    ' ' .
+                    $resourceType .
+                    "$resourceType == 'design' ? $item->title : $item->name" .
+                    '?'); ?>
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo app('translator')->get('dashboard.cancel'); ?></button>
                 <form action="<?php echo e(route('admin.' . $resourceUrl . '.destroy', [$resourceType => $item->slug])); ?>"
                     method="POST" class="d-inline">
                     <?php echo method_field('DELETE'); ?>
                     <?php echo csrf_field(); ?>
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="submit" class="btn btn-primary"><?php echo app('translator')->get('dashboard.delete'); ?></button>
                 </form>
             </div>
         </div>

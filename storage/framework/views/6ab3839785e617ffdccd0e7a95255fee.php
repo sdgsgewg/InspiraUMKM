@@ -5,10 +5,10 @@
         <div class="d-flex mt-1">
             <div class="align-items-start rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
                 <?php if($review->user->image): ?>
-                    <img src="<?php echo e(asset('storage/' . $review->user->image)); ?>" alt="<?php echo e($review->user->name); ?>"
+                    <img src="<?php echo e(secure_asset('storage/' . $review->user->image)); ?>" alt="<?php echo e($review->user->name); ?>"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 <?php else: ?>
-                    <img src="<?php echo e(asset('img/' . $review->user->gender . ' icon.png')); ?>" alt="<?php echo e($review->user->name); ?>"
+                    <img src="<?php echo e(secure_asset('img/' . $review->user->gender . ' icon.png')); ?>" alt="<?php echo e($review->user->name); ?>"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 <?php endif; ?>
             </div>

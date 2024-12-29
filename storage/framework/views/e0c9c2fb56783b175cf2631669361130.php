@@ -66,10 +66,12 @@
                     <p class="fs-6 fs-lg-5">Rp15.000</p>
                     <p class="fs-6 fs-lg-5 text-decoration-line-through ms-4">Rp30.000</p>
                 </div>
-                <button class="btn btn-success rounded-3 px-3 px-lg-4 py-1 py-lg-2 text-uppercase">
+                <a href="<?php echo e(route('subscriptions.pricing')); ?>"
+                    class="btn btn-success rounded-3 px-3 px-lg-4 py-1 py-lg-2 text-uppercase">
                     Order Now!
-                </button>
+                </a>
             </div>
         </div>
     </div>
-</div><?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/components/home/offers.blade.php ENDPATH**/ ?>
+</div>
+<?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/components/home/offers.blade.php ENDPATH**/ ?>

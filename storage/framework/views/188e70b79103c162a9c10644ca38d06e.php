@@ -20,10 +20,10 @@
                 <div class="d-flex">
                     <div class="align-items-start rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
                         <?php if($reply->user->image): ?>
-                            <img src="<?php echo e(asset('storage/' . $reply->user->image)); ?>" alt="<?php echo e($reply->user->name); ?>"
+                            <img src="<?php echo e(secure_asset('storage/' . $reply->user->image)); ?>" alt="<?php echo e($reply->user->name); ?>"
                                 style="width: 100%; height: 100%; object-fit: cover;">
                         <?php else: ?>
-                            <img src="<?php echo e(asset('img/' . $reply->user->gender . ' icon.png')); ?>"
+                            <img src="<?php echo e(secure_asset('img/' . $reply->user->gender . ' icon.png')); ?>"
                                 alt="<?php echo e($reply->user->name); ?>" style="width: 100%; height: 100%; object-fit: cover;">
                         <?php endif; ?>
                     </div>

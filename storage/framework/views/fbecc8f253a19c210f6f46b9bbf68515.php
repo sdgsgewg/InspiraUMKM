@@ -1,8 +1,6 @@
-
-
 <?php $__env->startSection('container'); ?>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Design Option Values</h1>
+        <h1 class="h2"><?php echo app('translator')->get('dashboard.design_option_values'); ?></h1>
     </div>
 
     <?php if(session()->has('success')): ?>
@@ -15,7 +13,7 @@
 
     
     <div class="table-responsive small col-lg-8">
-        <a href="<?php echo e(route('admin.option-values.create')); ?>" class="btn btn-primary mb-3">Create New Option Value</a>
+        <a href="<?php echo e(route('admin.option-values.create')); ?>" class="btn btn-primary mb-3"><?php echo app('translator')->get('dashboard.create_new_option_value'); ?></a>
 
         <div class="accordion" id="accordionExample">
             <?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -26,7 +24,13 @@
                             type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo e($loop->iteration); ?>"
                             aria-expanded="<?php echo e($selectedOptionId == $option->id ? 'true' : 'false'); ?>"
                             aria-controls="collapse<?php echo e($loop->iteration); ?>">
-                            <?php echo e($option->name); ?>
+                            <?php
+                                $optionName = Lang::has('options.options.' . $option->name)
+                                    ? __('options.options.' . $option->name)
+                                    : $option->name;
+                            ?>
+
+                            <?php echo e($optionName); ?>
 
                         </button>
                     </h2>
@@ -38,9 +42,9 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Option Value</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col"><?php echo app('translator')->get('dashboard.option_value'); ?></th>
+                                        <th scope="col"><?php echo app('translator')->get('dashboard.category'); ?></th>
+                                        <th scope="col"><?php echo app('translator')->get('dashboard.action'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,10 +53,31 @@
                                             <?php $idx++; ?>
                                             <tr>
                                                 <td><?php echo e($idx); ?></td>
-                                                <td><?php echo e($ov->value); ?></td>
-                                                <td><?php echo e(!isset($ov->category->name) ? '-' : $ov->category->name); ?></td>
                                                 <td>
+                                                    <?php
+                                                        $valueName = Lang::has('options.values.' . $ov->value)
+                                                            ? __('options.values.' . $ov->value)
+                                                            : $ov->value;
+                                                    ?>
+                                                    <?php echo e($valueName); ?>
 
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                        // Jika kategori tersedia, cek apakah ada terjemahannya. Jika tidak, gunakan nama asli kategori.
+                                                        $categoryName =
+                                                            isset($ov->category->name) &&
+                                                            Lang::has('designs.categories.' . $ov->category->name)
+                                                                ? __('designs.categories.' . $ov->category->name)
+                                                                : (isset($ov->category->name)
+                                                                    ? $ov->category->name
+                                                                    : '-');
+                                                    ?>
+
+                                                    <?php echo e($categoryName); ?>
+
+                                                </td>
+                                                <td>
                                                     <a href="<?php echo e(route('admin.option-values.edit', ['option_value' => $ov->slug])); ?>"
                                                         class="badge bg-warning">
                                                         <i class="bi bi-pencil-square icon"></i>

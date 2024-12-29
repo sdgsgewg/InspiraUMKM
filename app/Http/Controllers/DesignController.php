@@ -265,13 +265,13 @@ class DesignController extends Controller
     {
         $avgDesignRating = DB::table('design_reviews')
         ->where('design_id', $design->id)
-        ->avg('rating');        
+        ->avg('rating');
 
         $soldQuantity = DB::table('transaction_designs')
         ->where('design_id', $design->id)
         ->sum('quantity');
 
-        $comments = Comment::where('design_id', $design->id)->get();
+        $comments = Comment::with(['replies'])->where('design_id', $design->id)->get();
 
         return view('designs.design', [
             'title' => 'Single Design',

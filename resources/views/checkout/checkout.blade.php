@@ -47,6 +47,7 @@
                         {{-- Checkout Confirmation --}}
                         <div class="col-12 col-lg-6 d-flex flex-column ps-lg-5 gap-3 mt-4 mt-lg-0">
                             <h3>@lang('checkout.order_confirmation')</h3>
+
                             {{-- Option dari setiap design --}}
                             @include('components.checkout.design-option')
 

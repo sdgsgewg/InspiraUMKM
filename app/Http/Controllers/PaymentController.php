@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Design;
 use App\Models\Option;
 use App\Models\OptionValue;
+use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\ShippingMethod;
 use App\Models\Transaction;
@@ -79,13 +80,34 @@ class PaymentController extends Controller
             'transaction' => $transaction,
             'transaction_designs' => $transaction_designs,
         ]);
-    }
+}
 
     public function handlePaymentSuccess(Transaction $transaction)
     {
-        return view('payment.success',[
+        // Update Transaction Status as Pending
+        $transaction->transaction_status = "Pending";
+        $transaction->save();
+
+        // Get Payment Model
+        $paymentModel = $transaction->payment;
+
+        if ($paymentModel) {
+            // Update payment status and time
+            $paymentModel->update([
+                'payment_status' => 'Paid',
+                'payment_time' => now(),
+            ]);
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Payment record not found.']);
+        }
+
+        // Set session of selected status as Pending
+        session(['selectedStatus' => $transaction->transaction_status]);
+
+        return view('payment.success', [
             'title' => 'Payment Success',
             'transaction' => $transaction,
         ]);
     }
+
 }

@@ -3,22 +3,12 @@
 
     <ul class="navbar-nav flex-row d-md-none">
         <li class="nav-item text-nowrap">
-            <!-- Search toggle button (visible on small screens) -->
-            
-        </li>
-        <li class="nav-item text-nowrap">
-            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas"
+            <button class="nav-link d-inline-flex py-0 px-3 text-white" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <svg class="bi">
-                    <use xlink:href="#list" />
-                </svg>
+                <i class="bi bi-list fs-4 text-white"></i>
             </button>
         </li>
     </ul>
-
-    <!-- Search box -->
-    <!-- Hidden on small screens, displayed on medium and larger screens by default -->
-    
 </header>
 <?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/dashboard/layouts/header.blade.php ENDPATH**/ ?>

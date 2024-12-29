@@ -127,9 +127,7 @@ class TransactionController extends Controller
         $payment = Payment::create([
             'transaction_id' => $transaction->id,
             'payment_method_id' => $request->payment_method_id,
-            'amount' => $request->totalPrice,
-            'payment_status' => 'Paid',
-            'payment_time' => now()
+            'amount' => $request->totalPrice
         ]);
         $payment->save();
 
@@ -155,6 +153,21 @@ class TransactionController extends Controller
         $this->processPayment($transaction);
 
         return redirect()->route('payments.snap', ['transaction' => $transaction->order_number]);
+    }
+
+    public function cancelPayment(Transaction $transaction)
+    {
+        // Set Failed Message
+        session()->flash('failed', __('order.payment_cancelled'));
+
+        // Update transaction status
+        $transaction->transaction_status = 'Not Paid';
+        $transaction->save();
+
+        // Set session of selected status
+        session(['selectedStatus' => $transaction->transaction_status]);
+
+        return redirect()->route('transactions.index');
     }
 
     private function processPayment(Transaction $transaction)
@@ -258,6 +271,19 @@ class TransactionController extends Controller
             }
 
         } else if ( in_array( $newStatus, ['Returned', 'Cancelled'] ) ) {
+            // Get Payment Model
+            $paymentModel = $transaction->payment;
+
+            if ($paymentModel) {
+                // Update payment status as Failed
+                $paymentModel->update([
+                    'payment_status' => 'Failed'
+                ]);
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Payment record not found.']);
+            }
+
+            // Reset design stock
             foreach( $transaction->designs as $design ){
                 $designModel = Design::find($design->id);
                 $designModel->stock += $design->pivot->quantity;

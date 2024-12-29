@@ -14,8 +14,6 @@
 <body>
     @include('vendors.icons')
 
-    @include('partials.theme')
-
     @include('dashboard.layouts.header')
 
     @yield('css')
