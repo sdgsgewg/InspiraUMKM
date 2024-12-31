@@ -26,7 +26,7 @@ Route::get('/about', [AppController::class, 'about'])->name('about');
 
 Route::get('/change-language/{lang}', function ($lang) {
     if (in_array($lang, ['en', 'id'])) {
-        session(['locale' => $lang]);
+        return redirect()->back()->withCookie(cookie()->forever('locale', $lang))->with('status', 'Language changed');
     }
     return redirect()->back();
 })->name('changeLanguage');

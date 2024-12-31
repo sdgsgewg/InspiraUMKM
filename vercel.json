@@ -15,7 +15,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://inspira-umkm.vercel.app",
+        "APP_URL": "https://inspira-umkm.vercel.app/",
         "APP_KEY": "base64:+Z5lFtyOzzvRe/EoC6HW70ZJFswyHTXp6adaXO0b6qY=",
 
         "APP_CONFIG_CACHE": "/tmp/config.php",
