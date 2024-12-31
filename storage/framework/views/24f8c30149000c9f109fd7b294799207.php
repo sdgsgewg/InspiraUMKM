@@ -48,5 +48,10 @@
     </div>
 </nav>
 
-<script src="<?php echo e(secure_asset('js/navbar.js')); ?>"></script>
+
+<?php if(auth()->check() && !auth()->user()->is_admin): ?>
+    <script src="<?php echo e(secure_asset('js/navbar/navbar-login.js')); ?>"></script>
+<?php else: ?>
+    <script src="<?php echo e(secure_asset('js/navbar/navbar.js')); ?>"></script>
+<?php endif; ?>
 <?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/partials/navbar.blade.php ENDPATH**/ ?>

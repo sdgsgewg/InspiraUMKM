@@ -48,4 +48,9 @@
     </div>
 </nav>
 
-<script src="{{ secure_asset('js/navbar.js') }}"></script>
+
+@if (auth()->check() && !auth()->user()->is_admin)
+    <script src="{{ secure_asset('js/navbar/navbar-login.js') }}"></script>
+@else
+    <script src="{{ secure_asset('js/navbar/navbar.js') }}"></script>
+@endif
