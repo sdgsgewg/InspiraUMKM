@@ -23,7 +23,8 @@
                 <div class="col-4 overflow-hidden">
                     <?php if($design->image): ?>
                         <div style="max-height: 350px; overflow:hidden">
-                            <img src="<?php echo e(secure_asset('storage/' . $design->image)); ?>" alt="<?php echo e($design->name); ?>" class="img-fluid">
+                            <img src="<?php echo e(secure_asset('storage/' . $design->image)); ?>" alt="<?php echo e($design->name); ?>"
+                                class="img-fluid">
                         </div>
                     <?php else: ?>
                         <img src="<?php echo e(secure_asset('img/' . $design->product->name . '.jpg')); ?>" alt="<?php echo e($design->name); ?>"
@@ -68,6 +69,7 @@
 
                     <div class="d-flex flex-row gap-3 mt-auto">
                         <?php if(auth()->check() && auth()->user()->id !== $design->seller->id): ?>
+                            
                             <form action="<?php echo e(route('carts.store', ['design' => $design->slug])); ?>" method="POST"
                                 class="d-inline">
                                 <?php echo csrf_field(); ?>
@@ -78,14 +80,15 @@
                                 </button>
                             </form>
 
-                            <form action="<?php echo e(route('checkouts.checkoutFromDesign')); ?>" class="d-inline">
+                            
+                            <form action="<?php echo e(route('checkouts.checkoutFromDesign')); ?>" method="POST" class="d-inline">
                                 <?php echo csrf_field(); ?>
 
                                 <input type="hidden" name="design_id" value="<?php echo e($design->id); ?>">
 
-                                <button type=<?php echo e($design->stock > 0 ? 'submit' : 'button'); ?>
-
-                                    class="btn <?php echo e($design->stock > 0 ? 'btn-success' : 'btn-secondary'); ?> d-inline-flex">
+                                <button type="submit"
+                                    class="btn <?php echo e($design->stock > 0 ? 'btn-success' : 'btn-secondary'); ?> d-inline-flex"
+                                    <?php echo e($design->stock == 0 ? 'disabled' : ''); ?>>
                                     <i class="bi bi-bag-check me-2"></i><?php echo app('translator')->get('designs.checkout'); ?>
                                 </button>
                             </form>

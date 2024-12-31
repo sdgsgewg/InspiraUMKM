@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -6,6 +7,7 @@ use App\Http\Controllers\{
     CategoryController, RegisterController, AdminProductController,
     AdminCategoryController, AdminOptionController, AdminOptionValueController, AppController, CartController, ChatController, CheckoutController, CommentController, DashboardDesignController,
     PaymentController,
+    PromotionController,
     ReplyController,
     SubscriptionController,
     TransactionController
@@ -79,11 +81,34 @@ Route::middleware('auth')->prefix('users')->as('users.')->group(function() {
 
 // ROUTE FOR SUBSCRIPTIONS
 
-Route::prefix('subscriptions')->as('subscriptions.')->group(function() {
+Route::middleware('auth')->prefix('subscriptions')->as('subscriptions.')->group(function() {
+    // User subscription packages page
     Route::get('/pricing', [SubscriptionController::class, 'pricing'])->name('pricing');
+
+    // Checkout Page
+    Route::get('/checkout/{plan:slug}', [SubscriptionController::class, 'checkout'])->name('checkout');
+    
+    // Payment Snap Page
+    Route::get('/snap/{subscription:id}', [SubscriptionController::class, 'payment'])->name('snap');
+
+    Route::get('/cancel/{subscription:id}', [SubscriptionController::class, 'cancelPayment'])->name('cancel');
+
+    // Payment Success Page
+    Route::get('/payment/success/{subscription:id}', [SubscriptionController::class, 'success'])->name('success');
+
+    Route::resource('/', SubscriptionController::class)->parameters(['' => 'subscriptions']);
 });
 
-// ROUTE BUAT COMMUNICATION
+// ROUTE FOR PROMOTIONS
+
+Route::prefix('promotions')->as('promotions.')->group(function() {
+    // Show Design Selection Based on Promotion
+    Route::get('/designs/{promotion:id}', [PromotionController::class, 'showDesignSelection'])->name('designs');
+
+    Route::resource('/', PromotionController::class)->parameters(['' => 'promotions']);
+});
+
+// ROUTE FOR COMMUNICATION
 
 Route::middleware('auth')->prefix('chats')->as('chats.')->group(function () {
     //  Single chat page
@@ -121,10 +146,13 @@ Route::middleware('auth')->prefix('carts')->as('carts.')->group(function () {
 
 Route::middleware('auth')->prefix('checkouts')->as('checkouts.')->group(function () {
     // Checkout from cart
-    Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 
-    // Normal checkout
-    Route::get('checkoutFromDesign', [CheckoutController::class, 'checkoutFromDesign'])->name('checkoutFromDesign');
+    // Checkout from design detail page
+    Route::post('/checkout-from-design', [CheckoutController::class, 'checkoutFromDesign'])->name('checkoutFromDesign');
+
+    // Checkout from promotion
+    Route::post('/checkout-from-promo', [CheckoutController::class, 'checkoutFromPromotion'])->name('checkoutFromPromo');
 });
 
 // ROUTE FOR PAYMENT
@@ -133,8 +161,11 @@ Route::middleware('auth')->prefix('payments')->as('payments.')->group(function (
     // Payment Summary Page
     Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
 
+    //Payment Promo Summary Page
+    Route::post('/payment-promo', [PaymentController::class, 'paymentPromo'])->name('paymentPromo');
+
     // Payment Snap Page
-    Route::get('/snap/{transaction:order_number}', [PaymentController::class, 'processPayment'])->name('snap');
+    Route::get('/snap/{transaction:order_number}', [PaymentController::class, 'processPayment'])->middleware('CheckPayment')->name('snap');
 
     // Payment Success Page
     Route::get('/payment/success/{transaction:order_number}', [PaymentController::class, 'handlePaymentSuccess'])->name('payment-success');
@@ -147,10 +178,10 @@ Route::middleware('auth')->prefix('transactions')->as('transactions.')->group(fu
     Route::get('/orderRequest', [TransactionController::class, 'orderRequest'])->name('orderRequest');
 
     // Route for update transaction status
-    Route::post('updateStatus/{transaction:order_number}', [TransactionController::class, 'updateStatus'])->name('updateStatus');
+    Route::post('/updateStatus/{transaction:order_number}', [TransactionController::class, 'updateStatus'])->name('updateStatus');
 
     // Route for cancel payment
-    Route::get('cancel/{transaction:order_number}', [TransactionController::class, 'cancelPayment'])->name('cancel');
+    Route::get('/cancel/{transaction:order_number}', [TransactionController::class, 'cancelPayment'])->name('cancel');
 
     // Resource Route
     Route::resource('/', TransactionController::class)->parameters(['' => 'transaction']);
@@ -182,4 +213,7 @@ Route::middleware('auth', 'IsAdmin')->prefix('dashboard')->as('admin.')->group(f
     // Manage Option Values
     Route::get('option-values/checkSlug', [AdminOptionValueController::class, 'checkSlug']);
     Route::resource('option-values', AdminOptionValueController::class);
+
+    // Manage Subscription Plan
+    // Manage Promotion
 });

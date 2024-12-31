@@ -1,4 +1,5 @@
-<ul class="dropdown-menu color-theme-menu custom-dropdown-position" aria-labelledby="bd-theme-text">
+<ul class="dropdown-menu color-theme-menu {{ auth()->check() ? 'custom-dropdown-position' : 'custom-dropdown-position-guest' }}"
+    aria-labelledby="bd-theme-text">
     {{-- Back to Main Menu --}}
     <li>
         <a class="dropdown-item d-inline-flex align-items-center back-to-main-menu" href="javascript:void(0)">

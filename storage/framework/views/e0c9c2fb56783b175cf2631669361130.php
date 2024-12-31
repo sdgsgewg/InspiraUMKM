@@ -55,23 +55,55 @@
 
 <div class="row justify-content-center mb-5">
     <div class="col-11">
-        <div class="card offer-card d-flex flex-row">
-            <div class="col-4 col-md-3">
-                <img src="<?php echo e(secure_asset('img/Drink.jpg')); ?>" alt="">
-            </div>
-            <div class="col-8 col-md-9 d-flex flex-column justify-content-evenly align-items-start ps-4 ps-md-5 py-2">
-                <p class="fs-4 fs-lg-3 text-uppercase fw-bold m-0">Bundle : Packaging + Stickers</p>
-                <p class="fs-6 fs-lg-5 fst-italic fw-light m-0">*Only for VIP Member</p>
-                <div class="d-flex flex-row m-0">
-                    <p class="fs-6 fs-lg-5">Rp15.000</p>
-                    <p class="fs-6 fs-lg-5 text-decoration-line-through ms-4">Rp30.000</p>
+        <?php if($promotions->count()): ?>
+            <?php $__currentLoopData = $promotions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $promo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="card offer-card d-flex flex-row">
+                    
+                    <div class="col-4 col-md-3">
+                        <?php if($promo->image): ?>
+                            <img src="<?php echo e(secure_asset('storage/' . $promo->image)); ?>" alt="<?php echo e($promo->title); ?>">
+                        <?php else: ?>
+                            <img src="<?php echo e(secure_asset('img/Drink.jpg')); ?>" alt="<?php echo e($promo->title); ?>">
+                        <?php endif; ?>
+                    </div>
+                    <div
+                        class="col-8 col-md-9 d-flex flex-column justify-content-evenly align-items-start ps-4 ps-md-5 py-2">
+                        
+                        <p class="fs-4 fs-lg-3 text-uppercase fw-bold m-0">
+                            <?php echo e($promo->title); ?>
+
+                        </p>
+                        
+                        <p class="fs-6 fs-lg-5 fst-italic fw-light m-0">
+                            <?php echo e($promo->description); ?>
+
+                        </p>
+                        
+                        <div class="d-flex flex-row m-0">
+                            
+                            <p class="fs-6 fs-lg-5">
+                                <?php echo e($promo->price); ?>
+
+                            </p>
+                            
+                            <p class="fs-6 fs-lg-5 text-decoration-line-through ms-4">
+                                <?php echo e($promo->original_price); ?>
+
+                            </p>
+                        </div>
+                        
+                        <a href="<?php echo e($promo->is_subscribed ? '#' : route('subscriptions.pricing')); ?>"
+                            class="btn btn-success rounded-3 px-3 px-lg-4 py-1 py-lg-2 text-uppercase">
+                            Order Now!
+                        </a>
+                    </div>
                 </div>
-                <a href="<?php echo e(route('subscriptions.pricing')); ?>"
-                    class="btn btn-success rounded-3 px-3 px-lg-4 py-1 py-lg-2 text-uppercase">
-                    Order Now!
-                </a>
-            </div>
-        </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php endif; ?>
+    </div>
+    <div class="col-11 mt-4">
+        <?php echo e($promotions->links()); ?>
+
     </div>
 </div>
 <?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/components/home/offers.blade.php ENDPATH**/ ?>

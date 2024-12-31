@@ -71,6 +71,13 @@ class Transaction extends Model
                     ->withTimestamps();
     }
 
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class, 'transaction_promotions')
+                    ->withPivot('quantity', 'sub_total_price')
+                    ->withTimestamps();
+    }
+
     public function payment()
     {
         return $this->hasOne(Payment::class);
@@ -81,15 +88,15 @@ class Transaction extends Model
         return $this->hasOne(Shipping::class);
     }
 
-    public function getRouteKeyName(): string
-    {
-        return 'order_number';
-    }
-
     public function updateStatus($newStatus)
     {
         $this->transactionStatus = $newStatus;
         $this->save();
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'order_number';
+    }
+    
 }

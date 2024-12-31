@@ -24,7 +24,7 @@
             <div class="d-flex flex-row mt-4" style="max-height: 350px;">
                 <div class="col-4 overflow-hidden" style="height: 100%;">
                     <?php if($design->image): ?>
-                        <img src="<?php echo e(secure_asset('storage/' . $design->image)); ?>" alt="<?php echo e($design->category->name); ?>"
+                        <img src="<?php echo e($design->image); ?>" alt="<?php echo e($design->category->name); ?>"
                             class="img-fluid">
                     <?php else: ?>
                         <img src="<?php echo e(secure_asset('img/' . $design->product->name . '.jpg')); ?>"

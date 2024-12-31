@@ -6,7 +6,7 @@
     <?php echo $__env->make('components.home.product-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     
-    <?php echo $__env->make('components.home.offers', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('components.home.promotions', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     
 <?php $__env->stopSection(); ?>

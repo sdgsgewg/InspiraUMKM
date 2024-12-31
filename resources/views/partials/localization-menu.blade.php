@@ -1,4 +1,5 @@
-<ul class="dropdown-menu localization-menu custom-dropdown-position">
+<ul
+    class="dropdown-menu localization-menu {{ auth()->check() ? 'custom-dropdown-position' : 'custom-dropdown-position-guest' }}">
     <li>
         <a class="dropdown-item d-inline-flex align-items-center back-to-main-menu" href="javascript:void(0)">
             <i class="bi bi-chevron-left fs-6 me-2"></i></i>@lang('navbar.language')

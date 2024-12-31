@@ -24,7 +24,9 @@
         ];
     @endphp
 
+    {{-- Navigation for Status Change --}}
     <div class="col-12 mt-2 d-flex flex-row justify-content-end gap-3">
+        {{-- View Detail Only --}}
         @if (in_array($transaction->transaction_status, ['Pending', 'Accepted', 'Returned', 'Completed', 'Cancelled']))
             <div class="col-12 mt-2 d-flex flex-row justify-content-end">
                 <a href="{{ route('transactions.show', ['transaction' => $transaction]) }}"

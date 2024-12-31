@@ -78,7 +78,7 @@
                     {{-- Source Page --}}
                     <input type="hidden" name="source" value="{{ session('fromPage') }}">
 
-                    @if (session('fromPage') === 'DesignDetail')
+                    @if (session('fromPage') !== 'Cart')
                         <input type="hidden" name="quantity" value="{{ $quantity }}">
                     @endif
 

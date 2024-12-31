@@ -42,11 +42,11 @@
                             </td>
                             <td>
                                 <?php
-                                    $categpryName = Lang::has('designs.categories.' . $design->category->name)
+                                    $categoryName = Lang::has('designs.categories.' . $design->category->name)
                                         ? __('designs.categories.' . $design->category->name)
                                         : $design->category->name;
                                 ?>
-                                <?php echo e($categpryName); ?>
+                                <?php echo e($categoryName); ?>
 
                             </td>
                             <td>

@@ -40,7 +40,7 @@
                     <option value="">@lang('dashboard.select_product')</option>
                     @foreach ($products as $product)
                         <option value="{{ $product->id }}"
-                            {{ old('product_id') == $product->id ? 'selected' : '' }}selected>
+                            {{ old('product_id') == $product->id ? 'selected' : '' }}>
                             @php
                                 $productName = Lang::has('designs.products.' . $product->name)
                                     ? __('designs.products.' . $product->name)

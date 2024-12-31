@@ -26,7 +26,7 @@
             <div class="d-flex flex-row mt-4" style="max-height: 350px;">
                 <div class="col-4 overflow-hidden" style="height: 100%;">
                     @if ($design->image)
-                        <img src="{{ secure_asset('storage/' . $design->image) }}" alt="{{ $design->category->name }}"
+                        <img src="{{ $design->image }}" alt="{{ $design->category->name }}"
                             class="img-fluid">
                     @else
                         <img src="{{ secure_asset('img/' . $design->product->name . '.jpg') }}"

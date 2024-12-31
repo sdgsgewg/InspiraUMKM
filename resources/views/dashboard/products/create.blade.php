@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-lg-8">
-        <form method="post" action="{{ route('admin.products.index') }}" class="mb-5" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.products.index') }}" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">@lang('dashboard.product_name')</label>

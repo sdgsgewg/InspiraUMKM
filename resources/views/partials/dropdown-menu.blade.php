@@ -1,18 +1,32 @@
 <style>
+    /* lg dan ke atas */
+    @media screen and (min-width: 992px) {
+        .custom-dropdown-position {
+            position: absolute !important;
+            top: 100 !important;
+            left: -100 !important;
+            z-index: 100;
+        }
+
+        .custom-dropdown-position-guest {
+            position: absolute !important;
+            top: 100 !important;
+            left: -400% !important;
+            z-index: 100;
+        }
+    }
+
     /* Fallback untuk layar kecil */
     .custom-dropdown-position {
         transform: translateX(0);
     }
 
-    /* Media Query untuk layar besar */
-    @media screen and (min-width: 1000px) {
-        .custom-dropdown-position {
-            transform: translateX(-35%);
-        }
+    .custom-dropdown-position-guest {
+        transform: translateX(0);
     }
 </style>
 
-<li class="nav-item dropdown" data-bs-auto-close="outside">
+<li class="nav-item dropdown position-relative" data-bs-auto-close="outside">
     {{-- Dropdown Menu Toggle --}}
     <a class="nav-link {{ auth()->check() ? 'dropdown-toggle' : '' }}" href="javascript:void(0)" role="button"
         data-bs-toggle="dropdown" aria-expanded="false">
@@ -24,7 +38,8 @@
     </a>
 
     {{-- Main Menu --}}
-    <ul class="dropdown-menu main-menu custom-dropdown-position">
+    <ul class="dropdown-menu main-menu {{ auth()->check() ? 'custom-dropdown-position' : 'custom-dropdown-position-guest' }}"
+        data-bs-display="static">
         {{-- Dropdown Menu only for Logged In User --}}
         @auth
             {{-- Dashboard --}}
@@ -61,7 +76,24 @@
                     <i class="bi bi-person-circle me-2"></i> @lang('navbar.profile')
                 </a>
             </li>
+
             <hr class="dropdown-divider">
+
+            {{-- Subscriptions --}}
+            @if (!auth()->user()->is_admin)
+                <li>
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" href="javascript:void(0)"
+                        id="subscriptions-button">
+                        <div class="d-inline-flex">
+                            <i class="bi bi-envelope me-2"></i> @lang('navbar.subscriptions')
+                        </div>
+                        <div>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                    </a>
+                </li>
+                <hr class="dropdown-divider">
+            @endif
 
             {{-- Orders --}}
             @if (!auth()->user()->is_admin)
@@ -88,14 +120,26 @@
         {{-- Dropdown Menu for All Users --}}
         {{-- Localization --}}
         <li>
-            <a class="dropdown-item d-inline-flex" href="javascript:void(0)" id="localization-button">
-                <i class="bi bi-translate me-2"></i> @lang('navbar.language')
+            <a class="dropdown-item d-flex justify-content-between align-items-center" href="javascript:void(0)"
+                id="localization-button">
+                <div class="d-inline-flex">
+                    <i class="bi bi-translate me-2"></i> @lang('navbar.language')
+                </div>
+                <div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
             </a>
         </li>
         {{-- Change Theme --}}
         <li>
-            <a class="dropdown-item d-inline-flex" href="javascript:void(0)" id="color-theme-button">
-                <i class="bi bi-circle-half me-2"></i> @lang('navbar.theme')
+            <a class="dropdown-item d-flex justify-content-between align-items-center" href="javascript:void(0)"
+                id="color-theme-button">
+                <div class="d-inline-flex">
+                    <i class="bi bi-circle-half me-2"></i> @lang('navbar.theme')
+                </div>
+                <div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
             </a>
         </li>
 
@@ -114,6 +158,9 @@
             </li>
         @endauth
     </ul>
+
+    {{-- Subscriptions Menu --}}
+    @include('partials.subscriptions-menu')
 
     {{-- Localization Menu --}}
     @include('partials.localization-menu')

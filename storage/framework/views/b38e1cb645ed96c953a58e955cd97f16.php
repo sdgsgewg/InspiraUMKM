@@ -40,34 +40,36 @@
 
         <div class="row d-flex flex-wrap justify-content-evenly gap-3">
             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="product-card col-5 col-sm-4 col-md-3 col-xl-2 d-flex flex-column rounded-4 p-0" style="background-color:#777777"
-                onclick="<?php echo e("window.location.href='" . route('designs.product', ['product' => $p->slug]) . "'"); ?>">
+                <div class="product-card col-5 col-sm-4 col-md-3 col-xl-2 d-flex flex-column rounded-4 p-0"
+                    style="background-color:#777777"
+                    onclick="<?php echo e("window.location.href='" . route('designs.product', ['product' => $p->slug]) . "'"); ?>">
 
-                <!-- Image Container -->
-                <div class="image-container d-flex align-items-center justify-content-center rounded-4 p-3 w-100">
-                    <div class="overflow-hidden w-100 h-100">
-                        <?php if($p->image): ?>
-                        <img src="<?php echo e(secure_asset('storage/' . $p->image)); ?>" alt="<?php echo e($p->name); ?>"
-                            class="w-100 h-100 object-fit-cover">
-                        <?php else: ?>
-                        <img src="<?php echo e(secure_asset('img/product/' . $p->slug . '.png')); ?>" alt="<?php echo e($p->name); ?>"
-                            class="w-100 h-100 object-fit-cover">
-                        <?php endif; ?>
+                    <!-- Image Container -->
+                    <div class="image-container d-flex align-items-center justify-content-center rounded-4 p-3 w-100">
+                        <div class="overflow-hidden w-100 h-100">
+                            <?php if($p->image): ?>
+                                <img src="<?php echo e($p->image); ?>" alt="<?php echo e($p->name); ?>"
+                                    class="w-100 h-100 object-fit-cover">
+                            <?php else: ?>
+                                <img src="<?php echo e(secure_asset('img/product/' . $p->slug . '.png')); ?>"
+                                    alt="<?php echo e($p->name); ?>" class="w-100 h-100 object-fit-cover">
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Product Name -->
+                    <div class="product-name mt-3 mb-3">
+                        <?php
+                            $productName = Lang::has('designs.products.' . $p->name)
+                                ? __('designs.products.' . $p->name)
+                                : $p->name;
+                        ?>
+
+                        <p class="fs-4 m-0"><?php echo e($productName); ?></p>
                     </div>
                 </div>
-
-                <!-- Product Name -->
-                <div class="product-name mt-3 mb-3">
-                    <?php
-                    $productName = Lang::has('designs.products.' . $p->name)
-                    ? __('designs.products.' . $p->name)
-                    : $p->name;
-                    ?>
-
-                    <p class="fs-4 m-0"><?php echo e($productName); ?></p>
-                </div>
-            </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
-</div><?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/components/home/product-list.blade.php ENDPATH**/ ?>
+</div>
+<?php /**PATH C:\Users\jesse\Herd\InspiraUMKM\resources\views/components/home/product-list.blade.php ENDPATH**/ ?>

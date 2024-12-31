@@ -8,11 +8,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <?php echo e(__('dashboard.delete_confirmation') .
-                    ' ' .
-                    $resourceType .
-                    "$resourceType == 'design' ? $item->title : $item->name" .
-                    '?'); ?>
+                <?php
+                    $resourceName = $resourceType == 'design' ? $item->title : $item->name;
+                ?>
+                <?php echo e(__('dashboard.delete_confirmation') . ' ' . $resourceType . ' "' . $resourceName . '" ?'); ?>
 
             </div>
             <div class="modal-footer">

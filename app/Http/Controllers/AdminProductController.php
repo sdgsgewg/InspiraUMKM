@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -38,8 +39,22 @@ class AdminProductController extends Controller
             'image' => 'image|file|max:1024'
         ]);
 
-        if($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('product-images');
+        // if($request->file('image')) {
+        //     $validatedData['image'] = $request->file('image')->store('product-images');
+        // }
+
+        if ($request->file('image')) {
+            try {
+                // Upload ke Cloudinary
+                $upload = Cloudinary::upload($request->file('image')->getRealPath(), [
+                    'folder' => 'product-images' // Folder di Cloudinary
+                ]);
+        
+                // Menyimpan URL file di database
+                $validatedData['image'] = $upload->getSecurePath();
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Upload failed: ' . $e->getMessage());
+            }
         }
 
         Product::create($validatedData);

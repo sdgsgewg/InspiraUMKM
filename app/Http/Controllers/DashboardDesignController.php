@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Design;
 use App\Models\Product;
 use App\Models\Category;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,8 +52,22 @@ class DashboardDesignController extends Controller
             'description' => 'required'
         ]);
 
-        if($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('design-images');
+        // if($request->file('image')) {
+        //     $validatedData['image'] = $request->file('image')->store('design-images');
+        // }
+
+        if ($request->file('image')) {
+            try {
+                // Upload ke Cloudinary
+                $upload = Cloudinary::upload($request->file('image')->getRealPath(), [
+                    'folder' => 'design-images' // Folder di Cloudinary
+                ]);
+        
+                // Menyimpan URL file di database
+                $validatedData['image'] = $upload->getSecurePath();
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Upload failed: ' . $e->getMessage());
+            }
         }
 
         $validatedData['seller_id'] = Auth::user()->id;
