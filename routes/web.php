@@ -12,9 +12,6 @@ use App\Http\Controllers\{
     SubscriptionController,
     TransactionController
 };
-use App\Http\Middleware\LocalizationMiddleware;
-
-Route::middleware([LocalizationMiddleware::class])->group(function () {
 
 // ROUTE BUAT HOME DAN ABOUT PAGE
 
@@ -29,8 +26,7 @@ Route::get('/about', [AppController::class, 'about'])->name('about');
 
 Route::get('/change-language/{lang}', function ($lang) {
     if (in_array($lang, ['en', 'id'])) {
-        Session::put('locale', $lang);
-        App::setLocale($lang);
+        session(['locale' => $lang]);
     }
     return redirect()->back();
 })->name('changeLanguage');
@@ -220,6 +216,4 @@ Route::middleware('auth', 'IsAdmin')->prefix('dashboard')->as('admin.')->group(f
 
     // Manage Subscription Plan
     // Manage Promotion
-});
-
 });
