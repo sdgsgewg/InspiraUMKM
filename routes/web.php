@@ -12,6 +12,7 @@ use App\Http\Controllers\{
     SubscriptionController,
     TransactionController
 };
+use Illuminate\Support\Facades\Auth;
 
 // ROUTE BUAT HOME DAN ABOUT PAGE
 
