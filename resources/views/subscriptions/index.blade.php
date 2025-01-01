@@ -89,9 +89,6 @@
                                     Pay Now
                                 </a>
                             @endif
-                            <a href="#" class="btn btn-primary text-decoration-none px-4 py-1">
-                                Test
-                            </a>
                         </div>
                     </div>
                 </div>

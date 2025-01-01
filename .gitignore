@@ -1,9 +1,10 @@
-.phpunit.cache
+/.phpunit.cache
 /node_modules
+/public/build
 /public/hot
 /storage/*.key
 /storage/pail
-storage/logs/*
+/storage/logs/*
 /vendor
 .env
 .env.backup
@@ -20,4 +21,3 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-.vercel

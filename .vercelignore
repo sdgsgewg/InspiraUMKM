@@ -1,7 +1,1 @@
-vendor/
-node_modules/
-tests/
-logs/
-.env
-storage/
-!public/
+/vendor
